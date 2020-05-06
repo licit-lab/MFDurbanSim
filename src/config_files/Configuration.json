@@ -1,0 +1,23 @@
+{
+    "SIMULATION": [
+        {
+            "DemandType": "FlowDemand",
+            "DivergeModel": "maxdem",
+            "Duration": 5000,
+            "MFDType": "parabolic",
+            "MergeModel": "demprorata",
+            "Modes": [
+                {
+                    "ID": "VL"
+                },
+                {
+                    "ID": "BUS"
+                }
+            ],
+            "Name": "SimulationTest",
+            "Network": "NetworkTest",
+            "Solver": "AccBased",
+            "TimeStep": 10
+        }
+    ]
+}
