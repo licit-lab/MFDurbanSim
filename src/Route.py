@@ -3,10 +3,10 @@ class Route:
 
         #Input
         self.ID = ""                        #ID of the route
-        self.Mode = ""                      #ID of the route
-        self.ResPath = []                   #List of ID of the successive reservoirs of the route
+        self.Mode = ""                      #Mode of the route
+        self.ResPath = []                   #List of ID of the successive reservoirs of the route associated with trip lengths
         self.NodePath = []                  #List of ID of the successive macroscopic nodes of the route
-        self.TripLengths = []               #List of trip lengths in the reservoirs crossed by the current route
+        
 
         #Both Solvers
         self.ResOriginID = ""               #Origin reservoir
@@ -30,3 +30,10 @@ class Route:
         self.PrevDemandData = 0             #
         self.NumEntryTimes = []             #
         self.TravelTime2 = []               #
+
+    def load_input(self, loadNetwork, i):               
+        self.ID = loadNetwork["ROUTES"][i]["ID"]
+        self.Mode = loadNetwork["ROUTES"][i]["Mode"]
+        self.ResPath = loadNetwork["ROUTES"][i]["ResPath"]
+        self.NodePath = loadNetwork["ROUTES"][i]["NodePath"]
+ 

@@ -92,4 +92,15 @@ class Reservoir:
         self.CurrentMeanSpeed = 0           #
         self.MeanSpeed2 = []                #
 
+    def load_input(self, loadNetwork, i):               
+        self.ID = loadNetwork["RESERVOIRS"][i]["ID"]
+        self.FreeflowSpeed = loadNetwork["RESERVOIRS"][i]["FreeflowSpeed"]
+        self.MaxProd = loadNetwork["RESERVOIRS"][i]["MaxProd"]
+        self.MaxAcc = loadNetwork["RESERVOIRS"][i]["MaxAcc"]
+        self.CritAcc = loadNetwork["RESERVOIRS"][i]["CritAcc"]
+        self.Centroid = loadNetwork["RESERVOIRS"][i]["Centroid"]
+        self.BorderPoints = loadNetwork["RESERVOIRS"][i]["BorderPoints"]
 
+
+        
+        
