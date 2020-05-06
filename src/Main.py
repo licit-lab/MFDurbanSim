@@ -44,9 +44,9 @@ file.close()
 
 Demands = {}
 if Simu.DemandType == "FlowDemand":
-    Demands = Demand.FlowDemand()
-    Demands.load_input(loadDemand)
-    #print(Demands.Route)
+    Demands[0] = Demand.FlowDemand()
+    Demands[0].load_input(loadDemand)
+    print(Demands[0].Route)
 elif Simu.DemandType == "DiscreteDemand":
     numDemand = len(loadDemand["DISCRETE DEMAND"])
     #print(numDemand)

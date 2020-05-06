@@ -55,6 +55,14 @@
             "Time": 0,
             "RouteID": "Route2",
             "PrevTripID": "Trip0"
+        },
+		{
+            "TripID": "Trip2",
+            "OriginMacroNodeID": "MacroNode1",
+            "DestMacroNodeID": "MacroNode6",
+            "Time": 0,
+            "RouteID": "Route2",
+            "PrevTripID": "Trip0"
         }
     ]
 }
