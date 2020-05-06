@@ -1,5 +1,3 @@
-import json
-
 class Simulation:
      def __init__(self):
          self.Network = ""              #Name of the network folder to simulate
@@ -13,10 +11,7 @@ class Simulation:
          self.Modes = []                #Modes used
          self.DemandType = ""           #Demand type: FlowDemand or DiscreteDemand
 
-     def load_input(self, filename):
-          with open(filename, "r", encoding="utf-8") as file:
-              loadSimulation = json.load(file)
-
+     def load_input(self, loadSimulation):      
           self.Network = loadSimulation["SIMULATION"][0]["Network"]
           self.Solver = loadSimulation["SIMULATION"][0]["Solver"]
           self.Name = loadSimulation["SIMULATION"][0]["Name"]
