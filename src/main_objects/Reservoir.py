@@ -1,3 +1,5 @@
+import copy
+
 class Reservoir:
     def __init__(self):
         
@@ -15,11 +17,11 @@ class Reservoir:
         self.EntryfctParam = []             #Parameters of the entry supply function
         self.MacroNodesID = []              #List of the MacroNodes in the reservoir
         self.AdjacentResID = []             #List of adjacent reservoirs
-        self.TripLengthPerRoute =[]         #Trip lengths of the routes crossing the reservoir
-        self.RoutesID = []                  #Routes crossing the reservoir
-        self.RoutesPathIndex = []           #Indexes of the reservoir in the paths
-        self.OriginRes = []                 #Reservoir origins of the routes
-        self.DestinationRes = []            #Reservoir destinations of the routes
+        self.TripLengthPerRoute =[]         #Trip lengths of the routes crossing the reservoir associated 
+        #self.RoutesID = []                  #Routes crossing the reservoir cf ci-dessus
+        self.RoutesPathIndex = []           #Indexes of the reservoir in the paths UTILE ?
+        self.OriginRes = []                 #Reservoir origins of the routes ????
+        self.DestinationRes = []            #Reservoir destinations of the routes  ????
         self.RoutesNodeID = []              #Entry & exit nodes ID for each route crossing the reservoir
         self.NodeRoutesIndex = []           #Routes crossing each node in the reservoir
         self.OriRoutesIndex = []            #Routes originating in the reservoir
@@ -101,6 +103,19 @@ class Reservoir:
         self.Centroid = loadNetwork["RESERVOIRS"][i]["Centroid"]
         self.BorderPoints = loadNetwork["RESERVOIRS"][i]["BorderPoints"]
 
+    def init_fct_param(self, EntryCoeff4, EntryCoeff5, EntryCoeff6, numModes):
+        self.MFDfctParam = [self.MaxAcc, self.CritAcc, self.MaxProd]
+
+        coeff4 = copy.deepcopy(self.CritAcc)
+        coeff5 = copy.deepcopy(self.CritAcc)
+        coeff6 = copy.deepcopy(self.MaxProd)
+        for i in range(numModes):
+            coeff4[i]["value"] *= EntryCoeff4
+            coeff5[i]["value"] *= EntryCoeff5
+            coeff6[i]["value"] *= EntryCoeff6
+
+        self.EntryfctParam = [self.MaxAcc, self.CritAcc, self.MaxProd, coeff4, coeff5, coeff6]
+        
 
         
         

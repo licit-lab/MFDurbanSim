@@ -139,7 +139,65 @@
         {
             "ID": "MacroNode1",
             "Type": "origin",
-            "ResID": "Res1",
+            "ResID": ["Res1"],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 40
+                },
+                {
+                    "Time": 5,
+                    "Data": 50
+                },
+                {
+                    "Time": 10,
+                    "Data": 60
+                },
+                {
+                    "Time": 15,
+                    "Data": 70
+                }
+            ],
+            "Coord": [
+                {
+                    "x": 0,
+                    "y": 0
+                }
+            ]
+        },
+		{
+            "ID": "MacroNode2",
+            "Type": "destination",
+            "ResID": ["Res1", "Res2"],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 40
+                },
+                {
+                    "Time": 5,
+                    "Data": 50
+                },
+                {
+                    "Time": 10,
+                    "Data": 60
+                },
+                {
+                    "Time": 15,
+                    "Data": 70
+                }
+            ],
+            "Coord": [
+                {
+                    "x": 0,
+                    "y": 0
+                }
+            ]
+        },
+		{
+            "ID": "MacroNode3",
+            "Type": "border",
+            "ResID": ["Res2", "Res4"],
             "Capacity": [
                 {
                     "Time": 0,
@@ -169,7 +227,7 @@
     "ROUTES": [
         {
             "ID": "Route1",
-            "Mode": "car",
+            "Mode": "VL",
             "ResPath": [
                 {
                     "ID": "Res1",
@@ -178,6 +236,29 @@
                 {
                     "ID": "Res2",
                     "TripLength": 560
+                }
+            ],
+            "NodePath": [
+                "MacroNode3",
+                "MacroNode4",
+                "MacroNode5"
+            ]
+        },
+		{
+            "ID": "Route2",
+            "Mode": "BUS",
+            "ResPath": [
+                {
+                    "ID": "Res2",
+                    "TripLength": 2000
+                },
+                {
+                    "ID": "Res4",
+                    "TripLength": 260
+                },
+				{
+                    "ID": "Res1",
+                    "TripLength": 4000
                 }
             ],
             "NodePath": [

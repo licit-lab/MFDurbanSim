@@ -11,10 +11,10 @@ class Route:
         #Both Solvers
         self.ResOriginID = ""               #Origin reservoir
         self.ResDestinationID = ""          #Destination reservoir
-        self.ResPathID = ""                 #
+        self.ResPathID = ""                 # utile ? 
         self.NodeOriginID = ""              #Origin node
         self.NodeDestinationID = ""         #Destination node
-        self.Length = []                    #Length in the successive reservoirs
+        self.Length = 0                     #Total length in the successive reservoirs
         self.TotalTime = 0                  #Route free-flow travel time
         self.FreeFlowTravelTime = []        #
         self.OldTT = 0                      #?
@@ -36,4 +36,16 @@ class Route:
         self.Mode = loadNetwork["ROUTES"][i]["Mode"]
         self.ResPath = loadNetwork["ROUTES"][i]["ResPath"]
         self.NodePath = loadNetwork["ROUTES"][i]["NodePath"]
+
+        self.ResOriginID = self.ResPath[0]["ID"]
+        self.ResDestinationID = self.ResPath[len(self.ResPath) - 1]["ID"]
+        #self.ResPathID
+        self.NodeOriginID = self.NodePath[0]
+        self.NodeDestinationID = self.NodePath[len(self.NodePath) - 1]
+        for i in range(len(self.ResPath)):
+            self.Length += self.ResPath[i]["TripLength"]
+
+
+
+        
  
