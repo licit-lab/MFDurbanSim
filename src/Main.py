@@ -97,9 +97,9 @@ if DEBUG == 1:
 #### Algorithms ####
 
 if Simu.Solver == "AccBased":
-    AccBased()
+    AccBased(Simu, Res, Routes, MacroNodes, Demands)
 elif Simu.Solver == "TripBased":
-    TripBased()
+    TripBased(Simu, Res, Routes, MacroNodes, Demands, Vehicle)
 
 #### Outputs ####
 
