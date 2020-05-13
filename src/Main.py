@@ -8,7 +8,7 @@ DEBUG = 0
 #### Load Input Parameters ####
 
 #Configuration
-with open("config_files\Configuration.json", "r") as file:
+with open("C:/Dev/symures-dev-master/symures-dev/examples/Configuration.json", "r") as file:
     loadSimulation = json.load(file)
 file.close()
 
@@ -16,7 +16,7 @@ Simu = Simulation.Simulation()
 Simu.load_input(loadSimulation)
 
 #Network
-with open("config_files/Network.json", "r") as file:
+with open("C:/Dev/symures-dev-master/symures-dev/examples/Network.json", "r") as file:
     loadNetwork = json.load(file)
 file.close()
 
@@ -49,7 +49,7 @@ for i in range(numMacroNodes):
         print(MacroNodes[i].ResID)
     
 #Demand
-with open("config_files/Demand.json", "r") as file:
+with open("C:/Dev/symures-dev-master/symures-dev/examples/Demand.json", "r") as file:
     loadDemand = json.load(file)
 file.close()
 
