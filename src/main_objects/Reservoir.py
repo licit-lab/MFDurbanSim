@@ -18,20 +18,7 @@ class Reservoir:
         self.MacroNodesID = []              #List of the MacroNodes in the reservoir
         self.AdjacentResID = []             #List of adjacent reservoirs
         self.TripLengthPerRoute =[]         #Trip lengths of the routes crossing the reservoir associated 
-        #self.RoutesID = []                  #Routes crossing the reservoir cf ci-dessus
-        self.RoutesPathIndex = []           #Indexes of the reservoir in the paths UTILE ?
-        self.OriginRes = []                 #Reservoir origins of the routes ????
-        self.DestinationRes = []            #Reservoir destinations of the routes  ????
         self.RoutesNodeID = []              #Entry & exit nodes ID for each route crossing the reservoir
-        self.NodeRoutesIndex = []           #Routes crossing each node in the reservoir
-        self.OriRoutesIndex = []            #Routes originating in the reservoir
-        self.DestRoutesIndex = []           #Routes ending in the reservoir
-        self.EntryRoutesIndex = []          #Routes entering the reservoir
-        self.ExitRoutesIndex = []           #Routes exiting the reservoir
-        self.OriNodesIndex = []             #Origin nodes in the reservoir
-        self.DestNodesIndex = []            #Destination nodes in the reservoir
-        self.EntryNodesIndex = []           #Border nodes for entry in the reservoir
-        self.ExitNodesIndex = []            #Border nodes for exit in the reservoir
 
         self.MergeCoeffPerRoute = []        #
         self.InternalProd = []              #

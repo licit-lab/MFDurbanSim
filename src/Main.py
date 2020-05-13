@@ -2,13 +2,16 @@ import json
 
 from main_objects import Simulation, Reservoir, Route, MacroNode, Demand, Vehicle
 from IO_functions import *
+from Solver import *
 
 DEBUG = 0
+root = "C:/Dev/symures-dev-master/symures-dev/examples/"
+folder = "Example1/"
 
 #### Load Input Parameters ####
 
 #Configuration
-with open("C:/Dev/symures-dev-master/symures-dev/examples/Configuration.json", "r") as file:
+with open(root + folder + "Configuration.json", "r") as file:
     loadSimulation = json.load(file)
 file.close()
 
@@ -16,7 +19,7 @@ Simu = Simulation.Simulation()
 Simu.load_input(loadSimulation)
 
 #Network
-with open("C:/Dev/symures-dev-master/symures-dev/examples/Network.json", "r") as file:
+with open(root + folder + "Network.json", "r") as file:
     loadNetwork = json.load(file)
 file.close()
 
@@ -49,7 +52,7 @@ for i in range(numMacroNodes):
         print(MacroNodes[i].ResID)
     
 #Demand
-with open("C:/Dev/symures-dev-master/symures-dev/examples/Demand.json", "r") as file:
+with open(root + folder+ "Demand.json", "r") as file:
     loadDemand = json.load(file)
 file.close()
 
@@ -72,7 +75,7 @@ else:
     print("Demand Type error")
 
 #### Initialize variables ####
-if Simu.Solver == "trip-based":
+if Simu.Solver == "TripBased":
     Vehicles = {}   
     
 for i in range(numRes):
@@ -88,11 +91,15 @@ if DEBUG == 1:
     print(Res[0].AdjacentResID)
     print(Res[1].AdjacentResID)
     print(Res[1].TripLengthPerRoute)
-    print(Res[0].DestNodesIndex)
-    print(Res[1].OriNodesIndex)
+    print(Routes[0].TotalTime)
 
 
 #### Algorithms ####
+
+if Simu.Solver == "AccBased":
+    AccBased()
+elif Simu.Solver == "TripBased":
+    TripBased()
 
 #### Outputs ####
 
