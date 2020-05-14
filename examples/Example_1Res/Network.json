@@ -1,0 +1,189 @@
+{
+    "RESERVOIRS": [
+        {
+            "ID": "Res1",
+            "FreeflowSpeed": [
+                {
+                    "mode": "VL",
+                    "value": 15
+                },
+                {
+                    "mode": "BUS",
+                    "value": 15
+                }
+            ],
+            "MaxProd": [
+                {
+                    "mode": "VL",
+                    "value": 3000
+                },
+                {
+                    "mode": "BUS",
+                    "value": 25
+                }
+            ],
+            "MaxAcc": [
+                {
+                    "mode": "VL",
+                    "value": 1000
+                },
+                {
+                    "mode": "BUS",
+                    "value": 10
+                }
+            ],
+            "CritAcc": [
+                {
+                    "mode": "VL",
+                    "value": 400
+                },
+                {
+                    "mode": "BUS",
+                    "value": 5
+                }
+            ],
+            "Centroid": [
+                {
+                    "x": 0,
+                    "y": 1
+                }
+            ],
+            "BorderPoints": [
+                {
+                    "x": -1,
+                    "y": 0
+                },
+                {
+                    "x": 1,
+                    "y": 0
+                },
+                {
+                    "x": 1,
+                    "y": 2
+                },
+                {
+                    "x": -1,
+                    "y": 2
+                },
+                {
+                    "x": -1,
+                    "y": 0
+                }
+            ]
+        }
+    ],
+    "MACRONODES": [
+        {
+            "ID": "MacroNode1",
+            "Type": "externalentry",
+            "ResID": ["Res1"],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ],
+            "Coord": [
+                {
+                    "x": -1,
+                    "y": 1.5
+                }
+            ]
+        },
+		{
+            "ID": "MacroNode2",
+            "Type": "externalentry",
+            "ResID": ["Res1"],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ],
+            "Coord": [
+                {
+                    "x": -1,
+                    "y": 0.5
+                }
+            ]
+        },
+		{
+            "ID": "MacroNode3",
+            "Type": "externalexit",
+            "ResID": ["Res1"],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ],
+            "Coord": [
+                {
+                    "x": 1,
+                    "y": 1.5
+                }
+            ]
+        },
+		{
+            "ID": "MacroNode4",
+            "Type": "externalexit",
+            "ResID": ["Res1"],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ],
+            "Coord": [
+                {
+                    "x": 1,
+                    "y": 0.5
+                }
+            ]
+        }
+    ],
+    "ROUTES": [
+        {
+            "ID": "Route1",
+            "Mode": "VL",
+            "ResPath": [
+                {
+                    "ID": "Res1",
+                    "TripLength": 1150
+                },
+                {
+                    "ID": "Res2",
+                    "TripLength": 560
+                }
+            ],
+            "NodePath": [
+                "MacroNode3",
+                "MacroNode4",
+                "MacroNode5"
+            ]
+        },
+		{
+            "ID": "Route2",
+            "Mode": "VL",
+            "ResPath": [
+                {
+                    "ID": "Res2",
+                    "TripLength": 2000
+                },
+                {
+                    "ID": "Res4",
+                    "TripLength": 260
+                },
+				{
+                    "ID": "Res1",
+                    "TripLength": 4000
+                }
+            ],
+            "NodePath": [
+                "MacroNode3",
+                "MacroNode4",
+                "MacroNode5"
+            ]
+        }
+    ]
+}
