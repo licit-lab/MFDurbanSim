@@ -27,6 +27,9 @@ def Init(Res, Routes, MacroNodes, Demands):
                 if Res[i].ID in Routes[j].ResPath[k]["ID"]:
                     Res[i].TripLengthPerRoute.append({"RouteID":Routes[j].ID, "TripLength":Routes[j].ResPath[k]["TripLength"]})
 
+                    #Init RoutesNodeID
+                    Res[i].RoutesNodeID.append({"RouteID":Routes[j].ID, "EntryNodeID":Routes[j].NodeOriginID, "ExitNodeID":Routes[j].NodeDestinationID})
+
     ### Init Routes ###
 
     #Loop on all routes

@@ -92,7 +92,7 @@ if DEBUG == 1:
     print(Res[1].AdjacentResID)
     print(Res[1].TripLengthPerRoute)
     print(Routes[0].TotalTime)
-
+    print(Res[0].RoutesNodeID)
 
 #### Algorithms ####
 
