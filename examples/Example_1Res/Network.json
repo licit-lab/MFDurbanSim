@@ -9,7 +9,7 @@
                 },
                 {
                     "mode": "BUS",
-                    "value": 15
+                    "value": 0
                 }
             ],
             "MaxProd": [
@@ -19,7 +19,7 @@
                 },
                 {
                     "mode": "BUS",
-                    "value": 25
+                    "value": 0
                 }
             ],
             "MaxAcc": [
@@ -29,7 +29,7 @@
                 },
                 {
                     "mode": "BUS",
-                    "value": 10
+                    "value": 0
                 }
             ],
             "CritAcc": [
@@ -39,7 +39,7 @@
                 },
                 {
                     "mode": "BUS",
-                    "value": 5
+                    "value": 0
                 }
             ],
             "Centroid": [
@@ -149,17 +149,13 @@
             "ResPath": [
                 {
                     "ID": "Res1",
-                    "TripLength": 1150
-                },
-                {
-                    "ID": "Res2",
-                    "TripLength": 560
+                    "TripLength": 0
                 }
             ],
             "NodePath": [
-                "MacroNode3",
-                "MacroNode4",
-                "MacroNode5"
+                "",
+                "",
+                ""
             ]
         },
 		{
@@ -167,22 +163,14 @@
             "Mode": "VL",
             "ResPath": [
                 {
-                    "ID": "Res2",
-                    "TripLength": 2000
-                },
-                {
-                    "ID": "Res4",
-                    "TripLength": 260
-                },
-				{
                     "ID": "Res1",
-                    "TripLength": 4000
-                }
+                    "TripLength": 0
+                },
             ],
             "NodePath": [
-                "MacroNode3",
-                "MacroNode4",
-                "MacroNode5"
+                "",
+                "",
+                ""
             ]
         }
     ]
