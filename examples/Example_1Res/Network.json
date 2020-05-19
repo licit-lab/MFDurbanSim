@@ -6,40 +6,24 @@
                 {
                     "mode": "VL",
                     "value": 15
-                },
-                {
-                    "mode": "BUS",
-                    "value": 0
                 }
             ],
             "MaxProd": [
                 {
                     "mode": "VL",
                     "value": 3000
-                },
-                {
-                    "mode": "BUS",
-                    "value": 0
                 }
             ],
             "MaxAcc": [
                 {
                     "mode": "VL",
                     "value": 1000
-                },
-                {
-                    "mode": "BUS",
-                    "value": 0
                 }
             ],
             "CritAcc": [
                 {
                     "mode": "VL",
                     "value": 400
-                },
-                {
-                    "mode": "BUS",
-                    "value": 0
                 }
             ],
             "Centroid": [
@@ -114,7 +98,7 @@
             "Capacity": [
                 {
                     "Time": 0,
-                    "Data": 100
+                    "Data": 0.7
                 }
             ],
             "Coord": [
@@ -149,28 +133,12 @@
             "ResPath": [
                 {
                     "ID": "Res1",
-                    "TripLength": 0
+                    "TripLength": 2500
                 }
             ],
             "NodePath": [
-                "",
-                "",
-                ""
-            ]
-        },
-		{
-            "ID": "Route2",
-            "Mode": "VL",
-            "ResPath": [
-                {
-                    "ID": "Res1",
-                    "TripLength": 0
-                },
-            ],
-            "NodePath": [
-                "",
-                "",
-                ""
+                "MacroNode1",
+                "MacroNode3"
             ]
         }
     ]

@@ -9,9 +9,6 @@
             "Modes": [
                 {
                     "ID": "VL"
-                },
-                {
-                    "ID": "BUS"
                 }
             ],
             "Name": "Simulation_1_Res",
