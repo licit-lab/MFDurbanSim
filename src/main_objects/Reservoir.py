@@ -17,7 +17,7 @@ class Reservoir:
         self.EntryfctParam = []             #Parameters of the entry supply function
         self.MacroNodesID = []              #List of the MacroNodes in the reservoir
         self.AdjacentResID = []             #List of adjacent reservoirs
-        self.TripLengthPerRoute =[]         #Trip lengths of the routes crossing the reservoir associated 
+        self.TripLengthPerRoute = []        #Trip lengths of the routes crossing the reservoir associated 
         self.RoutesNodeID = []              #Entry & exit nodes ID for each route crossing the reservoir
 
         self.MergeCoeffPerRoute = []        #

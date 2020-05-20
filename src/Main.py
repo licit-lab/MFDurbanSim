@@ -6,7 +6,7 @@ from Solver import *
 
 DEBUG = 0
 root = "C:/Dev/symures-dev-master/symures-dev/examples/"
-folder = "Example1/"
+folder = "Example_1Res/"
 
 #### Load Input Parameters ####
 
