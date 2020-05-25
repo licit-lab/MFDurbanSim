@@ -5,11 +5,11 @@ class FlowDemand:
         self.Demand = []                       #Value of demand associated with the time of change
         self.Route = []                        #Assignment coeff per route
 
-    def load_input(self, loadDemand):
-        self.OriginMacroNodeID = loadDemand["FLOW DEMAND"][0]["OriginMacroNodeID"]
-        self.DestMacroNodeID = loadDemand["FLOW DEMAND"][0]["DestMacroNodeID"]
-        self.Demand = loadDemand["FLOW DEMAND"][0]["Demand"]
-        self.Route = loadDemand["FLOW DEMAND"][0]["Route"]
+    def load_input(self, loadDemand, i):
+        self.OriginMacroNodeID = loadDemand["FLOW DEMAND"][i]["OriginMacroNodeID"]
+        self.DestMacroNodeID = loadDemand["FLOW DEMAND"][i]["DestMacroNodeID"]
+        self.Demand = loadDemand["FLOW DEMAND"][i]["Demand"]
+        self.Route = loadDemand["FLOW DEMAND"][i]["Route"]
         
 class DiscreteDemand:
     def __init__(self):

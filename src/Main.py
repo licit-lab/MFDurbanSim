@@ -6,7 +6,7 @@ from Solver import *
 
 DEBUG = 0
 root = "C:/Dev/symures-dev-master/symures-dev/examples/"
-folder = "Example_1Res/"
+folder = "Example_1Res_2Routes/"
 
 #### Load Input Parameters ####
 
@@ -19,7 +19,7 @@ Simu = Simulation.Simulation()
 Simu.load_input(loadSimulation)
 
 #Network
-with open(root + folder + "Network.json", "r") as file:
+with open(Simu.Network, "r") as file:
     loadNetwork = json.load(file)
 file.close()
 
@@ -52,16 +52,20 @@ for i in range(numMacroNodes):
         print(MacroNodes[i].ResID)
     
 #Demand
-with open(root + folder+ "Demand.json", "r") as file:
+with open(Simu.Demand, "r") as file:
     loadDemand = json.load(file)
 file.close()
 
 Demands = {}
 if Simu.DemandType == "FlowDemand":
-    Demands[0] = Demand.FlowDemand()
-    Demands[0].load_input(loadDemand)
+    numDemand = len(loadDemand["FLOW DEMAND"])
     if DEBUG == 1:
-        print(Demands[0].Route)
+        print(numDemand)
+    for i in range(numDemand):
+        Demands[i] = Demand.FlowDemand()
+        Demands[i].load_input(loadDemand, i)
+    if DEBUG == 0:
+        print(Demands[1].Route)
 elif Simu.DemandType == "DiscreteDemand":
     numDemand = len(loadDemand["DISCRETE DEMAND"])
     if DEBUG == 1:
@@ -69,8 +73,8 @@ elif Simu.DemandType == "DiscreteDemand":
     for i in range(numDemand):
         Demands[i] = Demand.DiscreteDemand()
         Demands[i].load_input(loadDemand, i)
-        if DEBUG == 1:
-            print(Demands[0].TripID)
+    if DEBUG == 1:
+        print(Demands[0].TripID)
 else:
     print("Demand Type error")
 
