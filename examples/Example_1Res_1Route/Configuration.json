@@ -12,7 +12,8 @@
                 }
             ],
             "Name": "Simulation_1_Res",
-            "Network": "NetworkTest",
+            "Network": "C:/Dev/symures-dev-master/symures-dev/examples/Example_1Res_1Route/Network.json",
+			"Demand":"C:/Dev/symures-dev-master/symures-dev/examples/Example_1Res_1Route/Demand.json",
             "Solver": "AccBased",
             "TimeStep": 10
         }
