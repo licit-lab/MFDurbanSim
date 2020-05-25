@@ -19,7 +19,7 @@ Simu = Simulation.Simulation()
 Simu.load_input(loadSimulation)
 
 #Network
-with open(Simu.Network, "r") as file:
+with open(root + folder + Simu.Network, "r") as file:
     loadNetwork = json.load(file)
 file.close()
 
@@ -52,7 +52,7 @@ for i in range(numMacroNodes):
         print(MacroNodes[i].ResID)
     
 #Demand
-with open(Simu.Demand, "r") as file:
+with open(root + folder + Simu.Demand, "r") as file:
     loadDemand = json.load(file)
 file.close()
 
