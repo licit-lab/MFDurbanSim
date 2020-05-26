@@ -98,6 +98,8 @@ if DEBUG == 1:
     print(Routes[0].TotalTime)
     print(Res[0].RoutesNodeID)
 
+print(Res[0].RouteSection[0].RouteID)
+
 #### Algorithms ####
 
 if Simu.Solver == "AccBased":
