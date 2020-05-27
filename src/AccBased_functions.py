@@ -1,4 +1,4 @@
-def Compute_Res(Reservoirs, Routes, Simulation):
+def Compute_Res(Reservoirs, Routes):
 
     test=0
 
