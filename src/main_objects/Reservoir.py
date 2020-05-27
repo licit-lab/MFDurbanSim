@@ -17,22 +17,13 @@ class Reservoir:
         self.EntryfctParam = []             #Parameters of the entry supply function
         self.MacroNodesID = []              #List of the MacroNodes in the reservoir
         self.AdjacentResID = []             #List of adjacent reservoirs
-        #self.TripLengthPerRoute = []        #Trip lengths of the routes crossing the reservoir associated 
-        #self.RoutesNodeID = []              #Entry & exit nodes ID for each route crossing the reservoir
-
-        self.RouteSection = []
         
-        #self.MergeCoeffPerRoute = []        #
+        self.RouteSection = []              #List of all data compiled per route
+        
         self.InternalProd = []              #
-        #self.ExitCoeffPerRoute = []         #
         self.MeanSpeed = []                 #Reservoir mean speed at each time step
         self.AvgTripLength = []             #Reservoir dynamic average trip length at each time step
         self.Acc = []                       #Reservoir total accumulation at each time step
-        self.AccPerRoute = []               #Partial accumulation per route in RoutesID at each time step
-        #self.InflowPerRoute = []            #Partial inflow per route in RoutesID at each time step
-        #self.OutflowPerRoute = []           #Partial outflow per route in RoutesID at each time step
-        #self.NinPerRoute = []               #Partial entry cumulative count per route in RoutesID at each time step
-        #self.NoutPerRoute = []              #Partial exit cumulative count per route in RoutesID at each time step
         self.Inflow = []                    #Reservoir total inflow at each time step
         self.Outflow = []                   #Reservoir total outflow at each time step
         self.Nin = []                       #Reservoir entry cumulative count at each time step
@@ -40,46 +31,24 @@ class Reservoir:
 
         #Acc-based solver
         self.NumWaitingVeh = []             #Number of vehicles waiting to enter the reservoir when reservoir is the begining of the route
-        #self.InflowDemandPerRoute = []      #
-        #self.InflowSupplyPerRoute = []      #
-        #self.OutflowDemandPerRoute = []     #
-        #self.OutflowSupplyPerRoute = []     #
-        #self.AccCircuPerRoute = []          #Partial accumulation per route in RoutesID at each time step
-        #self.AccQueuePerRoute = []          #Partial queuing accumulation per route in RoutesID at each time step
-        #self.OutflowCircuPerRoute = []      #Partial circulation outflow per route in RoutesID at each time step
-        #self.NoutCircuPerRoute = []         #Partial exit cumulative count of the circulating outflow per route in RoutesID at each time step
-    
+
         #Trip-based solver
-        #self.DemandEntryTimePerRoute = []   #
-        #self.DemandEntryVehPerRoute = []    #
         self.MFDpts = []                    #
         self.EntryFctpts = []               #
         self.VehList = []                   #List of vehicles in the reservoir
-        #self.VehListPerRoute = []           #List of vehicles per route
-        #self.DemandTimeIndexPerRoute= []    #
         self.LastEntryTime = 0              #
         self.LastExitTime = 0               #
-        #self.LastEntryTimePerRoute = []     #
-        #self.LastExitTimePerRoute = []      #
         self.NextEntryTime = 0              #
         self.NextExitTime = 0               #
         self.NextEntryVehID = 0             #
         self.NextExitVehID = 0              #
         self.SupplyIndex = 0                #
-        #self.DesiredEntryTimePerRoute = []  #
-        #self.DesiredExitTimePerRoute = []   #
         self.DesiredExitTime = 0            #
-        #self.DesiredEntryVehPerRoute = []   #
-        #self.DesiredExitVehPerRoute = []    #
         self.DesiredExitVeh = 0             #
-        #self.EntrySupplyTimePerRoute = []   #
-        #self.ExitSupplyTimePerRoute = []    #
         self.EntrySupplyTime = 0            #
         self.ExitSupplyTime = 0             #
         self.EntryTimes = []                #
         self.ExitTimes = []                 #
-        #self.EntryTimesPerRoute = []        #
-        #self.ExitTimesPerRoute = []         #
         self.CurrentMeanSpeed = 0           #
         self.MeanSpeed2 = []                #
 
