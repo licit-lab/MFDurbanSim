@@ -64,9 +64,16 @@ def SaveOutput(Simulation, Reservoirs, Routes, Vehicle = []):
     reservoirs_out = []
     for i in range(len(Reservoirs)):
         reservoir_data = []
-        routes_data = []
-
         
+        routes_data = []
+        for j in range(len(Reservoirs[i].RouteSection)):
+            routes_data.append({"RouteID":Reservoirs[i].RouteSection[j].RouteID, "Data":[]})
+
+            for k in range(len(Reservoirs[i].RouteSection[j].Data)):
+                routes_data[j]["Data"].append({Reservoirs[i].RouteSection[j].Data[k]["Time"], Reservoirs[i].RouteSection[j].Data[k]["Acc"], Reservoirs[i].RouteSection[j].Data[k]["AccCircu"],
+                                               Reservoirs[i].RouteSection[j].Data[k]["AccQueue"], Reservoirs[i].RouteSection[j].Data[k]["Inflow"], Reservoirs[i].RouteSection[j].Data[k]["Outflow"],
+                                               Reservoirs[i].RouteSection[j].Data[k]["OutflowCircu"], Reservoirs[i].RouteSection[j].Data[k]["Nin"], Reservoirs[i].RouteSection[j].Data[k]["Nout"],
+                                               Reservoirs[i].RouteSection[j].Data[k]["NoutCircu"]})        
         
         reservoir_out = append({"ID":Reservoir[i].ID, "ReservoirData":reservoir_data, "DataPerRoute":routes_data})
 

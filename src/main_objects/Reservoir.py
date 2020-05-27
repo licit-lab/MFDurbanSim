@@ -18,16 +18,9 @@ class Reservoir:
         self.MacroNodesID = []              #List of the MacroNodes in the reservoir
         self.AdjacentResID = []             #List of adjacent reservoirs
         
-        self.RouteSection = []              #List of all data compiled per route
-        
-        self.InternalProd = []              #
-        self.MeanSpeed = []                 #Reservoir mean speed at each time step
-        self.AvgTripLength = []             #Reservoir dynamic average trip length at each time step
-        self.Acc = []                       #Reservoir total accumulation at each time step
-        self.Inflow = []                    #Reservoir total inflow at each time step
-        self.Outflow = []                   #Reservoir total outflow at each time step
-        self.Nin = []                       #Reservoir entry cumulative count at each time step
-        self.Nout = []                      #Reservoir exit cumulative count at each time step
+        self.RouteSection = []              #List of all "per route" data
+
+        self.DataCommon = []                #[{"Time":0, "InternalProd":0, "MeanSpeed":0, "AvgTripLength":0, "Acc":0, "Inflow":0, "Outflow":0, "Nin":0, "Nout":0}]
 
         #Acc-based solver
         self.NumWaitingVeh = []             #Number of vehicles waiting to enter the reservoir when reservoir is the begining of the route
@@ -36,6 +29,7 @@ class Reservoir:
         self.MFDpts = []                    #
         self.EntryFctpts = []               #
         self.VehList = []                   #List of vehicles in the reservoir
+
         self.LastEntryTime = 0              #
         self.LastExitTime = 0               #
         self.NextEntryTime = 0              #
