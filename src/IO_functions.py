@@ -59,8 +59,11 @@ def Init(Res, Routes, MacroNodes, Demands):
         
 def SaveOutput(Simulation, Reservoirs, Routes, Vehicle = []):
     output = {}
+
+    ##SIMULATION##
     simulation_out = [{"Date":Simulation.Date, "Version":Simulation.Version}]
 
+    ##RESERVOIR##
     reservoirs_out = []
     for i in range(len(Reservoirs)):
         reservoir_data = []
@@ -70,20 +73,23 @@ def SaveOutput(Simulation, Reservoirs, Routes, Vehicle = []):
             routes_data.append({"RouteID":Reservoirs[i].RouteSection[j].RouteID, "Data":[]})
 
             for k in range(len(Reservoirs[i].RouteSection[j].Data)):
-                routes_data[j]["Data"].append({Reservoirs[i].RouteSection[j].Data[k]["Time"], Reservoirs[i].RouteSection[j].Data[k]["Acc"], Reservoirs[i].RouteSection[j].Data[k]["AccCircu"],
-                                               Reservoirs[i].RouteSection[j].Data[k]["AccQueue"], Reservoirs[i].RouteSection[j].Data[k]["Inflow"], Reservoirs[i].RouteSection[j].Data[k]["Outflow"],
-                                               Reservoirs[i].RouteSection[j].Data[k]["OutflowCircu"], Reservoirs[i].RouteSection[j].Data[k]["Nin"], Reservoirs[i].RouteSection[j].Data[k]["Nout"],
-                                               Reservoirs[i].RouteSection[j].Data[k]["NoutCircu"]})        
+                routes_data[j]["Data"].append({"Time":Reservoirs[i].RouteSection[j].Data[k]["Time"], "Acc":Reservoirs[i].RouteSection[j].Data[k]["Acc"], "AccCircu":Reservoirs[i].RouteSection[j].Data[k]["AccCircu"],
+                                               "AccQueue":Reservoirs[i].RouteSection[j].Data[k]["AccQueue"], "Inflow":Reservoirs[i].RouteSection[j].Data[k]["Inflow"], "Outflow":Reservoirs[i].RouteSection[j].Data[k]["Outflow"],
+                                               "OutflowCircu":Reservoirs[i].RouteSection[j].Data[k]["OutflowCircu"], "Nin":Reservoirs[i].RouteSection[j].Data[k]["Nin"], "Nout":Reservoirs[i].RouteSection[j].Data[k]["Nout"],
+                                               "NoutCircu":Reservoirs[i].RouteSection[j].Data[k]["NoutCircu"]})        
         
         reservoir_out = append({"ID":Reservoir[i].ID, "ReservoirData":reservoir_data, "DataPerRoute":routes_data})
 
+    ##ROUTES##
     routes_out = []
     for i in range(len(Routes)):
         data = []
-
+        #TODO
+        
         routes_out = append({"ID":Routes[i].ID, "Data":data, "NVehicles":Routes[i].NVehicles})
 
     if len(Vehicle) > 0:
+        ##VEHICLE##
         vehicle_out = []
         for i in range(len(Vehicle)):
             data = []

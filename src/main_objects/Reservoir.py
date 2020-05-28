@@ -20,7 +20,7 @@ class Reservoir:
         
         self.RouteSection = []              #List of all "per route" data
 
-        self.DataCommon = []                #[{"Time":0, "InternalProd":0, "MeanSpeed":0, "AvgTripLength":0, "Acc":0, "Inflow":0, "Outflow":0, "Nin":0, "Nout":0}]
+        self.DataCommon = [{"Time":0, "InternalProd":0, "MeanSpeed":0, "AvgTripLength":0, "Acc":0, "Inflow":0, "Outflow":0, "Nin":0, "Nout":0}]
 
         #Acc-based solver
         self.NumWaitingVeh = []             #Number of vehicles waiting to enter the reservoir when reservoir is the begining of the route
@@ -36,7 +36,7 @@ class Reservoir:
         self.NextExitTime = 0               #
         self.NextEntryVehID = 0             #
         self.NextExitVehID = 0              #
-        self.SupplyIndex = 0                #
+        self.SupplyIndex = 0                # utile ? 
         self.DesiredExitTime = 0            #
         self.DesiredExitVeh = 0             #
         self.EntrySupplyTime = 0            #
