@@ -34,8 +34,15 @@ def bumpfct(t, tStartPeak, tEndPeak, peakFactor1, peakFactor2):
 
     return bumpf
 
+with open("Demand.json", "r") as file:
+    Demand = json.load(file)
+file.close()
 
-time_temp = list(range(1000, 6020, 20))
+tStart = 1000
+tStop = 6000
+step = 20
+
+time_temp = list(range(tStart, tStop + step, step))
 
 q0 = 0.3
 q1 = 1.3
@@ -43,11 +50,11 @@ q2 = 0.3
 fact1 = q1/q0
 fact2 = q2/q0
 
-data_temp = bumpfct(time_temp, 1000, 6000, fact1, fact2)
-data_temp = [element * 0.3 for element in data_temp]
+data_temp = bumpfct(time_temp, tStart, tStop, fact1, fact2)
+data_temp = [element * q0 for element in data_temp]
 
 time_temp.insert(0, 0)
-time_temp.append(9000)
+time_temp.append(tStop + step)
 data_temp.insert(0, q0)
 data_temp.append(q2)
 
@@ -55,11 +62,8 @@ demand_temp = []
 for i in range(len(time_temp)):
     demand_temp.append({"Time": time_temp[i], "Data": data_temp[i]})
 
-with open("C:/Dev/symures-dev-master/symures-dev/examples/Example_1Res_1Route/Demand.json", "r") as file:
-    Demand = json.load(file)
-file.close()
-
 Demand["FLOW DEMAND"][0]["Demand"] = demand_temp
+
 with open("Demand.json", "w") as file:
     json.dump(Demand, file, indent = 4)
 file.close()

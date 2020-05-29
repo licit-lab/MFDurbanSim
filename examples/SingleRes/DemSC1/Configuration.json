@@ -1,0 +1,21 @@
+{
+    "SIMULATION": [
+        {
+            "DemandType": "FlowDemand",
+            "DivergeModel": "maxdem",
+            "Duration": 9000,
+            "MFDType": "parabolic",
+            "MergeModel": "demprorata",
+            "Modes": [
+                {
+                    "ID": "VL"
+                }
+            ],
+            "Name": "DemSC1",
+            "Network": "Network.json",
+			"Demand":"Demand.json",
+            "Solver": "AccBased",
+            "TimeStep": 10
+        }
+    ]
+}

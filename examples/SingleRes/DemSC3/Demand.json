@@ -19,11 +19,7 @@
                     "Data": [
                         {
                             "ID": "Route1",
-                            "Coeff": 0.5
-                        },
-						{
-                            "ID": "Route2",
-                            "Coeff": 0.5
+                            "Coeff": 1
                         }
                     ]
                 }
@@ -46,35 +42,13 @@
                 {
                     "Time": 0,
                     "Data": [
-                        {
-                            "ID": "Route1",
-                            "Coeff": 0.5
-                        },
 						{
                             "ID": "Route2",
-                            "Coeff": 0.5
+                            "Coeff": 1
                         }
                     ]
                 }
             ]
-        }
-    ],
-    "DISCRETE DEMAND": [
-        {
-            "TripID": "Trip1",
-            "OriginMacroNodeID": "MacroNode1",
-            "DestMacroNodeID": "MacroNode6",
-            "Time": 0,
-            "RouteID": "Route2",
-            "PrevTripID": "Trip0"
-        },
-        {
-            "TripID": "Trip2",
-            "OriginMacroNodeID": "MacroNode1",
-            "DestMacroNodeID": "MacroNode6",
-            "Time": 0,
-            "RouteID": "Route2",
-            "PrevTripID": "Trip0"
         }
     ]
 }

@@ -1,0 +1,54 @@
+{
+    "FLOW DEMAND": [
+        {
+            "OriginMacroNodeID": "MacroNode1",
+            "DestMacroNodeID": "MacroNode3",
+            "Demand": [
+                {
+                    "Time": 0,
+                    "Data": 0.3
+                },
+                {
+                    "Time": 1500,
+                    "Data": 0.8
+                }
+            ],
+            "Route": [
+                {
+                    "Time": 0,
+                    "Data": [
+                        {
+                            "ID": "Route1",
+                            "Coeff": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "OriginMacroNodeID": "MacroNode2",
+            "DestMacroNodeID": "MacroNode4",
+            "Demand": [
+                {
+                    "Time": 0,
+                    "Data": 0.3
+                },
+                {
+                    "Time": 1500,
+                    "Data": 1.1
+                }
+            ],
+            "Route": [
+                {
+                    "Time": 0,
+                    "Data": [
+                        {
+                            "ID": "Route2",
+                            "Coeff": 1
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

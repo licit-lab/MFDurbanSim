@@ -1,0 +1,25 @@
+{
+    "FLOW DEMAND": [
+        {
+            "OriginMacroNodeID": "MacroNode1",
+            "DestMacroNodeID": "MacroNode3",
+            "Demand": [
+                {
+                    "Time": 0,
+                    "Data": 0.7
+                }
+            ],
+            "Route": [
+                {
+                    "Time": 0,
+                    "Data": [
+                        {
+                            "ID": "Route1",
+                            "Coeff": 1
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
