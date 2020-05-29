@@ -1,0 +1,462 @@
+{
+    "RESERVOIRS": [
+        {
+            "ID": "Res1",
+            "FreeflowSpeed": [
+                {
+                    "mode": "VL",
+                    "value": 15
+                }
+            ],
+            "MaxProd": [
+                {
+                    "mode": "VL",
+                    "value": 3000
+                }
+            ],
+            "MaxAcc": [
+                {
+                    "mode": "VL",
+                    "value": 1000
+                }
+            ],
+            "CritAcc": [
+                {
+                    "mode": "VL",
+                    "value": 400
+                }
+            ],
+            "Centroid": [
+                {
+                    "x": 0,
+                    "y": 1
+                }
+            ],
+            "BorderPoints": [
+                {
+                    "x": -1,
+                    "y": 0
+                },
+                {
+                    "x": 1,
+                    "y": 0
+                },
+                {
+                    "x": 1,
+                    "y": 2
+                },
+                {
+                    "x": -1,
+                    "y": 2
+                },
+                {
+                    "x": -1,
+                    "y": 0
+                }
+            ]
+        },
+		{
+            "ID": "Res2",
+            "FreeflowSpeed": [
+                {
+                    "mode": "VL",
+                    "value": 15
+                }
+            ],
+            "MaxProd": [
+                {
+                    "mode": "VL",
+                    "value": 2000
+                }
+            ],
+            "MaxAcc": [
+                {
+                    "mode": "VL",
+                    "value": 1000
+                }
+            ],
+            "CritAcc": [
+                {
+                    "mode": "VL",
+                    "value": 266.67
+                }
+            ],
+            "Centroid": [
+                {
+                    "x": 2,
+                    "y": 2
+                }
+            ],
+            "BorderPoints": [
+                {
+                    "x": 1,
+                    "y": 1
+                },
+                {
+                    "x": 3,
+                    "y": 1
+                },
+                {
+                    "x": 3,
+                    "y": 3
+                },
+                {
+                    "x": 1,
+                    "y": 3
+                },
+                {
+                    "x": 1,
+                    "y": 1
+                }
+            ]
+        },
+		{
+            "ID": "Res3",
+            "FreeflowSpeed": [
+                {
+                    "mode": "VL",
+                    "value": 15
+                }
+            ],
+            "MaxProd": [
+                {
+                    "mode": "VL",
+                    "value": 2000
+                }
+            ],
+            "MaxAcc": [
+                {
+                    "mode": "VL",
+                    "value": 1000
+                }
+            ],
+            "CritAcc": [
+                {
+                    "mode": "VL",
+                    "value": 266.67
+                }
+            ],
+            "Centroid": [
+                {
+                    "x": 2,
+                    "y": 0
+                }
+            ],
+            "BorderPoints": [
+                {
+                    "x": 1,
+                    "y": -1
+                },
+                {
+                    "x": 3,
+                    "y": -1
+                },
+                {
+                    "x": 3,
+                    "y": 1
+                },
+                {
+                    "x": 1,
+                    "y": 1
+                },
+                {
+                    "x": 1,
+                    "y": -1
+                }
+            ]
+        },
+		{
+            "ID": "Res4",
+            "FreeflowSpeed": [
+                {
+                    "mode": "VL",
+                    "value": 15
+                }
+            ],
+            "MaxProd": [
+                {
+                    "mode": "VL",
+                    "value": 3000
+                }
+            ],
+            "MaxAcc": [
+                {
+                    "mode": "VL",
+                    "value": 1000
+                }
+            ],
+            "CritAcc": [
+                {
+                    "mode": "VL",
+                    "value": 400
+                }
+            ],
+            "Centroid": [
+                {
+                    "x": 4,
+                    "y": 1
+                }
+            ],
+            "BorderPoints": [
+                {
+                    "x": 3,
+                    "y": 0
+                },
+                {
+                    "x": 5,
+                    "y": 0
+                },
+                {
+                    "x": 5,
+                    "y": 2
+                },
+                {
+                    "x": 3,
+                    "y": 2
+                },
+                {
+                    "x": 3,
+                    "y": 0
+                }
+            ]
+        }
+    ],
+    "MACRONODES": [
+        {
+            "ID": "MacroNode1",
+            "Type": "origin",
+            "ResID": ["Res1"],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ],
+            "Coord": [
+                {
+                    "x": 0,
+                    "y": 1.2
+                }
+            ]
+        },
+		{
+            "ID": "MacroNode2",
+            "Type": "origin",
+            "ResID": ["Res1"],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ],
+            "Coord": [
+                {
+                    "x": 0,
+                    "y": 0.8
+                }
+            ]
+        },
+		{
+            "ID": "MacroNode3",
+            "Type": "destination",
+            "ResID": ["Res4"],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 0.7
+                }
+            ],
+            "Coord": [
+                {
+                    "x": 4,
+                    "y": 1.2
+                }
+            ]
+        },
+		{
+            "ID": "MacroNode4",
+            "Type": "destination",
+            "ResID": ["Res4"],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ],
+            "Coord": [
+                {
+                    "x": 4,
+                    "y": 0.8
+                }
+            ]
+        },
+		{
+            "ID": "MacroNode5",
+            "Type": "border",
+            "ResID": ["Res1", "Res2"],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ],
+            "Coord": [
+                {
+                    "x": 1,
+                    "y": 1.5
+                }
+            ]
+        },
+		{
+            "ID": "MacroNode6",
+            "Type": "border",
+            "ResID": ["Res1", "Res3"],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ],
+            "Coord": [
+                {
+                    "x": 1,
+                    "y": 0.5
+                }
+            ]
+        },
+		{
+            "ID": "MacroNode7",
+            "Type": "border",
+            "ResID": ["Res2", "Res3"],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ],
+            "Coord": [
+                {
+                    "x": 2,
+                    "y": 1
+                }
+            ]
+        },
+		{
+            "ID": "MacroNode8",
+            "Type": "border",
+            "ResID": ["Res2", "Res4"],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ],
+            "Coord": [
+                {
+                    "x": 3,
+                    "y": 1.5
+                }
+            ]
+        },
+		{
+            "ID": "MacroNode9",
+            "Type": "border",
+            "ResID": ["Res3", "Res4"],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 10
+                },
+				{
+                    "Time": 100,
+                    "Data": 0.4
+                }
+            ],
+            "Coord": [
+                {
+                    "x": 3,
+                    "y": 0.5
+                }
+            ]
+        }
+    ],
+    "ROUTES": [
+        {
+            "ID": "Route1",
+            "Mode": "VL",
+            "ResPath": [
+                {
+                    "ID": "Res1",
+                    "TripLength": 1000
+                },
+				{
+                    "ID": "Res2",
+                    "TripLength": 1000
+                },
+				{
+                    "ID": "Res4",
+                    "TripLength": 1000
+                }
+            ],
+            "NodePath": [
+                "MacroNode1",
+				"MacroNode5",
+				"MacroNode8",
+                "MacroNode3"
+            ]
+        },
+		{
+            "ID": "Route2",
+            "Mode": "VL",
+            "ResPath": [
+                {
+                    "ID": "Res1",
+                    "TripLength": 1000
+                },
+				{
+                    "ID": "Res2",
+                    "TripLength": 1000
+                },
+				{
+					"ID": "Res3",
+                    "TripLength": 1000
+                },
+				{
+                    "ID": "Res4",
+                    "TripLength": 1000
+                }
+            ],
+            "NodePath": [
+                "MacroNode1",
+				"MacroNode5",
+				"MacroNode7",
+				"MacroNode9",
+                "MacroNode3"
+            ]
+        },
+		{
+            "ID": "Route3",
+            "Mode": "VL",
+            "ResPath": [
+                {
+                    "ID": "Res1",
+                    "TripLength": 1000
+                },
+				{
+                    "ID": "Res3",
+                    "TripLength": 1100
+                },
+				{
+                    "ID": "Res4",
+                    "TripLength": 1000
+                }
+            ],
+            "NodePath": [
+                "MacroNode1",
+				"MacroNode6",
+				"MacroNode9",
+                "MacroNode3"
+            ]
+        }
+    ]
+}
