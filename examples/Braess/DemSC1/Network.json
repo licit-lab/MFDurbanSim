@@ -370,6 +370,10 @@
 				{
                     "Time": 100,
                     "Data": 0.4
+                },
+				{
+                    "Time": 6000,
+                    "Data": 10
                 }
             ],
             "Coord": [
@@ -378,64 +382,45 @@
                     "y": 0.5
                 }
             ]
+        },
+		{
+            "ID": "MacroNode10",
+            "Type": "origin",
+            "ResID": ["Res2"],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ],
+            "Coord": [
+                {
+                    "x": 2,
+                    "y": 2.2
+                }
+            ]
+        },
+		{
+            "ID": "MacroNode11",
+            "Type": "destination",
+            "ResID": ["Res2"],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ],
+            "Coord": [
+                {
+                    "x": 2,
+                    "y": 1.8
+                }
+            ]
         }
     ],
     "ROUTES": [
         {
             "ID": "Route1",
-            "Mode": "VL",
-            "ResPath": [
-                {
-                    "ID": "Res1",
-                    "TripLength": 1000
-                },
-				{
-                    "ID": "Res2",
-                    "TripLength": 1000
-                },
-				{
-                    "ID": "Res4",
-                    "TripLength": 1000
-                }
-            ],
-            "NodePath": [
-                "MacroNode1",
-				"MacroNode5",
-				"MacroNode8",
-                "MacroNode3"
-            ]
-        },
-		{
-            "ID": "Route2",
-            "Mode": "VL",
-            "ResPath": [
-                {
-                    "ID": "Res1",
-                    "TripLength": 1000
-                },
-				{
-                    "ID": "Res2",
-                    "TripLength": 1000
-                },
-				{
-					"ID": "Res3",
-                    "TripLength": 1000
-                },
-				{
-                    "ID": "Res4",
-                    "TripLength": 1000
-                }
-            ],
-            "NodePath": [
-                "MacroNode1",
-				"MacroNode5",
-				"MacroNode7",
-				"MacroNode9",
-                "MacroNode3"
-            ]
-        },
-		{
-            "ID": "Route3",
             "Mode": "VL",
             "ResPath": [
                 {
@@ -454,6 +439,35 @@
             "NodePath": [
                 "MacroNode1",
 				"MacroNode6",
+				"MacroNode9",
+                "MacroNode3"
+            ]
+        },
+		{
+            "ID": "Route2",
+            "Mode": "VL",
+            "ResPath": [
+                {
+                    "ID": "Res1",
+                    "TripLength": 1000
+                },
+				{
+                    "ID": "Res2",
+                    "TripLength": 1000
+                },
+				{
+					"ID": "Res3",
+                    "TripLength": 2000
+                },
+				{
+                    "ID": "Res4",
+                    "TripLength": 1000
+                }
+            ],
+            "NodePath": [
+                "MacroNode1",
+				"MacroNode5",
+				"MacroNode7",
 				"MacroNode9",
                 "MacroNode3"
             ]

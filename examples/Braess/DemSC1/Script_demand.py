@@ -53,9 +53,9 @@ step1 = 60
 
 time_temp1 = list(range(tStart1, tStop1 + step1, step1))
 
-q01 = 0.35
-q11 = 1.1
-q21 = 0.35
+q01 = 0.1
+q11 = 0.8
+q21 = 0.1
 fact11 = q11/q01
 fact21 = q21/q01
 
@@ -87,39 +87,20 @@ time_temp2.append(tStop2 + step2)
 data_temp2.insert(0, q02)
 data_temp2.append(q22)
 
-#ROUTE 3
-tStart3 = 500
-tStop3 = 2500
-step3 = 60
-
-time_temp3 = list(range(tStart3, tStop3 + step3, step3))
-
-q03 = 0.1
-q13 = 0.2
-q23 = 0.1
-fact13 = q13/q03
-fact23 = q23/q03
-
-data_temp3 = trayfct(time_temp3, tStart3, tStart3 + 500, tStop3 - 500, tStop3, fact13, fact23)
-data_temp3 = [element * q03 for element in data_temp3]
-
-time_temp3.insert(0, 0)
-data_temp3.insert(0, q03)
-data_temp3.append(q23)
 
 ##CALCUL COEFF DES ROUTES + DEMANDE GLOBALE -> somme des demandes pour un même couple de macronodes
 data_sum = []
 data_coeff = []
 for i in range(len(data_temp2)):
-    data_sum.append(data_temp1[i] + data_temp2[i] + data_temp3[i])
-    data_coeff.append([{"ID":"Route1", "Coeff":data_temp1[i] / data_sum[i]}, {"ID":"Route2", "Coeff":data_temp2[i] / data_sum[i]}, {"ID":"Route3", "Coeff":data_temp3[i] / data_sum[i]}])
+    data_sum.append(data_temp1[i] + data_temp2[i])
+    data_coeff.append([{"ID":"Route1", "Coeff":data_temp1[i] / data_sum[i]}, {"ID":"Route2", "Coeff":data_temp2[i] / data_sum[i]}])
 for i in range(len(data_temp2), len(data_temp1)):
-    data_sum.append(data_temp1[i] + q22 + data_temp3[i])
-    data_coeff.append([{"ID":"Route1", "Coeff":data_temp1[i] / data_sum[i]}, {"ID":"Route2", "Coeff":q22 / data_sum[i]}, {"ID":"Route3", "Coeff":data_temp3[i] / data_sum[i]}])
+    data_sum.append(data_temp1[i] + q22)
+    data_coeff.append([{"ID":"Route1", "Coeff":data_temp1[i] / data_sum[i]}, {"ID":"Route2", "Coeff":q22 / data_sum[i]}])
 
 demand_temp = []
 route_temp = []
-for i in range(len(time_temp3)):
+for i in range(len(time_temp1)):
     demand_temp.append({"Time": time_temp1[i], "Data": data_sum[i]})
     route_temp.append({"Time": time_temp1[i], "Data": data_coeff[i]})
 
