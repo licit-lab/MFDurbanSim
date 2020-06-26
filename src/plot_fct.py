@@ -14,6 +14,7 @@ def plotResBallConfig(Reservoir, plotborders, ResRadius, coordscale):
 
     numRes = len(Reservoir)
     flowspace = 0 # spacing between flow lines
+    cmap0 = np.array([(51, 51, 255), (0, 204, 51), (204, 0, 0), (204, 153, 0), (153, 0, 102), (51, 153, 153), (204, 102, 204), (204, 204, 102)]) / 255  # default
 
     # Reservoir colors
     # for r = ResList:
@@ -52,8 +53,8 @@ def plotResBallConfig(Reservoir, plotborders, ResRadius, coordscale):
                     xLinks.append(xResbp_tmp)
                     yLinks.append(yResbp_tmp)
 
-                plt.fill(xResbp, yResbp, "b", ec = 'none', alpha = 0.5)
-                plt.plot(xResbp, yResbp, "b")
+                plt.fill(xResbp, yResbp, color = cmap0[r], ec = 'none', alpha = 0.5)
+                plt.plot(xResbp, yResbp, color = cmap0[r])
 
     xList = []
     yList = []
