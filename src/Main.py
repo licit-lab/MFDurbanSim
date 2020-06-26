@@ -118,11 +118,11 @@ Res[1].DataCommon.append({"Time":10, "InternalProd":0, "MeanSpeed":0, "AvgTripLe
 Res[2].DataCommon.append({"Time":10, "InternalProd":0, "MeanSpeed":0, "AvgTripLength":200, "Acc":615, "Inflow":0, "Outflow":0, "Nin":0, "Nout":0})
 Res[3].DataCommon.append({"Time":10, "InternalProd":0, "MeanSpeed":0, "AvgTripLength":600, "Acc":938, "Inflow":0, "Outflow":0, "Nin":0, "Nout":0})
 
-Res[0].RouteSection[0].Data.append({"Time":10, "MergeCoeff":0, "ExitCoeff":0, "Acc":20, "Inflow":0, "Outflow":0, "Nin":0, "Nout":0,
+Res[0].RouteSection[0].Data.append({"Time":10, "MergeCoeff":0, "ExitCoeff":0, "Acc":60, "Inflow":0, "Outflow":0, "Nin":0, "Nout":0,
                         "InflowDemand":0, "InflowSupply":0, "OutflowDemand":0, "OutflowSupply":0, "AccCircu":0, "AccQueue":0, "OutflowCircu":0, "NoutCircu":0,
                         "DemandEntryTime":0, "DemandEntryVeh":0, "VehList":0, "DemandTimeIndex":0, "LastEntryTime":0, "LastExitTime":0, "DesiredEntryTime":0,
                         "DesiredExitTime":0, "DesiredEntryVeh":0, "DesiredExitVeh":0, "EntrySupplyTime":0, "ExitSupplyTime":0, "EntryTimes":0, "ExitTimes":0})
-Res[0].RouteSection[1].Data.append({"Time":10, "MergeCoeff":0, "ExitCoeff":0, "Acc":60, "Inflow":0, "Outflow":0, "Nin":0, "Nout":0,
+Res[0].RouteSection[1].Data.append({"Time":10, "MergeCoeff":0, "ExitCoeff":0, "Acc":20, "Inflow":0, "Outflow":0, "Nin":0, "Nout":0,
                         "InflowDemand":0, "InflowSupply":0, "OutflowDemand":0, "OutflowSupply":0, "AccCircu":0, "AccQueue":0, "OutflowCircu":0, "NoutCircu":0,
                         "DemandEntryTime":0, "DemandEntryVeh":0, "VehList":0, "DemandTimeIndex":0, "LastEntryTime":0, "LastExitTime":0, "DesiredEntryTime":0,
                         "DesiredExitTime":0, "DesiredEntryVeh":0, "DesiredExitVeh":0, "EntrySupplyTime":0, "ExitSupplyTime":0, "EntryTimes":0, "ExitTimes":0})

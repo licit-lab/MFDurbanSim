@@ -16,12 +16,6 @@ def plotResBallConfig(Reservoir, plotborders, ResRadius, coordscale):
     flowspace = 0 # spacing between flow lines
     cmap0 = np.array([(51, 51, 255), (0, 204, 51), (204, 0, 0), (204, 153, 0), (153, 0, 102), (51, 153, 153), (204, 102, 204), (204, 204, 102)]) / 255  # default
 
-    # Reservoir colors
-    # for r = ResList:
-    #     ResAdj {r} = intersect(Reservoir(r).AdjacentRes, ResList)
-    #
-    # colorRes = plt.vertexcoloring(ResAdj, len(cmap(:, 1)))
-
     # Normalization of reservoir coordinates
     x0 = Reservoir[0].Centroid[0]["x"]
     y0 = Reservoir[0].Centroid[0]["y"]
@@ -399,25 +393,32 @@ def plotResBallAccPerRoute(t, Reservoir, Route, SimulTime, ResRadius, coordscale
         plt.fill(x, y, 'grey', edgecolor = 'none')
 
         # Plot accumulation evolution
+        legend = []
         angstart = 0
         k_r = 0
         for iroute in range(numRoutes):
             for iRouteSect in range(len(Reservoir[r].RouteSection)):
-                accratio = Reservoir[r].RouteSection[iRouteSect].Data[timeID]["Acc"] / Reservoir[r].MaxAcc[0]["value"]
-                angend = angstart + accratio * 2 * math.pi
-                thRoute = list(np.arange(angstart, angend + step, step))
-                x = [xResC + ResRadius * math.cos(element) for element in thRoute]
-                y = [yResC + ResRadius * math.sin(element) for element in thRoute]
-                angstart = angend
+                if Reservoir[r].RouteSection[iRouteSect].RouteID == Route[iroute].ID:
+                    accratio = Reservoir[r].RouteSection[iRouteSect].Data[timeID]["Acc"] / Reservoir[r].MaxAcc[0]["value"]
+                    angend = angstart + accratio * 2 * math.pi
+                    thRoute = list(np.arange(angstart, angend + step, step))
+                    x = [xResC + ResRadius * math.cos(element) for element in thRoute]
+                    y = [yResC + ResRadius * math.sin(element) for element in thRoute]
+                    angstart = angend
 
-                if iRouteSect in LegList: # add to the legend
-                    for i in range(len(x)):
-                        plt.fill([xResC, x[i]], [yResC, y[i]], color = cmap[k_r], ec = 'none')
-                else:
-                    for i in range(len(x)):
-                        hf.append(plt.fill([xResC, x[i]], [yResC, y[i]], color = cmap[k_r], ec = 'none'))
-                    LegList.append(iRouteSect)
-            k_r = k_r + 1
+                    if iRouteSect in LegList: # add to the legend
+                        for i in range(len(x)):
+                            plt.fill([xResC, x[i]], [yResC, y[i]], color = cmap[k_r], ec = 'none')
+                    else:
+                        strleg = '[ '
+                        for i in range(len(Route[iroute].ResPath)):
+                            strleg += Route[iroute].ResPath[i]["ID"] + ' '
+                        strleg += ']'
+                        legend.append(strleg)
+                        for i in range(len(x)):
+                            hf.append(plt.fill([xResC, x[i]], [yResC, y[i]], color = cmap[k_r], ec = 'none'))
+                        LegList.append(iRouteSect)
+            k_r += 1
         plt.text(xResC, yResC, r'$R_{' + str(r + 1) + '}$' + '\n' + str(round(Reservoir[r].DataCommon[timeID]["Acc"])), ha = 'center', color = txtcolor, fontname = fontname, fontweight = 'bold', fontsize = FS)
 
     # Plot size
@@ -443,12 +444,7 @@ def plotResBallAccPerRoute(t, Reservoir, Route, SimulTime, ResRadius, coordscale
     plt.axis('off')
 
     if showleg == 1:
-        strleg = '[ '
-        for iroute in range(numRoutes):
-            for i in range(len(Route[iroute].ResPath)):
-                strleg += Route[iroute].ResPath[i]["ID"] + ' '
-        strleg += ']'
-        for i in range(len(hf)):
-            plt.legend(hf[i], strleg, loc = legloc, fontsize = FS)
+        for i in range(len(legend)):
+            plt.legend(hf[i], legend[i], loc = legloc, fontsize = FS)
 
 
