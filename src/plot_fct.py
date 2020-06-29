@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
-import matplotlib.colors
+from matplotlib import cm
+from matplotlib.colors import ListedColormap, LinearSegmentedColormap
 import math
 import numpy as np
 
@@ -408,15 +409,14 @@ def plotResBallAccPerRoute(t, Reservoir, Route, SimulTime, ResRadius, coordscale
 
                     if iRouteSect in LegList: # add to the legend
                         for i in range(len(x)):
-                            plt.fill([xResC, x[i]], [yResC, y[i]], color = cmap[k_r], ec = 'none')
-                    else:
-                        strleg = '[ '
-                        for i in range(len(Route[iroute].ResPath)):
-                            strleg += Route[iroute].ResPath[i]["ID"] + ' '
-                        strleg += ']'
-                        legend.append(strleg)
-                        for i in range(len(x)):
                             hf.append(plt.fill([xResC, x[i]], [yResC, y[i]], color = cmap[k_r], ec = 'none'))
+                    else:
+                        strlabel = '[ '
+                        for i in range(len(Route[iroute].ResPath)):
+                            strlabel += Route[iroute].ResPath[i]["ID"] + ' '
+                        strlabel += ']'
+                        for i in range(len(x)):
+                            hf.append(plt.fill([xResC, x[i]], [yResC, y[i]], color = cmap[k_r], ec = 'none', label = strlabel))
                         LegList.append(iRouteSect)
             k_r += 1
         plt.text(xResC, yResC, r'$R_{' + str(r + 1) + '}$' + '\n' + str(round(Reservoir[r].DataCommon[timeID]["Acc"])), ha = 'center', color = txtcolor, fontname = fontname, fontweight = 'bold', fontsize = FS)
@@ -444,7 +444,84 @@ def plotResBallAccPerRoute(t, Reservoir, Route, SimulTime, ResRadius, coordscale
     plt.axis('off')
 
     if showleg == 1:
-        for i in range(len(legend)):
-            plt.legend(hf[i], legend[i], loc = legloc, fontsize = FS)
+        plt.legend(hf, strleg, bbox_to_anchor=(1.05, 1), loc='center right', borderaxespad=0., fontsize = FS)
 
+def plotResNetSpeed(t, Reservoir, SimulTime, SpeedRange):
+# Plot the state of reservoirs at time t(mean speed), with links and/ or shape borders
+#
+# INPUTS
+# ---- t: scalar, time[s]
+# ---- Reservoir: Reservoir structure
+# ---- SimulTime: vector, simulation time[s]
+# ---- SpeedRange: vector[Vmin Vmax], speed range[m / s] to define the colormap
+
+    numRes = len(Reservoir)
+
+    # Index of the current time
+    timeStep = SimulTime[1] - SimulTime[0]
+    timeID = 0
+    for i in range(len(SimulTime)):
+        if t == SimulTime[i] or abs(t - SimulTime[i]) <= timeStep / 2:
+            timeID = i
+
+    # Choice of a colormap
+    nbColor = 800
+    top = cm.get_cmap('Reds', 128)
+    bottom = cm.get_cmap('Greens', 128)
+    newcolors = np.vstack((top(np.linspace(0, 1, 128)), bottom(np.linspace(0, 1, 128))))
+    newcmp = ListedColormap(newcolors, name = "GreenRed")
+    txtcolor = [0.1, 0.1, 0]
+
+    fontname = 'Arial'
+    FS = 16
+    LW = 1
+    tlabel = "Mean speed at t = " + str(t) + " s"
+
+    xLinks = []
+    yLinks = []
+
+    for r in range(numRes):
+        speedratio = (Reservoir[r].DataCommon[timeID]["MeanSpeed"] - SpeedRange[0]) / (SpeedRange[1] - SpeedRange[0])
+        indcolor = min([max([math.floor(speedratio * nbColor), 1]), nbColor])
+        colori = newcmp(indcolor)
+
+        if len(Reservoir[r].BorderPoints) != 0:
+            xResbp = []
+            yResbp = []
+            for bp in range(len(Reservoir[r].BorderPoints)):
+                xResbp.append(Reservoir[r].BorderPoints[bp]["x"])
+                yResbp.append(Reservoir[r].BorderPoints[bp]["y"])
+
+                xLinks.append(Reservoir[r].BorderPoints[bp]["x"])
+                yLinks.append(Reservoir[r].BorderPoints[bp]["y"])
+
+            plt.fill(xResbp, yResbp, color = colori, ec='none', alpha=0.5)
+            plt.plot(xResbp, yResbp, '-', color = colori, linewidth = LW)
+
+    for r in range(numRes):
+        xr = Reservoir[r].Centroid[0]["x"]
+        yr = Reservoir[r].Centroid[0]["y"]
+        plt.text(xr, yr, r'$R_{' + str(r + 1) + '}$'+ '\n' + str(round(Reservoir[r].DataCommon[timeID]["MeanSpeed"] * 3.6)) + ' km/h', ha = 'center', color = txtcolor, fontname = fontname, fontweight = 'bold', fontsize = FS)
+
+    # Plot size
+    xborder = 0.1 # increasing factor > 0 for the border spacing along x
+    yborder = 0.1 # increasing factor > 0 for the border spacing along x
+    if max(xLinks) == min(xLinks):
+        dx = max(yLinks) - min(yLinks)
+    else:
+        dx = max(xLinks) - min(xLinks)
+
+    if max(yLinks) == min(yLinks):
+        dy = max(xLinks) - min(xLinks)
+    else:
+        dy = max(yLinks) - min(yLinks)
+
+    xmin = min(xLinks) - xborder * dx
+    xmax = max(xLinks) + xborder * dx
+    ymin = min(yLinks) - yborder * dy
+    ymax = max(yLinks) + yborder * dy
+
+    plt.axis([xmin, xmax, ymin, ymax])
+    plt.axis('off')
+    plt.text((xmin + xmax) / 2, ymax - yborder * dy / 4, tlabel, ha = 'center', fontname = fontname, fontsize = FS, fontweight = "bold")
 

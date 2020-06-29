@@ -111,12 +111,13 @@ elif Simu.Solver == "TripBased":
 
 ## Reservoir config and states
 SimulTime = list(range(0, Simu.Duration, Simu.TimeStep))
+SpeedRange = [3, 14]
 t0 = 10
 
-Res[0].DataCommon.append({"Time":10, "InternalProd":0, "MeanSpeed":0, "AvgTripLength":500, "Acc":80, "Inflow":0, "Outflow":0, "Nin":0, "Nout":0})
-Res[1].DataCommon.append({"Time":10, "InternalProd":0, "MeanSpeed":0, "AvgTripLength":300, "Acc":23, "Inflow":0, "Outflow":0, "Nin":0, "Nout":0})
-Res[2].DataCommon.append({"Time":10, "InternalProd":0, "MeanSpeed":0, "AvgTripLength":200, "Acc":615, "Inflow":0, "Outflow":0, "Nin":0, "Nout":0})
-Res[3].DataCommon.append({"Time":10, "InternalProd":0, "MeanSpeed":0, "AvgTripLength":600, "Acc":938, "Inflow":0, "Outflow":0, "Nin":0, "Nout":0})
+Res[0].DataCommon.append({"Time":10, "InternalProd":0, "MeanSpeed":9.444, "AvgTripLength":500, "Acc":80, "Inflow":0, "Outflow":0, "Nin":0, "Nout":0})
+Res[1].DataCommon.append({"Time":10, "InternalProd":0, "MeanSpeed":11.944, "AvgTripLength":300, "Acc":23, "Inflow":0, "Outflow":0, "Nin":0, "Nout":0})
+Res[2].DataCommon.append({"Time":10, "InternalProd":0, "MeanSpeed":8.611, "AvgTripLength":200, "Acc":615, "Inflow":0, "Outflow":0, "Nin":0, "Nout":0})
+Res[3].DataCommon.append({"Time":10, "InternalProd":0, "MeanSpeed":1.389, "AvgTripLength":600, "Acc":938, "Inflow":0, "Outflow":0, "Nin":0, "Nout":0})
 
 Res[0].RouteSection[0].Data.append({"Time":10, "MergeCoeff":0, "ExitCoeff":0, "Acc":60, "Inflow":0, "Outflow":0, "Nin":0, "Nout":0,
                         "InflowDemand":0, "InflowSupply":0, "OutflowDemand":0, "OutflowSupply":0, "AccCircu":0, "AccQueue":0, "OutflowCircu":0, "NoutCircu":0,
@@ -158,8 +159,12 @@ if PLOT == 1:
     plotResBallAcc(t0, Res, SimulTime, 0.5, [1.5, 1.5])
     plt.show()
 
-# Plot reservoir state (accumulation per route) at t, schematic representation
+    # Plot reservoir state (accumulation per route) at t, schematic representation
+    plt.figure
+    plotResBallAccPerRoute(t0, Res, Routes, SimulTime, 0.5, [1.5, 1.5])
+    plt.show()
+
+# Plot reservoir state (mean speed) at t, real network
 plt.figure
-SimulTime = list(range(0, Simu.Duration, Simu.TimeStep))
-plotResBallAccPerRoute(t0, Res, Routes, SimulTime, 0.5, [1.5, 1.5])
+plotResNetSpeed(t0, Res, SimulTime, SpeedRange)
 plt.show()
