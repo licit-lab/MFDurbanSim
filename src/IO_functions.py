@@ -67,7 +67,6 @@ def SaveOutput(Simulation, Reservoirs, Routes, Vehicle = []):
     reservoirs_out = []
     for i in range(len(Reservoirs)):
         reservoir_data = []
-        
         routes_data = []
         for j in range(len(Reservoirs[i].RouteSection)):
             routes_data.append({"RouteID":Reservoirs[i].RouteSection[j].RouteID, "Data":[]})
@@ -78,7 +77,7 @@ def SaveOutput(Simulation, Reservoirs, Routes, Vehicle = []):
                                                "OutflowCircu":Reservoirs[i].RouteSection[j].Data[k]["OutflowCircu"], "Nin":Reservoirs[i].RouteSection[j].Data[k]["Nin"], "Nout":Reservoirs[i].RouteSection[j].Data[k]["Nout"],
                                                "NoutCircu":Reservoirs[i].RouteSection[j].Data[k]["NoutCircu"]})        
         
-        reservoir_out = append({"ID":Reservoir[i].ID, "ReservoirData":reservoir_data, "DataPerRoute":routes_data})
+        reservoirs_out.append({"ID":Reservoirs[i].ID, "ReservoirData":reservoir_data, "DataPerRoute":routes_data})
 
     ##ROUTES##
     routes_out = []
@@ -86,7 +85,7 @@ def SaveOutput(Simulation, Reservoirs, Routes, Vehicle = []):
         data = []
         #TODO
         
-        routes_out = append({"ID":Routes[i].ID, "Data":data, "NVehicles":Routes[i].NVehicles})
+        routes_out.append({"ID":Routes[i].ID, "Data":data, "NVehicles":Routes[i].NVehicles})
 
     if len(Vehicle) > 0:
         ##VEHICLE##
@@ -96,7 +95,7 @@ def SaveOutput(Simulation, Reservoirs, Routes, Vehicle = []):
 
             vehicle_out.append({"ID":Vehicle[i].ID, "Mode":Vehicle[i].Mode, "RouteID":Vehicle[i].RouteID, "CreationTimes":Vehicle[i].CreationTime, "Data":data})
 
-        output = {"SIMULATION":simulation_out, "RESERVOIRS":reservoirs_out, "ROUTES":routes_out, "VEHICLES":vehicles_out}
+        output = {"SIMULATION":simulation_out, "RESERVOIRS":reservoirs_out, "ROUTES":routes_out, "VEHICLES":vehicle_out}
 
     else:
         output = {"SIMULATION":simulation_out, "RESERVOIRS":reservoirs_out, "ROUTES":routes_out}
