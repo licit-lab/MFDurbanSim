@@ -1,0 +1,763 @@
+{
+    "SIMULATION": [
+        {
+            "Date": [
+                2020,
+                27,
+                3
+            ],
+            "Version": "1.1"
+        }
+    ],
+    "RESERVOIRS": [
+        {
+            "ID": "Res1",
+            "ReservoirData": [
+                {
+                    "Time": 10,
+                    "MeanSpeed": 45,
+                    "AvgTripLength": 552,
+                    "Acc": 23,
+                    "Inflow": 49,
+                    "Outflow": 2,
+                    "Nin": 387,
+                    "Nout": 206
+                },
+                {
+                    "Time": 20,
+                    "MeanSpeed": 9,
+                    "AvgTripLength": 282,
+                    "Acc": 65,
+                    "Inflow": 28,
+                    "Outflow": 16,
+                    "Nin": 320,
+                    "Nout": 169
+                },
+                {
+                    "Time": 30,
+                    "MeanSpeed": 6,
+                    "AvgTripLength": 847,
+                    "Acc": 50,
+                    "Inflow": 41,
+                    "Outflow": 48,
+                    "Nin": 428,
+                    "Nout": 308
+                },
+                {
+                    "Time": 40,
+                    "MeanSpeed": 1,
+                    "AvgTripLength": 795,
+                    "Acc": 91,
+                    "Inflow": 36,
+                    "Outflow": 49,
+                    "Nin": 254,
+                    "Nout": 239
+                },
+                {
+                    "Time": 50,
+                    "MeanSpeed": 42,
+                    "AvgTripLength": 676,
+                    "Acc": 11,
+                    "Inflow": 50,
+                    "Outflow": 30,
+                    "Nin": 416,
+                    "Nout": 378
+                }
+            ],
+            "DataPerRoute": [
+                {
+                    "IDRoute": "Route1",
+                    "Data": [
+                        {
+                            "Time": 10,
+                            "Acc": 22,
+                            "AccCircu": 1,
+                            "AccQueue": 6,
+                            "Inflow": 7,
+                            "Outflow": 8,
+                            "OutflowCircu": 23,
+                            "Nin": 1,
+                            "Nout": 159,
+                            "NoutCircu": 66
+                        },
+                        {
+                            "Time": 20,
+                            "Acc": 25,
+                            "AccCircu": 25,
+                            "AccQueue": 43,
+                            "Inflow": 22,
+                            "Outflow": 15,
+                            "OutflowCircu": 24,
+                            "Nin": 59,
+                            "Nout": 154,
+                            "NoutCircu": 193
+                        },
+                        {
+                            "Time": 30,
+                            "Acc": 38,
+                            "AccCircu": 23,
+                            "AccQueue": 42,
+                            "Inflow": 19,
+                            "Outflow": 19,
+                            "OutflowCircu": 7,
+                            "Nin": 179,
+                            "Nout": 84,
+                            "NoutCircu": 86
+                        },
+                        {
+                            "Time": 40,
+                            "Acc": 15,
+                            "AccCircu": 3,
+                            "AccQueue": 4,
+                            "Inflow": 17,
+                            "Outflow": 15,
+                            "OutflowCircu": 16,
+                            "Nin": 21,
+                            "Nout": 67,
+                            "NoutCircu": 171
+                        },
+                        {
+                            "Time": 50,
+                            "Acc": 40,
+                            "AccCircu": 18,
+                            "AccQueue": 30,
+                            "Inflow": 7,
+                            "Outflow": 13,
+                            "OutflowCircu": 15,
+                            "Nin": 32,
+                            "Nout": 183,
+                            "NoutCircu": 75
+                        }
+                    ]
+                },
+                {
+                    "IDRoute": "Route2",
+                    "Data": [
+                        {
+                            "Time": 10,
+                            "Acc": 23,
+                            "AccCircu": 33,
+                            "AccQueue": 47,
+                            "Inflow": 22,
+                            "Outflow": 6,
+                            "OutflowCircu": 21,
+                            "Nin": 41,
+                            "Nout": 151,
+                            "NoutCircu": 139
+                        },
+                        {
+                            "Time": 20,
+                            "Acc": 13,
+                            "AccCircu": 27,
+                            "AccQueue": 20,
+                            "Inflow": 1,
+                            "Outflow": 19,
+                            "OutflowCircu": 23,
+                            "Nin": 71,
+                            "Nout": 105,
+                            "NoutCircu": 136
+                        },
+                        {
+                            "Time": 30,
+                            "Acc": 40,
+                            "AccCircu": 42,
+                            "AccQueue": 0,
+                            "Inflow": 19,
+                            "Outflow": 6,
+                            "OutflowCircu": 4,
+                            "Nin": 187,
+                            "Nout": 161,
+                            "NoutCircu": 173
+                        },
+                        {
+                            "Time": 40,
+                            "Acc": 46,
+                            "AccCircu": 29,
+                            "AccQueue": 38,
+                            "Inflow": 0,
+                            "Outflow": 24,
+                            "OutflowCircu": 1,
+                            "Nin": 191,
+                            "Nout": 61,
+                            "NoutCircu": 79
+                        },
+                        {
+                            "Time": 50,
+                            "Acc": 22,
+                            "AccCircu": 27,
+                            "AccQueue": 38,
+                            "Inflow": 25,
+                            "Outflow": 15,
+                            "OutflowCircu": 11,
+                            "Nin": 107,
+                            "Nout": 128,
+                            "NoutCircu": 16
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "ID": "Res2",
+            "ReservoirData": [
+                {
+                    "Time": 10,
+                    "MeanSpeed": 29,
+                    "AvgTripLength": 899,
+                    "Acc": 35,
+                    "Inflow": 5,
+                    "Outflow": 33,
+                    "Nin": 326,
+                    "Nout": 334
+                },
+                {
+                    "Time": 20,
+                    "MeanSpeed": 42,
+                    "AvgTripLength": 852,
+                    "Acc": 99,
+                    "Inflow": 15,
+                    "Outflow": 48,
+                    "Nin": 267,
+                    "Nout": 29
+                },
+                {
+                    "Time": 30,
+                    "MeanSpeed": 12,
+                    "AvgTripLength": 594,
+                    "Acc": 6,
+                    "Inflow": 5,
+                    "Outflow": 24,
+                    "Nin": 165,
+                    "Nout": 81
+                },
+                {
+                    "Time": 40,
+                    "MeanSpeed": 38,
+                    "AvgTripLength": 432,
+                    "Acc": 74,
+                    "Inflow": 45,
+                    "Outflow": 11,
+                    "Nin": 441,
+                    "Nout": 48
+                },
+                {
+                    "Time": 50,
+                    "MeanSpeed": 0,
+                    "AvgTripLength": 261,
+                    "Acc": 65,
+                    "Inflow": 0,
+                    "Outflow": 18,
+                    "Nin": 343,
+                    "Nout": 460
+                }
+            ],
+            "DataPerRoute": [
+                {
+                    "IDRoute": "Route2",
+                    "Data": [
+                        {
+                            "Time": 10,
+                            "Acc": 11,
+                            "AccCircu": 4,
+                            "AccQueue": 15,
+                            "Inflow": 25,
+                            "Outflow": 0,
+                            "OutflowCircu": 0,
+                            "Nin": 82,
+                            "Nout": 200,
+                            "NoutCircu": 142
+                        },
+                        {
+                            "Time": 20,
+                            "Acc": 12,
+                            "AccCircu": 38,
+                            "AccQueue": 47,
+                            "Inflow": 24,
+                            "Outflow": 14,
+                            "OutflowCircu": 23,
+                            "Nin": 94,
+                            "Nout": 176,
+                            "NoutCircu": 129
+                        },
+                        {
+                            "Time": 30,
+                            "Acc": 36,
+                            "AccCircu": 34,
+                            "AccQueue": 41,
+                            "Inflow": 23,
+                            "Outflow": 9,
+                            "OutflowCircu": 3,
+                            "Nin": 32,
+                            "Nout": 28,
+                            "NoutCircu": 95
+                        },
+                        {
+                            "Time": 40,
+                            "Acc": 9,
+                            "AccCircu": 0,
+                            "AccQueue": 9,
+                            "Inflow": 21,
+                            "Outflow": 20,
+                            "OutflowCircu": 25,
+                            "Nin": 176,
+                            "Nout": 242,
+                            "NoutCircu": 2
+                        },
+                        {
+                            "Time": 50,
+                            "Acc": 26,
+                            "AccCircu": 48,
+                            "AccQueue": 31,
+                            "Inflow": 12,
+                            "Outflow": 13,
+                            "OutflowCircu": 9,
+                            "Nin": 115,
+                            "Nout": 3,
+                            "NoutCircu": 186
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "ID": "Res3",
+            "ReservoirData": [
+                {
+                    "Time": 10,
+                    "MeanSpeed": 0,
+                    "AvgTripLength": 216,
+                    "Acc": 9,
+                    "Inflow": 33,
+                    "Outflow": 47,
+                    "Nin": 132,
+                    "Nout": 426
+                },
+                {
+                    "Time": 20,
+                    "MeanSpeed": 21,
+                    "AvgTripLength": 471,
+                    "Acc": 64,
+                    "Inflow": 17,
+                    "Outflow": 39,
+                    "Nin": 241,
+                    "Nout": 65
+                },
+                {
+                    "Time": 30,
+                    "MeanSpeed": 21,
+                    "AvgTripLength": 339,
+                    "Acc": 71,
+                    "Inflow": 4,
+                    "Outflow": 41,
+                    "Nin": 253,
+                    "Nout": 238
+                },
+                {
+                    "Time": 40,
+                    "MeanSpeed": 24,
+                    "AvgTripLength": 963,
+                    "Acc": 85,
+                    "Inflow": 3,
+                    "Outflow": 4,
+                    "Nin": 448,
+                    "Nout": 182
+                },
+                {
+                    "Time": 50,
+                    "MeanSpeed": 34,
+                    "AvgTripLength": 997,
+                    "Acc": 10,
+                    "Inflow": 25,
+                    "Outflow": 35,
+                    "Nin": 111,
+                    "Nout": 103
+                }
+            ],
+            "DataPerRoute": [
+                {
+                    "IDRoute": "Route1",
+                    "Data": [
+                        {
+                            "Time": 10,
+                            "Acc": 18,
+                            "AccCircu": 37,
+                            "AccQueue": 4,
+                            "Inflow": 2,
+                            "Outflow": 22,
+                            "OutflowCircu": 13,
+                            "Nin": 218,
+                            "Nout": 6,
+                            "NoutCircu": 217
+                        },
+                        {
+                            "Time": 20,
+                            "Acc": 15,
+                            "AccCircu": 7,
+                            "AccQueue": 22,
+                            "Inflow": 8,
+                            "Outflow": 15,
+                            "OutflowCircu": 20,
+                            "Nin": 117,
+                            "Nout": 212,
+                            "NoutCircu": 50
+                        },
+                        {
+                            "Time": 30,
+                            "Acc": 8,
+                            "AccCircu": 49,
+                            "AccQueue": 33,
+                            "Inflow": 22,
+                            "Outflow": 4,
+                            "OutflowCircu": 11,
+                            "Nin": 74,
+                            "Nout": 250,
+                            "NoutCircu": 230
+                        },
+                        {
+                            "Time": 40,
+                            "Acc": 10,
+                            "AccCircu": 9,
+                            "AccQueue": 22,
+                            "Inflow": 5,
+                            "Outflow": 9,
+                            "OutflowCircu": 23,
+                            "Nin": 41,
+                            "Nout": 99,
+                            "NoutCircu": 96
+                        },
+                        {
+                            "Time": 50,
+                            "Acc": 9,
+                            "AccCircu": 37,
+                            "AccQueue": 43,
+                            "Inflow": 22,
+                            "Outflow": 25,
+                            "OutflowCircu": 14,
+                            "Nin": 179,
+                            "Nout": 59,
+                            "NoutCircu": 71
+                        }
+                    ]
+                },
+                {
+                    "IDRoute": "Route2",
+                    "Data": [
+                        {
+                            "Time": 10,
+                            "Acc": 4,
+                            "AccCircu": 6,
+                            "AccQueue": 40,
+                            "Inflow": 4,
+                            "Outflow": 7,
+                            "OutflowCircu": 7,
+                            "Nin": 238,
+                            "Nout": 24,
+                            "NoutCircu": 227
+                        },
+                        {
+                            "Time": 20,
+                            "Acc": 6,
+                            "AccCircu": 9,
+                            "AccQueue": 45,
+                            "Inflow": 14,
+                            "Outflow": 23,
+                            "OutflowCircu": 25,
+                            "Nin": 191,
+                            "Nout": 66,
+                            "NoutCircu": 229
+                        },
+                        {
+                            "Time": 30,
+                            "Acc": 1,
+                            "AccCircu": 2,
+                            "AccQueue": 7,
+                            "Inflow": 14,
+                            "Outflow": 13,
+                            "OutflowCircu": 16,
+                            "Nin": 219,
+                            "Nout": 153,
+                            "NoutCircu": 184
+                        },
+                        {
+                            "Time": 40,
+                            "Acc": 45,
+                            "AccCircu": 33,
+                            "AccQueue": 46,
+                            "Inflow": 3,
+                            "Outflow": 10,
+                            "OutflowCircu": 15,
+                            "Nin": 41,
+                            "Nout": 109,
+                            "NoutCircu": 158
+                        },
+                        {
+                            "Time": 50,
+                            "Acc": 1,
+                            "AccCircu": 37,
+                            "AccQueue": 18,
+                            "Inflow": 15,
+                            "Outflow": 18,
+                            "OutflowCircu": 15,
+                            "Nin": 43,
+                            "Nout": 235,
+                            "NoutCircu": 214
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "ID": "Res4",
+            "ReservoirData": [
+                {
+                    "Time": 10,
+                    "MeanSpeed": 38,
+                    "AvgTripLength": 767,
+                    "Acc": 96,
+                    "Inflow": 39,
+                    "Outflow": 22,
+                    "Nin": 287,
+                    "Nout": 215
+                },
+                {
+                    "Time": 20,
+                    "MeanSpeed": 36,
+                    "AvgTripLength": 604,
+                    "Acc": 5,
+                    "Inflow": 44,
+                    "Outflow": 15,
+                    "Nin": 455,
+                    "Nout": 160
+                },
+                {
+                    "Time": 30,
+                    "MeanSpeed": 19,
+                    "AvgTripLength": 47,
+                    "Acc": 45,
+                    "Inflow": 42,
+                    "Outflow": 6,
+                    "Nin": 338,
+                    "Nout": 84
+                },
+                {
+                    "Time": 40,
+                    "MeanSpeed": 25,
+                    "AvgTripLength": 729,
+                    "Acc": 77,
+                    "Inflow": 21,
+                    "Outflow": 50,
+                    "Nin": 180,
+                    "Nout": 413
+                },
+                {
+                    "Time": 50,
+                    "MeanSpeed": 18,
+                    "AvgTripLength": 184,
+                    "Acc": 49,
+                    "Inflow": 43,
+                    "Outflow": 49,
+                    "Nin": 166,
+                    "Nout": 278
+                }
+            ],
+            "DataPerRoute": [
+                {
+                    "IDRoute": "Route1",
+                    "Data": [
+                        {
+                            "Time": 10,
+                            "Acc": 32,
+                            "AccCircu": 37,
+                            "AccQueue": 16,
+                            "Inflow": 19,
+                            "Outflow": 5,
+                            "OutflowCircu": 2,
+                            "Nin": 213,
+                            "Nout": 129,
+                            "NoutCircu": 15
+                        },
+                        {
+                            "Time": 20,
+                            "Acc": 4,
+                            "AccCircu": 5,
+                            "AccQueue": 36,
+                            "Inflow": 1,
+                            "Outflow": 23,
+                            "OutflowCircu": 24,
+                            "Nin": 47,
+                            "Nout": 25,
+                            "NoutCircu": 101
+                        },
+                        {
+                            "Time": 30,
+                            "Acc": 36,
+                            "AccCircu": 21,
+                            "AccQueue": 9,
+                            "Inflow": 20,
+                            "Outflow": 24,
+                            "OutflowCircu": 24,
+                            "Nin": 140,
+                            "Nout": 223,
+                            "NoutCircu": 74
+                        },
+                        {
+                            "Time": 40,
+                            "Acc": 25,
+                            "AccCircu": 15,
+                            "AccQueue": 47,
+                            "Inflow": 23,
+                            "Outflow": 9,
+                            "OutflowCircu": 16,
+                            "Nin": 103,
+                            "Nout": 130,
+                            "NoutCircu": 120
+                        },
+                        {
+                            "Time": 50,
+                            "Acc": 4,
+                            "AccCircu": 45,
+                            "AccQueue": 34,
+                            "Inflow": 25,
+                            "Outflow": 18,
+                            "OutflowCircu": 1,
+                            "Nin": 130,
+                            "Nout": 228,
+                            "NoutCircu": 208
+                        }
+                    ]
+                },
+                {
+                    "IDRoute": "Route2",
+                    "Data": [
+                        {
+                            "Time": 10,
+                            "Acc": 38,
+                            "AccCircu": 36,
+                            "AccQueue": 36,
+                            "Inflow": 25,
+                            "Outflow": 19,
+                            "OutflowCircu": 11,
+                            "Nin": 4,
+                            "Nout": 226,
+                            "NoutCircu": 178
+                        },
+                        {
+                            "Time": 20,
+                            "Acc": 33,
+                            "AccCircu": 13,
+                            "AccQueue": 23,
+                            "Inflow": 14,
+                            "Outflow": 18,
+                            "OutflowCircu": 15,
+                            "Nin": 85,
+                            "Nout": 178,
+                            "NoutCircu": 232
+                        },
+                        {
+                            "Time": 30,
+                            "Acc": 9,
+                            "AccCircu": 10,
+                            "AccQueue": 49,
+                            "Inflow": 9,
+                            "Outflow": 6,
+                            "OutflowCircu": 21,
+                            "Nin": 2,
+                            "Nout": 214,
+                            "NoutCircu": 189
+                        },
+                        {
+                            "Time": 40,
+                            "Acc": 38,
+                            "AccCircu": 45,
+                            "AccQueue": 8,
+                            "Inflow": 10,
+                            "Outflow": 21,
+                            "OutflowCircu": 0,
+                            "Nin": 120,
+                            "Nout": 200,
+                            "NoutCircu": 211
+                        },
+                        {
+                            "Time": 50,
+                            "Acc": 38,
+                            "AccCircu": 18,
+                            "AccQueue": 0,
+                            "Inflow": 15,
+                            "Outflow": 12,
+                            "OutflowCircu": 18,
+                            "Nin": 247,
+                            "Nout": 54,
+                            "NoutCircu": 44
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "ROUTES": [
+        [
+            {
+                "ID": "Route1",
+                "Data": [
+                    {
+                        "Time": 10,
+                        "TravelTime": 93,
+                        "Demand": 6
+                    },
+                    {
+                        "Time": 20,
+                        "TravelTime": 819,
+                        "Demand": 2
+                    },
+                    {
+                        "Time": 30,
+                        "TravelTime": 602,
+                        "Demand": 7
+                    },
+                    {
+                        "Time": 40,
+                        "TravelTime": 485,
+                        "Demand": 2
+                    },
+                    {
+                        "Time": 50,
+                        "TravelTime": 232,
+                        "Demand": 5
+                    }
+                ],
+                "NVehicules": 25
+            },
+            {
+                "ID": "Route2",
+                "Data": [
+                    {
+                        "Time": 10,
+                        "TravelTime": 654,
+                        "Demand": 6
+                    },
+                    {
+                        "Time": 20,
+                        "TravelTime": 987,
+                        "Demand": 7
+                    },
+                    {
+                        "Time": 30,
+                        "TravelTime": 719,
+                        "Demand": 8
+                    },
+                    {
+                        "Time": 40,
+                        "TravelTime": 76,
+                        "Demand": 9
+                    },
+                    {
+                        "Time": 50,
+                        "TravelTime": 662,
+                        "Demand": 7
+                    }
+                ],
+                "NVehicules": 221
+            }
+        ]
+    ]
+}
