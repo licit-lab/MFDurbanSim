@@ -8,6 +8,7 @@ from plot_fct import *
 
 DEBUG = 0
 PLOT = 0
+DYNAMIC_PLOT = 0
 root = "C:/Dev/symures-dev-master/symures-dev/examples/"
 folder = "Braess/DemSC1/"
 
@@ -114,39 +115,12 @@ SimulTime = list(range(0, Simu.Duration, Simu.TimeStep))
 SpeedRange = [3, 14]
 t0 = 10
 
-Res[0].DataCommon.append({"Time":10, "InternalProd":0, "MeanSpeed":9.444, "AvgTripLength":500, "Acc":80, "Inflow":0, "Outflow":0, "Nin":0, "Nout":0})
-Res[1].DataCommon.append({"Time":10, "InternalProd":0, "MeanSpeed":11.944, "AvgTripLength":300, "Acc":23, "Inflow":0, "Outflow":0, "Nin":0, "Nout":0})
-Res[2].DataCommon.append({"Time":10, "InternalProd":0, "MeanSpeed":8.611, "AvgTripLength":200, "Acc":615, "Inflow":0, "Outflow":0, "Nin":0, "Nout":0})
-Res[3].DataCommon.append({"Time":10, "InternalProd":0, "MeanSpeed":1.389, "AvgTripLength":600, "Acc":938, "Inflow":0, "Outflow":0, "Nin":0, "Nout":0})
+with open(root + folder + "Output.json", "r") as file:
+    Output = json.load(file)
+file.close()
 
-Res[0].RouteSection[0].Data.append({"Time":10, "MergeCoeff":0, "ExitCoeff":0, "Acc":60, "Inflow":0, "Outflow":0, "Nin":0, "Nout":0,
-                        "InflowDemand":0, "InflowSupply":0, "OutflowDemand":0, "OutflowSupply":0, "AccCircu":0, "AccQueue":0, "OutflowCircu":0, "NoutCircu":0,
-                        "DemandEntryTime":0, "DemandEntryVeh":0, "VehList":0, "DemandTimeIndex":0, "LastEntryTime":0, "LastExitTime":0, "DesiredEntryTime":0,
-                        "DesiredExitTime":0, "DesiredEntryVeh":0, "DesiredExitVeh":0, "EntrySupplyTime":0, "ExitSupplyTime":0, "EntryTimes":0, "ExitTimes":0})
-Res[0].RouteSection[1].Data.append({"Time":10, "MergeCoeff":0, "ExitCoeff":0, "Acc":20, "Inflow":0, "Outflow":0, "Nin":0, "Nout":0,
-                        "InflowDemand":0, "InflowSupply":0, "OutflowDemand":0, "OutflowSupply":0, "AccCircu":0, "AccQueue":0, "OutflowCircu":0, "NoutCircu":0,
-                        "DemandEntryTime":0, "DemandEntryVeh":0, "VehList":0, "DemandTimeIndex":0, "LastEntryTime":0, "LastExitTime":0, "DesiredEntryTime":0,
-                        "DesiredExitTime":0, "DesiredEntryVeh":0, "DesiredExitVeh":0, "EntrySupplyTime":0, "ExitSupplyTime":0, "EntryTimes":0, "ExitTimes":0})
-Res[1].RouteSection[0].Data.append({"Time":10, "MergeCoeff":0, "ExitCoeff":0, "Acc":23, "Inflow":0, "Outflow":0, "Nin":0, "Nout":0,
-                        "InflowDemand":0, "InflowSupply":0, "OutflowDemand":0, "OutflowSupply":0, "AccCircu":0, "AccQueue":0, "OutflowCircu":0, "NoutCircu":0,
-                        "DemandEntryTime":0, "DemandEntryVeh":0, "VehList":0, "DemandTimeIndex":0, "LastEntryTime":0, "LastExitTime":0, "DesiredEntryTime":0,
-                        "DesiredExitTime":0, "DesiredEntryVeh":0, "DesiredExitVeh":0, "EntrySupplyTime":0, "ExitSupplyTime":0, "EntryTimes":0, "ExitTimes":0})
-Res[2].RouteSection[0].Data.append({"Time":10, "MergeCoeff":0, "ExitCoeff":0, "Acc":200, "Inflow":0, "Outflow":0, "Nin":0, "Nout":0,
-                        "InflowDemand":0, "InflowSupply":0, "OutflowDemand":0, "OutflowSupply":0, "AccCircu":0, "AccQueue":0, "OutflowCircu":0, "NoutCircu":0,
-                        "DemandEntryTime":0, "DemandEntryVeh":0, "VehList":0, "DemandTimeIndex":0, "LastEntryTime":0, "LastExitTime":0, "DesiredEntryTime":0,
-                        "DesiredExitTime":0, "DesiredEntryVeh":0, "DesiredExitVeh":0, "EntrySupplyTime":0, "ExitSupplyTime":0, "EntryTimes":0, "ExitTimes":0})
-Res[2].RouteSection[1].Data.append({"Time":10, "MergeCoeff":0, "ExitCoeff":0, "Acc":415, "Inflow":0, "Outflow":0, "Nin":0, "Nout":0,
-                        "InflowDemand":0, "InflowSupply":0, "OutflowDemand":0, "OutflowSupply":0, "AccCircu":0, "AccQueue":0, "OutflowCircu":0, "NoutCircu":0,
-                        "DemandEntryTime":0, "DemandEntryVeh":0, "VehList":0, "DemandTimeIndex":0, "LastEntryTime":0, "LastExitTime":0, "DesiredEntryTime":0,
-                        "DesiredExitTime":0, "DesiredEntryVeh":0, "DesiredExitVeh":0, "EntrySupplyTime":0, "ExitSupplyTime":0, "EntryTimes":0, "ExitTimes":0})
-Res[3].RouteSection[0].Data.append({"Time":10, "MergeCoeff":0, "ExitCoeff":0, "Acc":500, "Inflow":0, "Outflow":0, "Nin":0, "Nout":0,
-                        "InflowDemand":0, "InflowSupply":0, "OutflowDemand":0, "OutflowSupply":0, "AccCircu":0, "AccQueue":0, "OutflowCircu":0, "NoutCircu":0,
-                        "DemandEntryTime":0, "DemandEntryVeh":0, "VehList":0, "DemandTimeIndex":0, "LastEntryTime":0, "LastExitTime":0, "DesiredEntryTime":0,
-                        "DesiredExitTime":0, "DesiredEntryVeh":0, "DesiredExitVeh":0, "EntrySupplyTime":0, "ExitSupplyTime":0, "EntryTimes":0, "ExitTimes":0})
-Res[3].RouteSection[1].Data.append({"Time":10, "MergeCoeff":0, "ExitCoeff":0, "Acc":438, "Inflow":0, "Outflow":0, "Nin":0, "Nout":0,
-                        "InflowDemand":0, "InflowSupply":0, "OutflowDemand":0, "OutflowSupply":0, "AccCircu":0, "AccQueue":0, "OutflowCircu":0, "NoutCircu":0,
-                        "DemandEntryTime":0, "DemandEntryVeh":0, "VehList":0, "DemandTimeIndex":0, "LastEntryTime":0, "LastExitTime":0, "DesiredEntryTime":0,
-                        "DesiredExitTime":0, "DesiredEntryVeh":0, "DesiredExitVeh":0, "EntrySupplyTime":0, "ExitSupplyTime":0, "EntryTimes":0, "ExitTimes":0})
+ResOutput = Output["RESERVOIRS"]
+RoutesOutput = Output["ROUTES"]
 
 if PLOT == 1:
     # Plot reservoir schematic representation (borders and adjacent connections)
@@ -156,15 +130,53 @@ if PLOT == 1:
 
     # Plot reservoir state (total accumulation) at t, schematic representation
     plt.figure
-    plotResBallAcc(t0, Res, SimulTime, 0.5, [1.5, 1.5])
+    plotResBallAcc(t0, Res, ResOutput, SimulTime, 0.5, [1.5, 1.5])
     plt.show()
 
     # Plot reservoir state (accumulation per route) at t, schematic representation
     plt.figure
-    plotResBallAccPerRoute(t0, Res, Routes, SimulTime, 0.5, [1.5, 1.5])
+    plotResBallAccPerRoute(t0, Res, ResOutput, Routes, SimulTime, 0.5, [1.5, 1.5])
     plt.show()
 
-# Plot reservoir state (mean speed) at t, real network
-plt.figure
-plotResNetSpeed(t0, Res, SimulTime, SpeedRange)
-plt.show()
+    # Plot reservoir state (mean speed) at t, real network
+    plt.figure
+    plotResNetSpeed(t0, Res, ResOutput, SimulTime, SpeedRange)
+    plt.show()
+
+    # Plot reservoir total number or demand of routes
+    plt.figure
+    plotResRouteDem(Res, Routes, MacroNodes, Demands, Simu.DemandType, 'demand')
+    plt.show()
+
+# Plot macro nodes with route paths
+#plt.figure
+#plotMacroNodes(Res, 1, MacroNodes, 0, Routes, 0)
+#plt.show()
+
+if DYNAMIC_PLOT == 1:
+    plt.figure
+    for t in range(0, 50, Simu.TimeStep):
+        plt.clf()
+        # Plot reservoir state (total accumulation) at t, schematic representation
+        plotResBallAcc(t, Res, ResOutput, SimulTime, 0.5, [1.5, 1.5])
+        plt.draw()
+        plt.pause(0.5)
+    plt.show()
+
+    plt.figure
+    for t in range(0, 50, Simu.TimeStep):
+        plt.clf()
+        # Plot reservoir state (accumulation per route) at t, schematic representation
+        plotResBallAccPerRoute(t, Res, ResOutput, Routes, SimulTime, 0.5, [1.5, 1.5])
+        plt.draw()
+        plt.pause(0.5)
+    plt.show()
+
+    plt.figure
+    for t in range(0, 50, Simu.TimeStep):
+        plt.clf()
+        # Plot reservoir state (mean speed) at t, real network
+        plotResNetSpeed(t, Res, ResOutput, SimulTime, SpeedRange)
+        plt.draw()
+        plt.pause(0.5)
+    plt.show()
