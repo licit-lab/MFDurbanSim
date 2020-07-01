@@ -1,0 +1,1302 @@
+{
+    "RESERVOIRS": [
+        {
+            "ID": "Res1",
+            "FreeflowSpeed": [
+                {
+                    "mode": "VL",
+                    "value": 15
+                }
+            ],
+            "MaxProd": [
+                {
+                    "mode": "VL",
+                    "value": 3000
+                }
+            ],
+            "MaxAcc": [
+                {
+                    "mode": "VL",
+                    "value": 1000
+                }
+            ],
+            "CritAcc": [
+                {
+                    "mode": "VL",
+                    "value": 400
+                }
+            ],
+            "Centroid": [
+                {
+                    "x": 0,
+                    "y": 4
+                }
+            ],
+            "BorderPoints": [
+                {
+                    "x": -1,
+                    "y": 3
+                },
+                {
+                    "x": 1,
+                    "y": 3
+                },
+                {
+                    "x": 1,
+                    "y": 5
+                },
+                {
+                    "x": -1,
+                    "y": 5
+                },
+                {
+                    "x": -1,
+                    "y": 3
+                }
+            ]
+        },
+        {
+            "ID": "Res2",
+            "FreeflowSpeed": [
+                {
+                    "mode": "VL",
+                    "value": 15
+                }
+            ],
+            "MaxProd": [
+                {
+                    "mode": "VL",
+                    "value": 3000
+                }
+            ],
+            "MaxAcc": [
+                {
+                    "mode": "VL",
+                    "value": 1000
+                }
+            ],
+            "CritAcc": [
+                {
+                    "mode": "VL",
+                    "value": 400
+                }
+            ],
+            "Centroid": [
+                {
+                    "x": 2,
+                    "y": 4
+                }
+            ],
+            "BorderPoints": [
+                {
+                    "x": 1,
+                    "y": 3
+                },
+                {
+                    "x": 3,
+                    "y": 3
+                },
+                {
+                    "x": 3,
+                    "y": 5
+                },
+                {
+                    "x": 1,
+                    "y": 5
+                },
+                {
+                    "x": 1,
+                    "y": 3
+                }
+            ]
+        },
+        {
+            "ID": "Res3",
+            "FreeflowSpeed": [
+                {
+                    "mode": "VL",
+                    "value": 15
+                }
+            ],
+            "MaxProd": [
+                {
+                    "mode": "VL",
+                    "value": 3000
+                }
+            ],
+            "MaxAcc": [
+                {
+                    "mode": "VL",
+                    "value": 1000
+                }
+            ],
+            "CritAcc": [
+                {
+                    "mode": "VL",
+                    "value": 400
+                }
+            ],
+            "Centroid": [
+                {
+                    "x": 4,
+                    "y": 4
+                }
+            ],
+            "BorderPoints": [
+                {
+                    "x": 3,
+                    "y": 3
+                },
+                {
+                    "x": 5,
+                    "y": 3
+                },
+                {
+                    "x": 5,
+                    "y": 5
+                },
+                {
+                    "x": 3,
+                    "y": 5
+                },
+                {
+                    "x": 3,
+                    "y": 3
+                }
+            ]
+        },
+        {
+            "ID": "Res4",
+            "FreeflowSpeed": [
+                {
+                    "mode": "VL",
+                    "value": 15
+                }
+            ],
+            "MaxProd": [
+                {
+                    "mode": "VL",
+                    "value": 3000
+                }
+            ],
+            "MaxAcc": [
+                {
+                    "mode": "VL",
+                    "value": 1000
+                }
+            ],
+            "CritAcc": [
+                {
+                    "mode": "VL",
+                    "value": 400
+                }
+            ],
+            "Centroid": [
+                {
+                    "x": 0,
+                    "y": 2
+                }
+            ],
+            "BorderPoints": [
+                {
+                    "x": -1,
+                    "y": 1
+                },
+                {
+                    "x": 1,
+                    "y": 1
+                },
+                {
+                    "x": 1,
+                    "y": 3
+                },
+                {
+                    "x": -1,
+                    "y": 3
+                },
+                {
+                    "x": -1,
+                    "y": 1
+                }
+            ]
+        },
+        {
+            "ID": "Res5",
+            "FreeflowSpeed": [
+                {
+                    "mode": "VL",
+                    "value": 15
+                }
+            ],
+            "MaxProd": [
+                {
+                    "mode": "VL",
+                    "value": 3000
+                }
+            ],
+            "MaxAcc": [
+                {
+                    "mode": "VL",
+                    "value": 1000
+                }
+            ],
+            "CritAcc": [
+                {
+                    "mode": "VL",
+                    "value": 400
+                }
+            ],
+            "Centroid": [
+                {
+                    "x": 2,
+                    "y": 2
+                }
+            ],
+            "BorderPoints": [
+                {
+                    "x": 1,
+                    "y": 1
+                },
+                {
+                    "x": 3,
+                    "y": 1
+                },
+                {
+                    "x": 3,
+                    "y": 3
+                },
+                {
+                    "x": 1,
+                    "y": 3
+                },
+                {
+                    "x": 1,
+                    "y": 1
+                }
+            ]
+        },
+        {
+            "ID": "Res6",
+            "FreeflowSpeed": [
+                {
+                    "mode": "VL",
+                    "value": 15
+                }
+            ],
+            "MaxProd": [
+                {
+                    "mode": "VL",
+                    "value": 3000
+                }
+            ],
+            "MaxAcc": [
+                {
+                    "mode": "VL",
+                    "value": 1000
+                }
+            ],
+            "CritAcc": [
+                {
+                    "mode": "VL",
+                    "value": 400
+                }
+            ],
+            "Centroid": [
+                {
+                    "x": 4,
+                    "y": 2
+                }
+            ],
+            "BorderPoints": [
+                {
+                    "x": 3,
+                    "y": 1
+                },
+                {
+                    "x": 5,
+                    "y": 1
+                },
+                {
+                    "x": 5,
+                    "y": 3
+                },
+                {
+                    "x": 3,
+                    "y": 3
+                },
+                {
+                    "x": 3,
+                    "y": 1
+                }
+            ]
+        },
+        {
+            "ID": "Res7",
+            "FreeflowSpeed": [
+                {
+                    "mode": "VL",
+                    "value": 15
+                }
+            ],
+            "MaxProd": [
+                {
+                    "mode": "VL",
+                    "value": 3000
+                }
+            ],
+            "MaxAcc": [
+                {
+                    "mode": "VL",
+                    "value": 1000
+                }
+            ],
+            "CritAcc": [
+                {
+                    "mode": "VL",
+                    "value": 400
+                }
+            ],
+            "Centroid": [
+                {
+                    "x": 0,
+                    "y": 0
+                }
+            ],
+            "BorderPoints": [
+                {
+                    "x": -1,
+                    "y": -1
+                },
+                {
+                    "x": 1,
+                    "y": -1
+                },
+                {
+                    "x": 1,
+                    "y": 1
+                },
+                {
+                    "x": -1,
+                    "y": 1
+                },
+                {
+                    "x": -1,
+                    "y": -1
+                }
+            ]
+        },
+        {
+            "ID": "Res8",
+            "FreeflowSpeed": [
+                {
+                    "mode": "VL",
+                    "value": 15
+                }
+            ],
+            "MaxProd": [
+                {
+                    "mode": "VL",
+                    "value": 3000
+                }
+            ],
+            "MaxAcc": [
+                {
+                    "mode": "VL",
+                    "value": 1000
+                }
+            ],
+            "CritAcc": [
+                {
+                    "mode": "VL",
+                    "value": 400
+                }
+            ],
+            "Centroid": [
+                {
+                    "x": 2,
+                    "y": 0
+                }
+            ],
+            "BorderPoints": [
+                {
+                    "x": 1,
+                    "y": -1
+                },
+                {
+                    "x": 3,
+                    "y": -1
+                },
+                {
+                    "x": 3,
+                    "y": 1
+                },
+                {
+                    "x": 1,
+                    "y": 1
+                },
+                {
+                    "x": 1,
+                    "y": -1
+                }
+            ]
+        },
+        {
+            "ID": "Res9",
+            "FreeflowSpeed": [
+                {
+                    "mode": "VL",
+                    "value": 15
+                }
+            ],
+            "MaxProd": [
+                {
+                    "mode": "VL",
+                    "value": 3000
+                }
+            ],
+            "MaxAcc": [
+                {
+                    "mode": "VL",
+                    "value": 1000
+                }
+            ],
+            "CritAcc": [
+                {
+                    "mode": "VL",
+                    "value": 400
+                }
+            ],
+            "Centroid": [
+                {
+                    "x": 4,
+                    "y": 0
+                }
+            ],
+            "BorderPoints": [
+                {
+                    "x": 3,
+                    "y": -1
+                },
+                {
+                    "x": 5,
+                    "y": -1
+                },
+                {
+                    "x": 5,
+                    "y": 1
+                },
+                {
+                    "x": 3,
+                    "y": 1
+                },
+                {
+                    "x": 3,
+                    "y": -1
+                }
+            ]
+        }
+    ],
+    "MACRONODES": [
+        {
+            "ID": "MacroNode1",
+            "Type": "origin",
+            "ResID": [
+                "Res1"
+            ],
+            "Coord": [
+                {
+                    "x": 0,
+                    "y": 4.4
+                }
+            ],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ]
+        },
+        {
+            "ID": "MacroNode2",
+            "Type": "destination",
+            "ResID": [
+                "Res1"
+            ],
+            "Coord": [
+                {
+                    "x": 0,
+                    "y": 3.6
+                }
+            ],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ]
+        },
+        {
+            "ID": "MacroNode3",
+            "Type": "externalentry",
+            "ResID": [
+                "Res1"
+            ],
+            "Coord": [
+                {
+                    "x": -0.2,
+                    "y": 5.0
+                }
+            ],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ]
+        },
+        {
+            "ID": "MacroNode4",
+            "Type": "externalexit",
+            "ResID": [
+                "Res1"
+            ],
+            "Coord": [
+                {
+                    "x": 0.2,
+                    "y": 5.0
+                }
+            ],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ]
+        },
+        {
+            "ID": "MacroNode5",
+            "Type": "externalentry",
+            "ResID": [
+                "Res1"
+            ],
+            "Coord": [
+                {
+                    "x": -1.0,
+                    "y": 4.2
+                }
+            ],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ]
+        },
+        {
+            "ID": "MacroNode6",
+            "Type": "externalexit",
+            "ResID": [
+                "Res1"
+            ],
+            "Coord": [
+                {
+                    "x": -1.0,
+                    "y": 3.8
+                }
+            ],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ]
+        },
+        {
+            "ID": "MacroNode7",
+            "Type": "origin",
+            "ResID": [
+                "Res2"
+            ],
+            "Coord": [
+                {
+                    "x": 2,
+                    "y": 4.4
+                }
+            ],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ]
+        },
+        {
+            "ID": "MacroNode8",
+            "Type": "destination",
+            "ResID": [
+                "Res2"
+            ],
+            "Coord": [
+                {
+                    "x": 2,
+                    "y": 3.6
+                }
+            ],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ]
+        },
+        {
+            "ID": "MacroNode9",
+            "Type": "externalentry",
+            "ResID": [
+                "Res2"
+            ],
+            "Coord": [
+                {
+                    "x": 1.8,
+                    "y": 5.0
+                }
+            ],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ]
+        },
+        {
+            "ID": "MacroNode10",
+            "Type": "externalexit",
+            "ResID": [
+                "Res2"
+            ],
+            "Coord": [
+                {
+                    "x": 2.2,
+                    "y": 5.0
+                }
+            ],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ]
+        },
+        {
+            "ID": "MacroNode11",
+            "Type": "origin",
+            "ResID": [
+                "Res3"
+            ],
+            "Coord": [
+                {
+                    "x": 4,
+                    "y": 4.4
+                }
+            ],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ]
+        },
+        {
+            "ID": "MacroNode12",
+            "Type": "destination",
+            "ResID": [
+                "Res3"
+            ],
+            "Coord": [
+                {
+                    "x": 4,
+                    "y": 3.6
+                }
+            ],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ]
+        },
+        {
+            "ID": "MacroNode13",
+            "Type": "externalentry",
+            "ResID": [
+                "Res3"
+            ],
+            "Coord": [
+                {
+                    "x": 3.8,
+                    "y": 5.0
+                }
+            ],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ]
+        },
+        {
+            "ID": "MacroNode14",
+            "Type": "externalexit",
+            "ResID": [
+                "Res3"
+            ],
+            "Coord": [
+                {
+                    "x": 4.2,
+                    "y": 5.0
+                }
+            ],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ]
+        },
+        {
+            "ID": "MacroNode15",
+            "Type": "externalentry",
+            "ResID": [
+                "Res3"
+            ],
+            "Coord": [
+                {
+                    "x": 5.0,
+                    "y": 4.2
+                }
+            ],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ]
+        },
+        {
+            "ID": "MacroNode16",
+            "Type": "externalexit",
+            "ResID": [
+                "Res3"
+            ],
+            "Coord": [
+                {
+                    "x": 5.0,
+                    "y": 3.8
+                }
+            ],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ]
+        },
+        {
+            "ID": "MacroNode17",
+            "Type": "origin",
+            "ResID": [
+                "Res4"
+            ],
+            "Coord": [
+                {
+                    "x": 0,
+                    "y": 2.4
+                }
+            ],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ]
+        },
+        {
+            "ID": "MacroNode18",
+            "Type": "destination",
+            "ResID": [
+                "Res4"
+            ],
+            "Coord": [
+                {
+                    "x": 0,
+                    "y": 1.6
+                }
+            ],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ]
+        },
+        {
+            "ID": "MacroNode19",
+            "Type": "externalentry",
+            "ResID": [
+                "Res4"
+            ],
+            "Coord": [
+                {
+                    "x": -1.0,
+                    "y": 2.2
+                }
+            ],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ]
+        },
+        {
+            "ID": "MacroNode20",
+            "Type": "externalexit",
+            "ResID": [
+                "Res4"
+            ],
+            "Coord": [
+                {
+                    "x": -1.0,
+                    "y": 1.8
+                }
+            ],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ]
+        },
+        {
+            "ID": "MacroNode21",
+            "Type": "origin",
+            "ResID": [
+                "Res5"
+            ],
+            "Coord": [
+                {
+                    "x": 2,
+                    "y": 2.4
+                }
+            ],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ]
+        },
+        {
+            "ID": "MacroNode22",
+            "Type": "destination",
+            "ResID": [
+                "Res5"
+            ],
+            "Coord": [
+                {
+                    "x": 2,
+                    "y": 1.6
+                }
+            ],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ]
+        },
+        {
+            "ID": "MacroNode23",
+            "Type": "origin",
+            "ResID": [
+                "Res6"
+            ],
+            "Coord": [
+                {
+                    "x": 4,
+                    "y": 2.4
+                }
+            ],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ]
+        },
+        {
+            "ID": "MacroNode24",
+            "Type": "destination",
+            "ResID": [
+                "Res6"
+            ],
+            "Coord": [
+                {
+                    "x": 4,
+                    "y": 1.6
+                }
+            ],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ]
+        },
+        {
+            "ID": "MacroNode25",
+            "Type": "externalentry",
+            "ResID": [
+                "Res6"
+            ],
+            "Coord": [
+                {
+                    "x": 5.0,
+                    "y": 2.2
+                }
+            ],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ]
+        },
+        {
+            "ID": "MacroNode26",
+            "Type": "externalexit",
+            "ResID": [
+                "Res6"
+            ],
+            "Coord": [
+                {
+                    "x": 5.0,
+                    "y": 1.8
+                }
+            ],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ]
+        },
+        {
+            "ID": "MacroNode27",
+            "Type": "origin",
+            "ResID": [
+                "Res7"
+            ],
+            "Coord": [
+                {
+                    "x": 0,
+                    "y": 0.4
+                }
+            ],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ]
+        },
+        {
+            "ID": "MacroNode28",
+            "Type": "destination",
+            "ResID": [
+                "Res7"
+            ],
+            "Coord": [
+                {
+                    "x": 0,
+                    "y": -0.4
+                }
+            ],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ]
+        },
+        {
+            "ID": "MacroNode29",
+            "Type": "externalentry",
+            "ResID": [
+                "Res7"
+            ],
+            "Coord": [
+                {
+                    "x": -0.2,
+                    "y": -1.0
+                }
+            ],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ]
+        },
+        {
+            "ID": "MacroNode30",
+            "Type": "externalexit",
+            "ResID": [
+                "Res7"
+            ],
+            "Coord": [
+                {
+                    "x": 0.2,
+                    "y": -1.0
+                }
+            ],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ]
+        },
+        {
+            "ID": "MacroNode31",
+            "Type": "externalentry",
+            "ResID": [
+                "Res7"
+            ],
+            "Coord": [
+                {
+                    "x": -1.0,
+                    "y": 0.2
+                }
+            ],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ]
+        },
+        {
+            "ID": "MacroNode32",
+            "Type": "externalexit",
+            "ResID": [
+                "Res7"
+            ],
+            "Coord": [
+                {
+                    "x": -1.0,
+                    "y": -0.2
+                }
+            ],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ]
+        },
+        {
+            "ID": "MacroNode33",
+            "Type": "origin",
+            "ResID": [
+                "Res8"
+            ],
+            "Coord": [
+                {
+                    "x": 2,
+                    "y": 0.4
+                }
+            ],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ]
+        },
+        {
+            "ID": "MacroNode34",
+            "Type": "destination",
+            "ResID": [
+                "Res8"
+            ],
+            "Coord": [
+                {
+                    "x": 2,
+                    "y": -0.4
+                }
+            ],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ]
+        },
+        {
+            "ID": "MacroNode35",
+            "Type": "externalentry",
+            "ResID": [
+                "Res8"
+            ],
+            "Coord": [
+                {
+                    "x": 1.8,
+                    "y": -1.0
+                }
+            ],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ]
+        },
+        {
+            "ID": "MacroNode36",
+            "Type": "externalexit",
+            "ResID": [
+                "Res8"
+            ],
+            "Coord": [
+                {
+                    "x": 2.2,
+                    "y": -1.0
+                }
+            ],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ]
+        },
+        {
+            "ID": "MacroNode37",
+            "Type": "origin",
+            "ResID": [
+                "Res9"
+            ],
+            "Coord": [
+                {
+                    "x": 4,
+                    "y": 0.4
+                }
+            ],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ]
+        },
+        {
+            "ID": "MacroNode38",
+            "Type": "destination",
+            "ResID": [
+                "Res9"
+            ],
+            "Coord": [
+                {
+                    "x": 4,
+                    "y": -0.4
+                }
+            ],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ]
+        },
+        {
+            "ID": "MacroNode39",
+            "Type": "externalentry",
+            "ResID": [
+                "Res9"
+            ],
+            "Coord": [
+                {
+                    "x": 3.8,
+                    "y": -1.0
+                }
+            ],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ]
+        },
+        {
+            "ID": "MacroNode40",
+            "Type": "externalexit",
+            "ResID": [
+                "Res9"
+            ],
+            "Coord": [
+                {
+                    "x": 4.2,
+                    "y": -1.0
+                }
+            ],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ]
+        },
+        {
+            "ID": "MacroNode41",
+            "Type": "externalentry",
+            "ResID": [
+                "Res9"
+            ],
+            "Coord": [
+                {
+                    "x": 5.0,
+                    "y": 0.2
+                }
+            ],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ]
+        },
+        {
+            "ID": "MacroNode42",
+            "Type": "externalexit",
+            "ResID": [
+                "Res9"
+            ],
+            "Coord": [
+                {
+                    "x": 5.0,
+                    "y": -0.2
+                }
+            ],
+            "Capacity": [
+                {
+                    "Time": 0,
+                    "Data": 100
+                }
+            ]
+        }
+    ],
+    "ROUTES": [
+        
+    ]
+}
