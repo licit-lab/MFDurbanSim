@@ -15,13 +15,27 @@ class Reservoir:
         #Both solvers
         self.MFDfctParam = []               #Parameters of the MFD function
         self.EntryfctParam = []             #Parameters of the entry supply function
-        self.MacroNodesID = []              #List of the MacroNodes in the reservoir
+        self.MacroNodes = []              #List of the MacroNodes in the reservoir
         self.AdjacentResID = []             #List of adjacent reservoirs
         
         self.RouteSection = []              #List of all "per route" data
 
-        self.DataCommon = [{"Time":0, "InternalProd":0, "MeanSpeed":0, "AvgTripLength":0, "Acc":0, "Inflow":0, "Outflow":0, "Nin":0, "Nout":0}]
-
+        self.Data = [{
+                    "Time":0,           
+                    "InternalProd":0, 
+                    "MeanSpeed":0, 
+                    "AvgTripLength":0,      # average trip length (m) corresponding to the routes orignating outside reservoir only
+                    "Acc":0,                # accumulation (veh)
+                    "ProductionSupply":0,   # modified entry production supply (veh.m/s)
+                    "Inflow":0,
+                    "Outflow":0, 
+                    "Nin":0, 
+                    "Nout":0
+                    }]
+        
+        # Usefull variables
+        self.NumberOfExtRouteSection = 0    # route section number whose origin of the section is an external entry
+        
         #Acc-based solver
         self.NumWaitingVeh = []             #Number of vehicles waiting to enter the reservoir when reservoir is the begining of the route
 
@@ -68,6 +82,16 @@ class Reservoir:
 
         self.EntryfctParam = [self.MaxAcc, self.CritAcc, self.MaxProd, coeff4, coeff5, coeff6]
         
+    def get_entry_supply(self, accumulation):
+        
+        # self.EntryfctParam = []             #Parameters of the entry supply function
+# % Entry supply function
+# % param = [nj nc Pc a1*nc a2*nc b*Pc], with 0 < a1 < 1 < a2, and 1 < b
+    #     Entryfct = @(n,param) (n <= param(4)).*param(6) + ...
+    # (param(4) < n).*(n <= param(5)).*(param(6)+(n-param(4))./(param(5)-param(4)).*(MFDfct(param(5),param(1:3))-param(6))) + ...
+    # (param(5) < n).*MFDfct(n,param(1:3));
 
         
+        entry_supply=0
+        return entry_supply
         
