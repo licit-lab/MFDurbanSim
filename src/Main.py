@@ -1,114 +1,105 @@
 import json
-import matplotlib.pyplot as plt
 
 from main_objects import Simulation, Reservoir, Route, MacroNode, Demand, Vehicle
 from IO_functions import *
 from Solver import *
-from plot_fct import *
 
 DEBUG = 0
-PLOT = 0
-DYNAMIC_PLOT = 0
-root = "C:/Dev/symures-dev-master/symures-dev/examples/"
-folder = "Braess/DemSC1/"
+
+root='../examples/'
+folder='Braess/'
+
+reservoirs = []                 # list of reservoirs
+routes = []                     # list of routes
+macronodes=[]                   # list of macro-nodes
 
 #### Load Input Parameters ####
 
 # Configuration
-with open(root + folder + "Configuration.json", "r") as file:
+with open(root + folder +"Configuration.json", "r") as file:
     loadSimulation = json.load(file)
 file.close()
 
-Simu = Simulation.Simulation()
-Simu.load_input(loadSimulation)
+simulation_settings = Simulation.Simulation()
+simulation_settings.load_input(loadSimulation)
 
-# Network
-with open(root + folder + Simu.Network, "r") as file:
+# Network loading
+with open(root + folder + simulation_settings.Network, "r") as file:
     loadNetwork = json.load(file)
 file.close()
 
 numRes = len(loadNetwork["RESERVOIRS"])
-Res = {}
+
 for i in range(numRes):
-    Res[i] = Reservoir.Reservoir()
-    Res[i].load_input(loadNetwork, i)
+    res = Reservoir.Reservoir()
+    res.load_input(loadNetwork, i)
+    reservoirs.append(res)
     if DEBUG == 1:
-        print(Res[i].ID)
+        print(res.ID)
 
 numRoutes = len(loadNetwork["ROUTES"])
-Routes = {}
+
 for i in range(numRoutes):
-    Routes[i] = Route.Route()
-    Routes[i].load_input(loadNetwork, i)
+    route = Route.Route()
+    route.load_input(loadNetwork, i)
+    routes.append(route)
     if DEBUG == 1:
-        print(Routes[i].Length)
-        print(Routes[i].ResOriginID)
-        print(Routes[i].ResDestinationID)
-        print(Routes[i].NodeOriginID)
-        print(Routes[i].NodeDestinationID)
+        print(route.Length, route.ResOriginID, route.ResDestinationID, route.NodeOriginID, route.NodeDestinationID)
 
 numMacroNodes = len(loadNetwork["MACRONODES"])
-MacroNodes = {}
-for i in range(numMacroNodes):
-    MacroNodes[i] = MacroNode.MacroNode()
-    MacroNodes[i].load_input(loadNetwork, i)
-    if DEBUG == 1:
-        print(MacroNodes[i].ResID)
 
-# Demand
-with open(root + folder + Simu.Demand, "r") as file:
+for i in range(numMacroNodes):
+    macronode = MacroNode.MacroNode()
+    macronode.load_input(loadNetwork, i)
+    macronodes.append(macronode)
+    if DEBUG == 1:
+        print(macronode.ResID)
+    
+#Demand
+with open(root + folder + simulation_settings.Demand, "r") as file:
     loadDemand = json.load(file)
 file.close()
 
-Demands = {}
-if Simu.DemandType == "FlowDemand":
+GlobalDemand = {}  
+if simulation_settings.DemandType == "FlowDemand":
     numDemand = len(loadDemand["FLOW DEMAND"])
     if DEBUG == 1:
         print(numDemand)
     for i in range(numDemand):
-        Demands[i] = Demand.FlowDemand()
-        Demands[i].load_input(loadDemand, i)
-        if DEBUG == 1:
-            print(Demands[i].Route)
-elif Simu.DemandType == "DiscreteDemand":
+        GlobalDemand[i] = Demand.FlowDemand()
+        GlobalDemand[i].load_input(loadDemand, i)
+    
+elif simulation_settings.DemandType == "DiscreteDemand":
     numDemand = len(loadDemand["DISCRETE DEMAND"])
     if DEBUG == 1:
         print(numDemand)
     for i in range(numDemand):
-        Demands[i] = Demand.DiscreteDemand()
-        Demands[i].load_input(loadDemand, i)
+        GlobalDemand[i] = Demand.DiscreteDemand()
+        GlobalDemand[i].load_input(loadDemand, i)
     if DEBUG == 1:
-        print(Demands[0].TripID)
+        print(GlobalDemand[0].TripID)
 else:
     print("Demand Type error")
 
 #### Initialize variables ####
-if Simu.Solver == "TripBased":
-    Vehicles = {}
-
-for i in range(numRes):
-    Res[i].init_fct_param(0.8, 1, 1, len(Simu.Modes))
+if simulation_settings.Solver == "TripBased":
+    Vehicles = {}   
+    
+for r in reservoirs:
+    r.init_fct_param(0.8, 1, 1, len(simulation_settings.Modes))
     if DEBUG == 1:
-        print(Res[i].EntryfctParam)
-
-Init(Res, Routes, MacroNodes, Demands)
-
-if DEBUG == 1:
-    print(Res[0].MacroNodesID)
-    print(Res[0].AdjacentResID)
-    print(Routes[0].TotalTime)
+        print(r.EntryfctParam)
+    
+Init(reservoirs, routes, macronodes, GlobalDemand)
 
 #### Algorithms ####
 
-if Simu.Solver == "AccBased":
-    AccBased(Simu, Res, Routes, MacroNodes, Demands)
-elif Simu.Solver == "TripBased":
-    TripBased(Simu, Res, Routes, MacroNodes, Demands, Vehicle)
+if simulation_settings.Solver == "AccBased":
+    AccBased(simulation_settings, reservoirs, routes, macronodes, GlobalDemand)
+elif simulation_settings.Solver == "TripBased":
+    TripBased(simulation_settings, reservoirs, routes, macronodes, Vehicle)
 
 #### Outputs ####
-
-
-#### Plotting results ####
 
 ## Reservoir config and states
 SimulTime = list(range(0, Simu.Duration, Simu.TimeStep))
