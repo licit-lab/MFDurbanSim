@@ -33,7 +33,7 @@ class Route:
         self.NumEntryTimes = []             #
         self.TravelTime2 = []               #
 
-    def load_input(self, loadNetwork, i):               
+    def load_input(self, loadNetwork, i, macronodes):               
         
         self.ID = loadNetwork["ROUTES"][i]["ID"]
         self.Mode = loadNetwork["ROUTES"][i]["Mode"]
@@ -42,8 +42,8 @@ class Route:
 
         self.ResOriginID = self.CrossedReservoirs[0]["ID"]
         self.ResDestinationID = self.CrossedReservoirs[len(self.CrossedReservoirs) - 1]["ID"]
-        self.OriginMacroNode = MacroNode.get_macronode(self.NodePath[0])
-        self.DestMacroNode = MacroNode.get_macronode(self.NodePath[len(self.NodePath) - 1])
+        self.OriginMacroNode = MacroNode.get_macronode(macronodes,self.NodePath[0])
+        self.DestMacroNode = MacroNode.get_macronode(macronodes,self.NodePath[len(self.NodePath) - 1])
         for i in range(len(self.CrossedReservoirs)):
             self.Length += self.CrossedReservoirs[i]["TripLength"]
             

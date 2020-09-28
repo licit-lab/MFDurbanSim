@@ -66,7 +66,7 @@ def AccBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
              # Entry production supply update
             tmp=0
             for rs in reservoir.RouteSection:
-                if rs.EntryNode['Type'] == 'externalentry':
+                if rs.EntryNode.Type == 'externalentry':
                     tmp=tmp+rs.TripLength*Demand.get_partial_demand(GlobalDemand, rs, t)
 
             reservoir.Data[t]['ProductionSupply']=reservoir.get_entry_supply(reservoir.Data[t]['Acc'])-tmp
@@ -83,7 +83,7 @@ def AccBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
         for reservoir in Reservoirs:
             # Inflow demand updates
             for rs in reservoir.RouteSection:
-                if rs.EntryNode['Type'] == 'origin' or rs.EntryNode['Type'] =='externalentry':
+                if rs.EntryNode.Type == 'origin' or rs.EntryNode.Type =='externalentry':
                     if rs.Data[t]['AccumulationQueue']>0:
                         rs.Data[t]['InflowDemand']=rs.EntryNode.get_capacity(t)
                     else:
@@ -91,7 +91,7 @@ def AccBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
                             
             # Merging coefficients (equiproba merge case)
             for rs in reservoir.RouteSection:
-                if rs.EntryNode['Type'] == 'externalentry':
+                if rs.EntryNode.Type == 'externalentry':
                     rs.Data[t]['MergeCoeff']=1/reservoir.NumberOfExtRouteSection
                 else:
                     rs.Data[t]['MergeCoeff']=1
@@ -116,7 +116,7 @@ def AccBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
         for reservoir in Reservoirs:
             # outflow supply update
             for rs in reservoir.RouteSection:
-                if rs.ExitNode['Type'] == 'destination' or rs.ExitNode['Type'] =='externalexit':
+                if rs.ExitNode.Type == 'destination' or rs.ExitNode.Type =='externalexit':
                     rs.Data[t]['OutflowSupply']=rs.ExitNode.get_capacity(t)
                 else:
                     rs.Data[t]['OutflowSupply']=0

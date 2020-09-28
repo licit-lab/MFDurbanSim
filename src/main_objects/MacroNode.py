@@ -1,8 +1,6 @@
 import pandas
 
-def get_macronode(macronode_id):
-    
-    global macronodes
+def get_macronode(macronodes,macronode_id):
     
     for mn in macronodes:
         if mn.ID==macronode_id:

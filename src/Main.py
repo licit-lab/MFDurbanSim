@@ -7,7 +7,7 @@ from Solver import *
 DEBUG = 0
 
 root='../examples/'
-folder='Braess/'
+folder='Braess/DemSC1/'
 
 reservoirs = []                 # list of reservoirs
 routes = []                     # list of routes
@@ -36,16 +36,7 @@ for i in range(numRes):
     reservoirs.append(res)
     if DEBUG == 1:
         print(res.ID)
-
-numRoutes = len(loadNetwork["ROUTES"])
-
-for i in range(numRoutes):
-    route = Route.Route()
-    route.load_input(loadNetwork, i)
-    routes.append(route)
-    if DEBUG == 1:
-        print(route.Length, route.ResOriginID, route.ResDestinationID, route.NodeOriginID, route.NodeDestinationID)
-
+        
 numMacroNodes = len(loadNetwork["MACRONODES"])
 
 for i in range(numMacroNodes):
@@ -54,6 +45,17 @@ for i in range(numMacroNodes):
     macronodes.append(macronode)
     if DEBUG == 1:
         print(macronode.ResID)
+
+numRoutes = len(loadNetwork["ROUTES"])
+
+for i in range(numRoutes):
+    route = Route.Route()
+    route.load_input(loadNetwork, i, macronodes)
+    routes.append(route)
+    if DEBUG == 1:
+        print(route.Length, route.ResOriginID, route.ResDestinationID, route.NodeOriginID, route.NodeDestinationID)
+
+
     
 #Demand
 with open(root + folder + simulation_settings.Demand, "r") as file:

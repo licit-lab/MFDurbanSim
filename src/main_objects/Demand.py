@@ -50,7 +50,7 @@ class DiscreteDemand:
 
 def get_partial_demand(GlobalDemand, RouteSection, t):
     
-    if RouteSection.EntryNode['Type'] != 'externalentry':
+    if RouteSection.EntryNode.Type != 'externalentry':
         return 0
     
     for d in GlobalDemand:
