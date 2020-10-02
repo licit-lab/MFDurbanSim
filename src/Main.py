@@ -3,8 +3,10 @@ import json
 from main_objects import Simulation, Reservoir, Route, MacroNode, Demand, Vehicle
 from IO_functions import *
 from Solver import *
+from plot_fct import *
 
 DEBUG = 0
+PLOT = 1
 
 root='../examples/'
 folder='Braess/DemSC1/'
@@ -50,7 +52,7 @@ numRoutes = len(loadNetwork["ROUTES"])
 
 for i in range(numRoutes):
     route = Route.Route()
-    route.load_input(loadNetwork, i, macronodes)
+    route.load_input(loadNetwork, i, reservoirs, macronodes)
     routes.append(route)
     if DEBUG == 1:
         print(route.Length, route.ResOriginID, route.ResDestinationID, route.NodeOriginID, route.NodeDestinationID)
@@ -104,7 +106,7 @@ elif simulation_settings.Solver == "TripBased":
 #### Outputs ####
 
 ## Reservoir config and states
-SimulTime = list(range(0, Simu.Duration, Simu.TimeStep))
+SimulTime = list(range(0, simulation_settings.Duration, simulation_settings.TimeStep))
 SpeedRange = [3, 14]
 t0 = 10
 
@@ -118,27 +120,27 @@ RoutesOutput = Output["ROUTES"]
 if PLOT == 1:
     # Plot reservoir schematic representation (borders and adjacent connections)
     plt.figure
-    plotResBallConfig(Res, 1, 0.5, [1.5, 1.5])
+    plotResBallConfig(reservoirs, 1, 0.5, [1.5, 1.5])
     plt.show()
 
     # Plot reservoir state (total accumulation) at t, schematic representation
     plt.figure
-    plotResBallAcc(t0, Res, ResOutput, SimulTime, 0.5, [1.5, 1.5])
+    plotResBallAcc(t0, reservoirs, ResOutput, SimulTime, 0.5, [1.5, 1.5])
     plt.show()
 
     # Plot reservoir state (accumulation per route) at t, schematic representation
     plt.figure
-    plotResBallAccPerRoute(t0, Res, ResOutput, Routes, SimulTime, 0.5, [1.5, 1.5])
+    plotResBallAccPerRoute(t0, reservoirs, ResOutput, Routes, SimulTime, 0.5, [1.5, 1.5])
     plt.show()
 
     # Plot reservoir state (mean speed) at t, real network
     plt.figure
-    plotResNetSpeed(t0, Res, ResOutput, SimulTime, SpeedRange)
+    plotResNetSpeed(t0, reservoirs, ResOutput, SimulTime, SpeedRange)
     plt.show()
 
     # Plot reservoir total number or demand of routes
     plt.figure
-    plotResRouteDem(Res, Routes, MacroNodes, Demands, Simu.DemandType, 'demand')
+    plotResRouteDem(reservoirs, Routes, MacroNodes, Demands, Simu.DemandType, 'demand')
     plt.show()
 
 # Plot macro nodes with route paths
@@ -151,7 +153,7 @@ if DYNAMIC_PLOT == 1:
     for t in range(0, 50, Simu.TimeStep):
         plt.clf()
         # Plot reservoir state (total accumulation) at t, schematic representation
-        plotResBallAcc(t, Res, ResOutput, SimulTime, 0.5, [1.5, 1.5])
+        plotResBallAcc(t, reservoirs, ResOutput, SimulTime, 0.5, [1.5, 1.5])
         plt.draw()
         plt.pause(0.5)
     plt.show()
@@ -160,7 +162,7 @@ if DYNAMIC_PLOT == 1:
     for t in range(0, 50, Simu.TimeStep):
         plt.clf()
         # Plot reservoir state (accumulation per route) at t, schematic representation
-        plotResBallAccPerRoute(t, Res, ResOutput, Routes, SimulTime, 0.5, [1.5, 1.5])
+        plotResBallAccPerRoute(t, reservoirs, ResOutput, Routes, SimulTime, 0.5, [1.5, 1.5])
         plt.draw()
         plt.pause(0.5)
     plt.show()
@@ -169,7 +171,7 @@ if DYNAMIC_PLOT == 1:
     for t in range(0, 50, Simu.TimeStep):
         plt.clf()
         # Plot reservoir state (mean speed) at t, real network
-        plotResNetSpeed(t, Res, ResOutput, SimulTime, SpeedRange)
+        plotResNetSpeed(t, reservoirs, ResOutput, SimulTime, SpeedRange)
         plt.draw()
         plt.pause(0.5)
     plt.show()
