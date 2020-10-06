@@ -410,8 +410,8 @@ def plotResBallAccPerRoute(t, Reservoir, ResOutput, Route, SimulTime, ResRadius,
                             hf.append(plt.fill([xResC, x[i]], [yResC, y[i]], color = cmap[k_r], ec = 'none'))
                     else:
                         strlabel = '[ '
-                        for i in range(len(Route[iroute].ResPath)):
-                            strlabel += Route[iroute].ResPath[i]["ID"] + ' '
+                        for i in range(len(Route[iroute].CrossedReservoirs)):
+                            strlabel += Route[iroute].CrossedReservoirs[i].ID + ' '
                         strlabel += ']'
                         for i in range(len(x)):
                             hf.append(plt.fill([xResC, x[i]], [yResC, y[i]], color = cmap[k_r], ec = 'none', label = strlabel))
@@ -556,9 +556,9 @@ def plotResRouteDem(Reservoir, Route, Node, Demand, demandType, plotcharact):
     if demandType == "FlowDemand":
         for d in range(numDemand):
             demand = 0
-            for t in range(len(Demand[d].Demand)):
-                demand += Demand[d].Demand[t]["Data"]
-            demand /= len(Demand[d].Demand)
+            for t in range(len(Demand[d].Demands)):
+                demand += Demand[d].Demands.at[t, "Data"]
+            demand /= len(Demand[d].Demands)
 
             for n in range(numNode):
                 if Node[n].ID == Demand[d].OriginMacroNodeID or Node[n].ID == Demand[d].DestMacroNodeID:
@@ -568,16 +568,16 @@ def plotResRouteDem(Reservoir, Route, Node, Demand, demandType, plotcharact):
     elif demandType == "DiscreteDemand":
         toto = 0
 
-    for r in range(numRes):
+    for res in Reservoir:
         nbroutes = 0
         totaldem = 0
-        for iroute in range(numRoute):
-            for r2 in range(len(Route[iroute].ResPath)):
-                if Reservoir[r].ID == Route[iroute].ResPath[r2]["ID"]:
+        for iroute in Route:
+            for cr in iroute.CrossedReservoirs:
+                if res.ID == cr.ID:
                     nbroutes += 1
-        for d in range(len(DemandPerRes)):
-            if Reservoir[r].ID == DemandPerRes[d]["ID"]:
-                totaldem = DemandPerRes[d]["Demand"]
+        for d in DemandPerRes:
+            if res.ID == d["ID"]:
+                totaldem = d["Demand"]
 
         if plotcharact == 'number':
             resvalues.append(nbroutes)
