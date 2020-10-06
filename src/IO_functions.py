@@ -10,7 +10,7 @@ def Init(Res, Routes, MacroNodes, Demands):
     ### Init Res ###
     
     #Loop on all reservoirs
-    for i in range(numRes):
+    """   for i in range(numRes):
         #Loop on all macronodes
         #Init MacroNodesID & AdjacentResID
         for j in range(numMN):
@@ -21,22 +21,33 @@ def Init(Res, Routes, MacroNodes, Demands):
                     if MacroNodes[j].ResID[0] != Res[i].ID:
                         Res[i].AdjacentResID.append(MacroNodes[j].ResID[0])
                     else:
-                        Res[i].AdjacentResID.append(MacroNodes[j].ResID[1])       
+                        Res[i].AdjacentResID.append(MacroNodes[j].ResID[1])"""
+
+    for res in Res:
+        for mn in MacroNodes:
+            if res.ID in mn.ResID:
+                res.MacroNodesID.append({"ID": mn.ID, "Type": mn.Type})
+
+                if len(mn.ResID) == 2:
+                    if mn.ResID != res.ID:
+                        res.AdjacentResID.append(mn.ResID[0])
+                    else:
+                        res.AdjacentResID.append(mn.ResID[1])
 
         #Loop on all routes
         #Init RouteSection
-        for j in range(numRoutes):            
-            for k in range(len(Routes[j].ResPath)):                
-                if Res[i].ID in Routes[j].ResPath[k]["ID"]:                    
-                    EntryNode = {"ID":Routes[j].NodeOriginID, "Type":""}
-                    ExitNode = {"ID":Routes[j].NodeDestinationID, "Type":""}
-                    for l in range(numMN):
-                        if EntryNode["ID"] in MacroNodes[l].ResID:
-                            EntryNode["Type"] = MacroNodes[l].Type
-                        if ExitNode["ID"] in MacroNodes[l].ResID:
-                            ExitNode["Type"] = MacroNodes[l].Type
+        for route in Routes:
+            for res_path in route.ResPath:
+                if res.ID in res_path["ID"]:
+                    EntryNode = {"ID": route.NodeOriginID, "Type": ""}
+                    ExitNode = {"ID": route.NodeDestinationID, "Type": ""}
+                    for mn in MacroNodes:
+                        if EntryNode["ID"] in mn.ResID:
+                            EntryNode["Type"] = mn.Type
+                        if ExitNode["ID"] in mn.ResID:
+                            ExitNode["Type"] = mn.Type
 
-                    Res[i].RouteSection.append(RouteSection.RouteSection(Routes[j].ID, EntryNode, ExitNode, Routes[j].ResPath[k]["TripLength"]))
+                    res.RouteSection.append(RouteSection.RouteSection(route.ID, EntryNode, ExitNode, res_path["TripLength"]))
 
     ### Init Routes ###
 
@@ -103,15 +114,3 @@ def SaveOutput(Simulation, Reservoirs, Routes, Vehicle = []):
     with open("Output.json", "w") as fichier:
         json.dump(output)
 
-
-
-
-
-
-
-
-
-
-
-
-        
