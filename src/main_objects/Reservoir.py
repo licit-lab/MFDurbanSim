@@ -1,7 +1,32 @@
 import copy
+from main_objects.Element import Element
 
-class Reservoir:
+def get_reservoir(reservoirs,reservoir_id):
+    
+    for r in reservoirs:
+        if r.ID==reservoir_id:
+            return r
+        
+    return 0
+
+class Reservoir(Element):
+    
     def __init__(self):
+        
+        DataKeys = [
+                            "Time",           
+                            "InternalProd", 
+                            "MeanSpeed", 
+                            "AvgTripLength",      # average trip length (m) corresponding to the routes orignating outside reservoir only
+                            "Acc",                # accumulation (veh)
+                            "ProductionSupply",   # modified entry production supply (veh.m/s)
+                            "Inflow",
+                            "Outflow", 
+                            "Nin", 
+                            "Nout"
+                            ]
+        
+        Element.__init__(self, DataKeys)
         
         #Input
         self.ID = ""                        #ID of the reservoir
@@ -15,24 +40,11 @@ class Reservoir:
         #Both solvers
         self.MFDfctParam = []               #Parameters of the MFD function
         self.EntryfctParam = []             #Parameters of the entry supply function
-        self.MacroNodes = []              #List of the MacroNodes in the reservoir
+        self.MacroNodes = []                #List of the MacroNodes in the reservoir
         self.AdjacentResID = []             #List of adjacent reservoirs
         
-        self.RouteSection = []              #List of all "per route" data
+        self.RouteSections = []              #List of all "per route" data
 
-        self.Data = [{
-                    "Time":0,           
-                    "InternalProd":0, 
-                    "MeanSpeed":0, 
-                    "AvgTripLength":0,      # average trip length (m) corresponding to the routes orignating outside reservoir only
-                    "Acc":0,                # accumulation (veh)
-                    "ProductionSupply":0,   # modified entry production supply (veh.m/s)
-                    "Inflow":0,
-                    "Outflow":0, 
-                    "Nin":0, 
-                    "Nout":0
-                    }]
-        
         # Usefull variables
         self.NumberOfExtRouteSection = 0    # route section number whose origin of the section is an external entry
         

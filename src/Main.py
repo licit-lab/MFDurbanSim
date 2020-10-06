@@ -1,179 +1,177 @@
 import json
-import matplotlib.pyplot as plt
 
 from main_objects import Simulation, Reservoir, Route, MacroNode, Demand, Vehicle
-import IO_functions
-import Solver
-import plot_fct
+from IO_functions import *
+from Solver import *
+from plot_fct import *
 
 DEBUG = 0
-PLOT = 0
-DYNAMIC_PLOT = 0
-root = "C:/Dev/symures-dev-master/symures-dev/examples/"
-folder = "SingleRes/DemSC1/"
+PLOT = 1
+
+root='../examples/'
+folder='Braess/DemSC1/'
+
+reservoirs = []                 # list of reservoirs
+routes = []                     # list of routes
+macronodes=[]                   # list of macro-nodes
 
 #### Load Input Parameters ####
 
 # Configuration
-with open(root + folder + "Configuration.json", "r") as file:
-    load_simulation = json.load(file)
-
-simulation = Simulation.Simulation()
-simulation.load_input(load_simulation)
-
-# Network
-with open(root + folder + simulation.Network, "r") as file:
-    load_network = json.load(file)
-
-num_res = len(load_network["RESERVOIRS"])
-reservoirs_list = {}
-for i in range(num_res):
-    reservoirs_list[i] = Reservoir.Reservoir()
-    reservoirs_list[i].load_input(load_network, i)
-    if DEBUG == 1:
-        print(reservoirs_list[i].ID)
-
-num_routes = len(load_network["routes_list"])
-routes_list = {}
-for i in range(num_routes):
-    routes_list[i] = Route.Route()
-    routes_list[i].load_input(load_network, i)
-    if DEBUG == 1:
-        print(routes_list[i].Length)
-        print(routes_list[i].ResOriginID)
-        print(routes_list[i].ResDestinationID)
-        print(routes_list[i].NodeOriginID)
-        print(routes_list[i].NodeDestinationID)
-
-num_macronodes = len(load_network["macronodes_list"])
-macronodes_list = {}
-for i in range(num_macronodes):
-    macronodes_list[i] = MacroNode.MacroNode()
-    macronodes_list[i].load_input(load_network, i)
-    if DEBUG == 1:
-        print(macronodes_list[i].ResID)
-
-# Demand
-with open(root + folder + simulation.Demand, "r") as file:
-    load_demand = json.load(file)
+with open(root + folder +"Configuration.json", "r") as file:
+    loadSimulation = json.load(file)
 file.close()
 
-demands_list = {}
-if simulation.DemandType == "FlowDemand":
-    numDemand = len(load_demand["FLOW DEMAND"])
+simulation_settings = Simulation.Simulation()
+simulation_settings.load_input(loadSimulation)
+
+# Network loading
+with open(root + folder + simulation_settings.Network, "r") as file:
+    loadNetwork = json.load(file)
+file.close()
+
+numRes = len(loadNetwork["RESERVOIRS"])
+
+for i in range(numRes):
+    res = Reservoir.Reservoir()
+    res.load_input(loadNetwork, i)
+    reservoirs.append(res)
+    if DEBUG == 1:
+        print(res.ID)
+        
+numMacroNodes = len(loadNetwork["MACRONODES"])
+
+for i in range(numMacroNodes):
+    macronode = MacroNode.MacroNode()
+    macronode.load_input(loadNetwork, i)
+    macronodes.append(macronode)
+    if DEBUG == 1:
+        print(macronode.ResID)
+
+numRoutes = len(loadNetwork["ROUTES"])
+
+for i in range(numRoutes):
+    route = Route.Route()
+    route.load_input(loadNetwork, i, reservoirs, macronodes)
+    routes.append(route)
+    if DEBUG == 1:
+        print(route.Length, route.ResOriginID, route.ResDestinationID, route.NodeOriginID, route.NodeDestinationID)
+
+
+    
+#Demand
+with open(root + folder + simulation_settings.Demand, "r") as file:
+    loadDemand = json.load(file)
+file.close()
+
+GlobalDemand = {}  
+if simulation_settings.DemandType == "FlowDemand":
+    numDemand = len(loadDemand["FLOW DEMAND"])
     if DEBUG == 1:
         print(numDemand)
     for i in range(numDemand):
-        demands_list[i] = Demand.FlowDemand()
-        demands_list[i].load_input(load_demand, i)
-        if DEBUG == 1:
-            print(demands_list[i].Route)
-elif simulation.DemandType == "DiscreteDemand":
-    numDemand = len(load_demand["DISCRETE DEMAND"])
+        GlobalDemand[i] = Demand.FlowDemand()
+        GlobalDemand[i].load_input(loadDemand, i)
+    
+elif simulation_settings.DemandType == "DiscreteDemand":
+    numDemand = len(loadDemand["DISCRETE DEMAND"])
     if DEBUG == 1:
         print(numDemand)
     for i in range(numDemand):
-        demands_list[i] = Demand.DiscreteDemand()
-        demands_list[i].load_input(load_demand, i)
+        GlobalDemand[i] = Demand.DiscreteDemand()
+        GlobalDemand[i].load_input(loadDemand, i)
     if DEBUG == 1:
-        print(demands_list[0].TripID)
+        print(GlobalDemand[0].TripID)
 else:
     print("Demand Type error")
 
 #### Initialize variables ####
-if simulation.Solver == "TripBased":
-    Vehicles = {}
-
-for i in range(num_res):
-    reservoirs_list[i].init_fct_param(0.8, 1, 1, len(simulation.Modes))
+if simulation_settings.Solver == "TripBased":
+    Vehicles = {}   
+    
+for r in reservoirs:
+    r.init_fct_param(0.8, 1, 1, len(simulation_settings.Modes))
     if DEBUG == 1:
-        print(reservoirs_list[i].EntryfctParam)
-
-IO_functions.Init(reservoirs_list, routes_list, macronodes_list, demands_list)
-
-if DEBUG == 1:
-    print(reservoirs_list[0].MacroNodesID)
-    print(reservoirs_list[0].AdjacentResID)
-    print(routes_list[0].TotalTime)
+        print(r.EntryfctParam)
+    
+Init(reservoirs, routes, macronodes, GlobalDemand)
 
 #### Algorithms ####
 
-if simulation.Solver == "AccBased":
-    Solver.AccBased(simulation, reservoirs_list, routes_list, macronodes_list, demands_list)
-elif simulation.Solver == "TripBased":
-    Solver.TripBased(simulation, reservoirs_list, routes_list, macronodes_list, demands_list, Vehicle)
+if simulation_settings.Solver == "AccBased":
+    AccBased(simulation_settings, reservoirs, routes, macronodes, GlobalDemand)
+elif simulation_settings.Solver == "TripBased":
+    TripBased(simulation_settings, reservoirs, routes, macronodes, Vehicle)
 
 #### Outputs ####
 
-
-#### Plotting results ####
-
 ## Reservoir config and states
-simu_time = list(range(0, simulation.Duration, simulation.TimeStep))
-speed_range = [3, 14]
+SimulTime = list(range(0, simulation_settings.Duration, simulation_settings.TimeStep))
+SpeedRange = [3, 14]
 t0 = 10
 
-with open(root + folder + "output.json", "r") as file:
-    output = json.load(file)
+with open(root + folder + "Output.json", "r") as file:
+    Output = json.load(file)
+file.close()
 
-reservoirs_output = output["RESERVOIRS"]
-routes_output = output["routes_list"]
+ResOutput = Output["RESERVOIRS"]
+RoutesOutput = Output["ROUTES"]
 
 if PLOT == 1:
     # Plot reservoir schematic representation (borders and adjacent connections)
     plt.figure
-    plot_fct.plotResBallConfig(reservoirs_list, 1, 0.5, [1.5, 1.5])
+    plotResBallConfig(reservoirs, 1, 0.5, [1.5, 1.5])
     plt.show()
 
     # Plot reservoir state (total accumulation) at t, schematic representation
     plt.figure
-    plot_fct.plotResBallAcc(t0, reservoirs_list, reservoirs_output, simu_time, 0.5, [1.5, 1.5])
+    plotResBallAcc(t0, reservoirs, ResOutput, SimulTime, 0.5, [1.5, 1.5])
     plt.show()
 
     # Plot reservoir state (accumulation per route) at t, schematic representation
     plt.figure
-    plot_fct.plotResBallAccPerRoute(t0, reservoirs_list, reservoirs_output, routes_list, simu_time, 0.5, [1.5, 1.5])
+    plotResBallAccPerRoute(t0, reservoirs, ResOutput, Routes, SimulTime, 0.5, [1.5, 1.5])
     plt.show()
 
     # Plot reservoir state (mean speed) at t, real network
     plt.figure
-    plot_fct.plotResNetSpeed(t0, reservoirs_list, reservoirs_output, simu_time, speed_range)
+    plotResNetSpeed(t0, reservoirs, ResOutput, SimulTime, SpeedRange)
     plt.show()
 
-    # Plot reservoir total number or demand of routes_list
+    # Plot reservoir total number or demand of routes
     plt.figure
-    plot_fct.plotResRouteDem(reservoirs_list, routes_list, macronodes_list, demands_list, simulation.DemandType, 'demand')
+    plotResRouteDem(reservoirs, Routes, MacroNodes, Demands, Simu.DemandType, 'demand')
     plt.show()
 
 # Plot macro nodes with route paths
 #plt.figure
-#plot_fct.plotMacroNodes(reservoirs_list, 1, macronodes_list, 0, routes_list, 0)
+#plotMacroNodes(Res, 1, MacroNodes, 0, Routes, 0)
 #plt.show()
 
 if DYNAMIC_PLOT == 1:
     plt.figure
-    for t in range(0, 50, simulation.TimeStep):
+    for t in range(0, 50, Simu.TimeStep):
         plt.clf()
         # Plot reservoir state (total accumulation) at t, schematic representation
-        plot_fct.plotResBallAcc(t, reservoirs_list, reservoirs_output, simu_time, 0.5, [1.5, 1.5])
+        plotResBallAcc(t, reservoirs, ResOutput, SimulTime, 0.5, [1.5, 1.5])
         plt.draw()
         plt.pause(0.5)
     plt.show()
 
     plt.figure
-    for t in range(0, 50, simulation.TimeStep):
+    for t in range(0, 50, Simu.TimeStep):
         plt.clf()
         # Plot reservoir state (accumulation per route) at t, schematic representation
-        plot_fct.plotResBallAccPerRoute(t, reservoirs_list, reservoirs_output, routes_list, simu_time, 0.5, [1.5, 1.5])
+        plotResBallAccPerRoute(t, reservoirs, ResOutput, Routes, SimulTime, 0.5, [1.5, 1.5])
         plt.draw()
         plt.pause(0.5)
     plt.show()
 
     plt.figure
-    for t in range(0, 50, simulation.TimeStep):
+    for t in range(0, 50, Simu.TimeStep):
         plt.clf()
         # Plot reservoir state (mean speed) at t, real network
-        plot_fct.plotResNetSpeed(t, reservoirs_list, reservoirs_output, simu_time, speed_range)
+        plotResNetSpeed(t, reservoirs, ResOutput, SimulTime, SpeedRange)
         plt.draw()
         plt.pause(0.5)
     plt.show()
