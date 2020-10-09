@@ -63,7 +63,7 @@ for mn in NodeMatlab:
     i += 1
 
 ## ROUTES
-with open("Routes_Struct_Matlab.json", "r") as file:
+with open("RoutesStruct_Matlab.json", "r") as file:
     RoutesMatlab = json.load(file)
 
 Network["ROUTES"] = []
@@ -72,10 +72,10 @@ i = 1
 for route in RoutesMatlab:
     
 
-    str_routes_tmp = {"ID":"Route" + str(i),
-                      "Mode": "VL"
-                      "ResPath":
-                      "NodePath":  }
+    str_routes_tmp = {"ID": "Route" + str(i),
+                      "Mode": "VL",
+                      "ResPath": "",
+                      "NodePath": ""}
 
     Network["ROUTES"].append(str_routes_tmp)
 
