@@ -61,12 +61,22 @@ Network["ROUTES"] = []
 i = 1
 
 for route in RoutesMatlab:
-    
+    res_path = []
+
+    if type(route["ResPath"]) is int:
+        res_path.append({"ID": "Res" + str(route["ResPath"]), "TripLength": route["TripLengths"]})
+    else:
+        for res in range(len(route["ResPath"])):
+            res_path.append({"ID": "Res" + str(route["ResPath"][res]), "TripLength": route["TripLengths"][res]})
+
+    node_path = []
+    for node in route["NodePath"]:
+        node_path.append("MacroNode" + str(node))
 
     str_routes_tmp = {"ID": "Route" + str(i),
                       "Mode": "VL",
-                      "ResPath": "",
-                      "NodePath": ""}
+                      "ResPath": res_path,
+                      "NodePath": node_path}
 
     Network["ROUTES"].append(str_routes_tmp)
 
