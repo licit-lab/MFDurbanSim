@@ -38,23 +38,14 @@ Network["MACRONODES"] = []
 i = 1
 
 for mn in NodeMatlab:
-    strType = ""
-    if mn["Type"] == 1:
-        strType = "origin"
-    elif mn["Type"] == 2:
-        strType = "destination"
-    elif mn["Type"] == 3:
-        strType = "externalentry"
-    elif mn["Type"] == 4:
-        strTpe = "externalexit"
-    elif mn["Type"] == 5:
-        strType = "border"
+    if mn["Type"] == "border":
+        res_id = ["Res" + str(mn["ResID"][0]), "Res" + str(mn["ResID"][1])]
     else:
-        strType = "origin"
-        
+        res_id = mn["ResID"]
+
     str_node_tmp = {"ID": "MacroNode" + str(i),
-                    "Type": strType,
-                    "ResID": "Res" + str(mn["ResID"]),
+                    "Type": mn["Type"],
+                    "ResID": res_id,
                     "Capacity": [{"Time": 0, "Data": 0}],
                     "Coord": [{"x": mn["Coord"][0], "y": mn["Coord"][1]}]}
                     
