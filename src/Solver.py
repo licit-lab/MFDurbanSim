@@ -224,7 +224,7 @@ def TripBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
             
         # Update traveled distances and times for each vehicle on the network
         for vehicle in vehicles:
-            curres = Vehicle.get_current_reservoir()
+            curres = Vehicle.get_current_reservoir(vehicle)
             vehicle.TotalTraveledDistance += curres.Data[indcurtime]['TotalTraveledDistance']
             vehicle.TotalTraveledTime += elapsedtime
             vehicle.RemainingLengthOfCurrentReservoir -= curres.Data[indcurtime]['TotalTraveledDistance']
@@ -240,7 +240,7 @@ def TripBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
             
             pu0.Data[indcurtime]['Acc']-=1
             pu0.Data[indcurtime]['Nout']+=1
-            pu0.Data[indcurtime]['MeanSpeed']=ru0.get_speed_from_accumulation() # accu dans le réservoir ???
+            pu0.Data[indcurtime]['MeanSpeed']=ru0.get_speed_from_accumulation(ru0.Data[indcurtime]['Nout']) # accu dans le réservoir ???
             
             pu0.SortedVehicles.pop(0)           # remove u0 from the list of the route section
         else:
@@ -286,4 +286,5 @@ def TripBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
         # Next event time and concerned vehicle (and creation of the vehicle if it is new)
         
         # Times update
-        
+        #curtime = 
+        elapsedtime = curtime - prevtime

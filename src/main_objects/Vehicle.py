@@ -1,6 +1,6 @@
 from main_objects import Route
 
-def get_current_reservoir(vehicle):
+def     get_current_reservoir(vehicle):
     return vehicle.Path[vehicle.PathIndex]
 
 class Vehicle:
@@ -24,7 +24,7 @@ class Vehicle:
         self.RouteSections = route.RouteSections         # list of successive route sections
         
         self.PathIndex = -1             # index of the current reservoir int the path
-        self.RemainingLengthOfCurrentReservoir
+        self.RemainingLengthOfCurrentReservoir = -1
         
         self.DesiredExitTimes = [-1 for e in range(len(self.Path))]      # List of desired exit times in the successive reservoir of the route assigned to the vehicle
         

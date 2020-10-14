@@ -114,6 +114,6 @@ class Reservoir(Element):
         return self.MaxAcc*accumulation**2 + self.CritAcc*accumulation + self.MaxProd
     
     def get_speed_from_accumulation(self, accumulation):
-        return self.get_producution_from_accumulation(accumulation)
+        return self.get_production_from_accumulation(accumulation)
          
         

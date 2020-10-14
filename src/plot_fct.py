@@ -410,8 +410,8 @@ def plotResBallAccPerRoute(t, Reservoir, ResOutput, Route, SimulTime, ResRadius,
                             hf.append(plt.fill([xResC, x[i]], [yResC, y[i]], color = cmap[k_r], ec = 'none'))
                     else:
                         strlabel = '[ '
-                        for i in range(len(Route[iroute].ResPath)):
-                            strlabel += Route[iroute].ResPath[i]["ID"] + ' '
+                        for i in range(len(Route[iroute].CrossedReservoirs)):
+                            strlabel += Route[iroute].CrossedReservoirs[i].ID + ' '
                         strlabel += ']'
                         for i in range(len(x)):
                             hf.append(plt.fill([xResC, x[i]], [yResC, y[i]], color = cmap[k_r], ec = 'none', label = strlabel))
@@ -552,7 +552,7 @@ def plotResRouteDem(Reservoir, Route, Node, Demand, demandType, plotcharact):
     # Demand per reservoir
     DemandPerRes = []
 
-    #incorrect
+    #incorrect - TO DO
     if demandType == "FlowDemand":
         for d in range(numDemand):
             demand = 0
@@ -572,8 +572,8 @@ def plotResRouteDem(Reservoir, Route, Node, Demand, demandType, plotcharact):
         nbroutes = 0
         totaldem = 0
         for iroute in range(numRoute):
-            for r2 in range(len(Route[iroute].ResPath)):
-                if Reservoir[r].ID == Route[iroute].ResPath[r2]["ID"]:
+            for r2 in range(len(Route[iroute].CrossedReservoirs)):
+                if Reservoir[r].ID == Route[iroute].CrossedReservoirs[r2].ID:
                     nbroutes += 1
         for d in range(len(DemandPerRes)):
             if Reservoir[r].ID == DemandPerRes[d]["ID"]:
