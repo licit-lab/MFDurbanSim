@@ -7,6 +7,6 @@ class Element:
     def init_time_step(self, t):
         
         data = dict(zip(self.DataKeys, [0]*len(self.DataKeys)))
-        data['time']=t
+        data['Time']=t
         
         self.Data.append(data)

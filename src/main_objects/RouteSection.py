@@ -5,6 +5,11 @@ class RouteSection(Element):
 
         ## Dynamic variables ##
         DataKeys = [ "Time", 
+                    
+                     # common to both solvers
+                     "InflowDemand",             # partial inflow demand (veh/s)
+                     
+                     # Accumulation based model
                       "MergeCoeff",              # partial merge coefficient (only for internal route section - not for an origin route section )
                       "ExitCoeff",
                       "Acc",                     # partial accumulation (veh)
@@ -12,7 +17,6 @@ class RouteSection(Element):
                       "Outflow", 
                       "Nin", 
                       "Nout",
-                      "InflowDemand",             # partial inflow demand (veh/s)
                       "InflowSupply",             # partial inflow supply (veh/s)
                       "LocalInflowSupply",        # partial and local inflow supply (veh/s)
                       "OutflowDemand",            # partial outflow demand (veh/s)
@@ -20,22 +24,49 @@ class RouteSection(Element):
                       "AccCircu",                 # partial accumulation (veh)
                       "AccQueue",                 # partial queuing accumulation (veh)
                       "NoutCircu",
-                      "DemandEntryTime", 
+                      
+                      # Trip based model
+                      "EntryDemandTime",   # input data ?
+                      "EntrySupplyTime",  # input data ?
+                      "ExitDemandTime",  # input data ?
+                      "ExitSupplyTime",  # input data ?
+                      
+                      "LastEntryTime",
+                      "LastExitTime",
+                      
+                      #"SortedTravelingVehicles",        # list of traveling vehicles sorted by remaining travel distance
+                      
                       "DemandEntryVeh", 
                       "VehList", 
                       "DemandTimeIndex", 
-                      "LastEntryTime", 
-                      "LastExitTime", 
+                      
                       "DesiredEntryTime",
                       "DesiredExitTime", 
                       "DesiredEntryVeh", 
                       "DesiredExitVeh", 
-                      "EntrySupplyTime", 
-                      "ExitSupplyTime", 
+                      
+                    
+                      
                       "EntryTimes", 
                       "ExitTimes"]
         
         Element.__init__(self, DataKeys)
+        
+        # Usefull variables for trip based solver
+        self.NextDesiredEntryTime = -1
+        self.LastCreationTime = -1
+        self.NextDesiredExitTime = -1
+        
+        self.SortedVehicles=[]  # list of vehicle on the route section sorted by remaining distance
+        
+        self.t_in_demand = -1
+        self.t_in_supply = -1
+        
+        self.t_out_demand = -1
+        self.t_out_supply = -1
+        
+        self.t_in = -1
+        self.t_out = -1
         
         # Fixed variables ##
         self.Route = route
@@ -44,5 +75,4 @@ class RouteSection(Element):
         self.ExitNode = macronodeOut
         self.TripLength = tripLength              # trip length portion (m)
         self.PreviousRouteSection = 0               # previous route section of the path (RouteSection)
-
 

@@ -23,10 +23,12 @@ class MacroNode:
         self.Type = loadNetwork["MACRONODES"][i]["Type"]
         self.ResID = loadNetwork["MACRONODES"][i]["ResID"]
         
-        self.Capacities=pandas.DataFrame.from_dict(loadNetwork["MACRONODES"][i]["Capacity"])
-        self.Capacities.set_index('Time')
+        if 'Capacity' in loadNetwork["MACRONODES"][i]:
+            self.Capacities=pandas.DataFrame.from_dict(loadNetwork["MACRONODES"][i]["Capacity"])
+            self.Capacities.set_index('Time')
        
-        self.Coord = loadNetwork["MACRONODES"][i]["Coord"]
+        if 'Coord' in loadNetwork["MACRONODES"][i]:
+            self.Coord = loadNetwork["MACRONODES"][i]["Coord"]
 
     def get_capacity(self, time):
         return self.Capacities.loc[:time].tail(1).Data[0]

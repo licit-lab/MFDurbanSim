@@ -2,7 +2,7 @@ import json
 import pandas
 from main_objects import RouteSection, MacroNode
 
-def Init(Res, Routes, MacroNodes, GlobalDemand):
+def Init(Res, Routes, MacroNodes):
 
     numRes = len(Res)
     numRoutes = len(Routes)
@@ -38,6 +38,8 @@ def Init(Res, Routes, MacroNodes, GlobalDemand):
             rs = RouteSection.RouteSection(route, reservoir, EntryNode, ExitNode, route.TripLengths[ind])
             rs.PreviousRouteSection = previousroutesection
             reservoir.RouteSections.append(rs)
+            
+            route.RouteSections.append(rs)
             
             if EntryNode.Type=='externalentry':
                 reservoir.NumberOfExtRouteSection=reservoir.NumberOfExtRouteSection+1

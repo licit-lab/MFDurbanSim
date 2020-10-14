@@ -12,7 +12,7 @@ class Simulation:
          self.DivergeModel = ""         #Outflow diverging model
          self.MFDtype = ""              #Type of MFD function used
          self.Modes = []                #Modes used
-         self.DemandType = ""           #Demand type: FlowDemand or DiscreteDemand
+         self.DemandType = ""           #Demand type: flow or micro
 
          self.Date = 0                  #Date time
          self.Version = ""              #Version used
@@ -23,7 +23,10 @@ class Simulation:
           self.Solver = loadSimulation["SIMULATION"][0]["Solver"]
           self.Name = loadSimulation["SIMULATION"][0]["Name"]
           self.Duration = loadSimulation["SIMULATION"][0]["Duration"]
-          self.TimeStep = loadSimulation["SIMULATION"][0]["TimeStep"]
+          
+          if self.Solver=='AccBased':
+              self.TimeStep = loadSimulation["SIMULATION"][0]["TimeStep"]
+              
           self.MergeModel = loadSimulation["SIMULATION"][0]["MergeModel"]
           self.DivergeModel = loadSimulation["SIMULATION"][0]["DivergeModel"]
           self.MFDType = loadSimulation["SIMULATION"][0]["MFDType"]

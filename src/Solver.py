@@ -1,5 +1,5 @@
 from AccBased_functions import *
-from main_objects import Demand
+from main_objects import Demand, Vehicle
 
 import math
 
@@ -182,12 +182,108 @@ def AccBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
                     
                 # Accumulation update
                 for rs in reservoir.RouteSections:
-                    rs.Data[indtime+1]['AccCircu'] = 0
+                    
+                    rs.Data[indtime+1]['AccCircu'] = rs.Data[indtime+1]['AccCircu'] + Simulation.TimeStep * (rs.Data[indtime]['Inflow'] - rs.Data[indtime]['Outflow'])
                     
                     rs.Data[indtime+1]['Acc'] = rs.Data[indtime+1]['AccCircu']+rs.Data[indtime+1]['AccQueue']
 
-def TripBased(Simulation, Reservoirs, Routes, MacroNodes, Demand, Vehicles):
+def TripBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
+    
+    vehicles=[]
 
-    #Time loop
-    for t in range(0, Simulation.Duration, Simulation.TimeStep):
-        print("TripBased")
+    prevtime = 0.
+    indprevtime = 0
+    
+    init_time_step(prevtime, Reservoirs, Routes)
+    
+    # First event
+    next_trip = Demand.get_next_trip(GlobalDemand, prevtime)
+    
+    curtime = next_trip.Time
+    elapsedtime = curtime - prevtime
+    
+    u0 = Vehicle.Vehicle(next_trip.TripID, next_trip.Mode, next_trip.RouteID, next_trip.Time, Routes)
+    
+    while curtime < Simulation.Duration:
+        
+        # initialization
+        indcurtime = indprevtime+1
+        init_time_step(curtime, Reservoirs, Routes)
+        
+        for reservoir in Reservoirs:
+            for rs in reservoir.RouteSections:
+                rs.Data[indcurtime]['Acc']=rs.Data[indprevtime]['Acc']
+                rs.Data[indcurtime]['Nin']=rs.Data[indprevtime]['Nin']
+                rs.Data[indcurtime]['Nout']=rs.Data[indprevtime]['Nout']
+                
+            reservoir.Data[indcurtime]['MeanSpeed']=reservoir.Data[indprevtime]['MeanSpeed']
+            
+        # Update mean speed for each reservoir
+        for reservoir in Reservoirs:
+            reservoir.Data[indcurtime]['TotalTraveledDistance'] = elapsedtime * reservoir.Data[indcurtime]['MeanSpeed']
+            
+        # Update traveled distances and times for each vehicle on the network
+        for vehicle in vehicles:
+            curres = Vehicle.get_current_reservoir()
+            vehicle.TotalTraveledDistance += curres.Data[indcurtime]['TotalTraveledDistance']
+            vehicle.TotalTraveledTime += elapsedtime
+            vehicle.RemainingLengthOfCurrentReservoir -= curres.Data[indcurtime]['TotalTraveledDistance']
+            
+        # Update entering and/or exiting reservoir information by considering next vehicle to deal with
+        
+        # if vehicle u0 exists its current reservoir
+        if u0.PathIndex > -1:
+            creation = False
+            ru0 = u0.Path[u0.PathIndex]
+            pu0 = u0.RouteSections[u0.PathIndex]
+            u0.ExitTimes[u0.PathIndex]=curtime
+            
+            pu0.Data[indcurtime]['Acc']-=1
+            pu0.Data[indcurtime]['Nout']+=1
+            pu0.Data[indcurtime]['MeanSpeed']=ru0.get_speed_from_accumulation() # accu dans le réservoir ???
+            
+            pu0.SortedVehicles.pop(0)           # remove u0 from the list of the route section
+        else:
+            vehicles.append(u0)
+            creation=True
+        
+        # if vehicle u0 enters its next (or first) reservoir
+        if u0.PathIndex < len(u0.Path):
+            u0.PathIndex+=1
+            ru0 = u0.Path[u0.PathIndex]
+            pu0 = u0.RouteSections[u0.PathIndex]
+            u0.EntryTimes[u0.PathIndex]=curtime
+            pu0.Data[indcurtime]['Acc']+=1
+            pu0.Data[indcurtime]['Nin']+=1
+            pu0.SortedVehicles.append(u0)   # Added to the end of list
+            u0.RemainingLengthOfCurrentReservoir = pu0.TripLength
+        else:
+            # the vehicule u0 completed its trip
+            u0.Route.Data['Time']['TravelTime']=curtime-u0.EntryTimes[0]
+        
+        # Update reservoir (which reservoirs ?) exit demand times
+        
+        # Update reservoir entry demand times and estimated inflow demand
+        if creation==True:
+            #TO DO: flow demand
+            #pu0.NextDesiredEntryTime = pu0.LastCreationTime + 1./Demand.get_partial_demand(GlobalDemand, ru0, t)
+            #pu0.LastCreationTime = pu0.NextDesiredEntryTime
+            pu0.NextDesiredEntryTime=Demand.get_next_trip_from_origin(GlobalDemand, pu0.EntryNode.ID, curtime).Time
+            pu0.SortedVehicles.append(u0)   # Added to the end of list
+            u0.RemainingLengthOfCurrentReservoir = pu0.TripLength
+                    
+        # Update reservoir entry supply times
+        
+        # Update reservoir (all ?) supply times 
+        
+        # Next possible entry time
+        #for reservoir in Reservoirs:
+         #   for rs in reservoir.RouteSections:
+          #      NextDesiredEntryTimes.append(dict(reservoir,rs,rs.NextDesiredEntryTime))
+        
+        # Next possible exit time
+        
+        # Next event time and concerned vehicle (and creation of the vehicle if it is new)
+        
+        # Times update
+        

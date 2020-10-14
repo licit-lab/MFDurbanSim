@@ -36,18 +36,22 @@ class DiscreteDemand:
         self.TripID = ""                       #ID of the trip
         self.OriginMacroNodeID = ""            #ID of macronode of origin
         self.DestMacroNodeID = ""              #ID of macronode of destination
+        self.Mode=""                           #Used mode of the trip
         self.Time = 0                          #Time at which the simulation starts
         self.RouteID = ""                      #ID of route used
         self.PrevTripID = ""                   #ID of previous trip
 
     def load_input(self, loadDemand, i):
-        self.TripID = loadDemand["DISCRETE DEMAND"][i]["TripID"]                        
-        self.OriginMacroNodeID = loadDemand["DISCRETE DEMAND"][i]["OriginMacroNodeID"]            
-        self.DestMacroNodeID = loadDemand["DISCRETE DEMAND"][i]["DestMacroNodeID"]               
-        self.Time = loadDemand["DISCRETE DEMAND"][i]["Time"]                           
-        self.RouteID = loadDemand["DISCRETE DEMAND"][i]["RouteID"]                       
-        self.PrevTripID = loadDemand["DISCRETE DEMAND"][i]["PrevTripID"]   
+        self.TripID = loadDemand["MICRO"][i]["TripID"]                        
+        self.OriginMacroNodeID = loadDemand["MICRO"][i]["OriginMacroNodeID"]            
+        self.DestMacroNodeID = loadDemand["MICRO"][i]["DestMacroNodeID"]            
+        self.Mode=loadDemand["MICRO"][i]["Mode"]     
+        self.Time = loadDemand["MICRO"][i]["Time"]                           
+        self.RouteID = loadDemand["MICRO"][i]["RouteID"]    
 
+        if 'PrevTripID' in loadDemand["MICRO"][i]:                   
+            self.PrevTripID = loadDemand["MICRO"][i]["PrevTripID"]   
+            
 def get_partial_demand(GlobalDemand, RouteSection, t):
     
     if RouteSection.EntryNode.Type != 'externalentry':
@@ -58,3 +62,15 @@ def get_partial_demand(GlobalDemand, RouteSection, t):
             levelofdemand = GlobalDemand[d].get_levelofdemand(t)
             coeff = GlobalDemand[d].get_assignmentcoefficient(RouteSection.Route.ID, t)
             return levelofdemand*coeff
+        
+def get_next_trip(GlobalDemand,t):
+    # To improve ?
+    for trip in GlobalDemand:
+        if trip.Time > t:
+            return trip
+        
+def get_next_trip_from_origin(GlobalDemand,originID,t):
+    for trip in GlobalDemand:
+        if trip.Time > t and trip.OriginMacroNodeID==originID:
+            return trip
+    

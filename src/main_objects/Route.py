@@ -1,13 +1,23 @@
 import pandas
 from main_objects import MacroNode, Reservoir
+from main_objects.Element import Element
 
-class Route:
+def get_route(routes,route_id):
+    
+    for r in routes:
+        if r.ID==route_id:
+            return r
+        
+    return 0
+
+class Route(Element):
     def __init__(self):
 
         #Input
         self.ID = ""                        #ID of the route
         self.Mode = ""                      #Mode of the route
         self.CrossedReservoirs = []         #List of the successive reservoirs of the route
+        self.RouteSections = []             #List of the successive route sections
         self.TripLengths = []               #List of the successive trip lengths of the route 
         
         self.NodePath = []                  #List of the successive macroscopic nodes of the route
@@ -34,6 +44,11 @@ class Route:
         self.PrevDemandData = 0             #
         self.NumEntryTimes = []             #
         self.TravelTime2 = []               #
+        
+        ## Dynamic variables ##
+        DataKeys = [ "Time", 
+                    "TravelTime"
+                    ]
 
     def load_input(self, loadNetwork, i, reservoirs, macronodes):               
         

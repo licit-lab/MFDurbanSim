@@ -15,6 +15,8 @@ class Reservoir(Element):
         
         DataKeys = [
                             "Time",           
+                            
+                            # Accumulation based model
                             "InternalProd", 
                             "MeanSpeed", 
                             "AvgTripLength",      # average trip length (m) corresponding to the routes orignating outside reservoir only
@@ -23,7 +25,15 @@ class Reservoir(Element):
                             "Inflow",
                             "Outflow", 
                             "Nin", 
-                            "Nout"
+                            "Nout",
+                            "MeanSpeed"
+                            
+                            # Trip based model
+                            #"PossibleNextEntryTime"
+                            #"PossibleNextExitTime"
+                            #"TotalTraveledDistance"
+                            
+                            
                             ]
         
         Element.__init__(self, DataKeys)
@@ -49,28 +59,17 @@ class Reservoir(Element):
         self.NumberOfExtRouteSection = 0    # route section number whose origin of the section is an external entry
         
         #Acc-based solver
+        # to keep ?
         self.NumWaitingVeh = []             #Number of vehicles waiting to enter the reservoir when reservoir is the begining of the route
 
         #Trip-based solver
+        self.t_in = -1
+        self.t_out = -1
+        
+        # to keep 
         self.MFDpts = []                    #
         self.EntryFctpts = []               #
         self.VehList = []                   #List of vehicles in the reservoir
-
-        self.LastEntryTime = 0              #
-        self.LastExitTime = 0               #
-        self.NextEntryTime = 0              #
-        self.NextExitTime = 0               #
-        self.NextEntryVehID = 0             #
-        self.NextExitVehID = 0              #
-        self.SupplyIndex = 0                # utile ? 
-        self.DesiredExitTime = 0            #
-        self.DesiredExitVeh = 0             #
-        self.EntrySupplyTime = 0            #
-        self.ExitSupplyTime = 0             #
-        self.EntryTimes = []                #
-        self.ExitTimes = []                 #
-        self.CurrentMeanSpeed = 0           #
-        self.MeanSpeed2 = []                #
 
     def load_input(self, loadNetwork, i):               
         self.ID = loadNetwork["RESERVOIRS"][i]["ID"]
@@ -78,8 +77,12 @@ class Reservoir(Element):
         self.MaxProd = loadNetwork["RESERVOIRS"][i]["MaxProd"]
         self.MaxAcc = loadNetwork["RESERVOIRS"][i]["MaxAcc"]
         self.CritAcc = loadNetwork["RESERVOIRS"][i]["CritAcc"]
-        self.Centroid = loadNetwork["RESERVOIRS"][i]["Centroid"]
-        self.BorderPoints = loadNetwork["RESERVOIRS"][i]["BorderPoints"]
+        
+        if 'Centroid' in loadNetwork["RESERVOIRS"][i]:
+            self.Centroid = loadNetwork["RESERVOIRS"][i]["Centroid"]
+            
+        if 'BorderPoints' in loadNetwork["RESERVOIRS"][i]:
+            self.BorderPoints = loadNetwork["RESERVOIRS"][i]["BorderPoints"]
 
     def init_fct_param(self, EntryCoeff4, EntryCoeff5, EntryCoeff6, numModes):
         self.MFDfctParam = [self.MaxAcc, self.CritAcc, self.MaxProd]
@@ -106,4 +109,11 @@ class Reservoir(Element):
         
         entry_supply=0
         return entry_supply
+    
+    def get_production_from_accumulation(self, accumulation):
+        return self.MaxAcc*accumulation**2 + self.CritAcc*accumulation + self.MaxProd
+    
+    def get_speed_from_accumulation(self, accumulation):
+        return self.get_producution_from_accumulation(accumulation)
+         
         
