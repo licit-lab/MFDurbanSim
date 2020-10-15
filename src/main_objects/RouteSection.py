@@ -61,9 +61,11 @@ class RouteSection(Element):
         
         self.t_in_demand = -1
         self.t_in_supply = -1
+        self.t_last_entry = -1
         
         self.t_out_demand = -1
         self.t_out_supply = -1
+        self.t_last_out_demand = -1
         
         self.t_in = -1
         self.t_out = -1

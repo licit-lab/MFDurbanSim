@@ -10,9 +10,9 @@ PLOT = 0
 DYNAMIC_PLOT = 1
 
 root='../examples/'
-#root='../../../samples/'
+root='../../../samples/'
 folder='3reservoirs/'
-folder='Braess/DemSC1/'
+#folder='Braess/DemSC1/'
 
 reservoirs = []                 # list of reservoirs
 routes = []                     # list of routes

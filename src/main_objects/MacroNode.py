@@ -25,7 +25,10 @@ class MacroNode:
         
         if 'Capacity' in loadNetwork["MACRONODES"][i]:
             self.Capacities=pandas.DataFrame.from_dict(loadNetwork["MACRONODES"][i]["Capacity"])
-            self.Capacities.set_index('Time')
+        else:
+            self.Capacities=pandas.DataFrame([[float('int'), 1]],
+	                          columns=['Time', 'Data'])
+        self.Capacities.set_index('Time')
        
         if 'Coord' in loadNetwork["MACRONODES"][i]:
             self.Coord = loadNetwork["MACRONODES"][i]["Coord"]

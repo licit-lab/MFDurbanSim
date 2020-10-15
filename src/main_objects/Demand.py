@@ -57,11 +57,17 @@ def get_partial_demand(GlobalDemand, RouteSection, t):
     if RouteSection.EntryNode.Type != 'externalentry':
         return 0
     
-    for d in GlobalDemand:
-        if GlobalDemand[d].OriginMacroNodeID == RouteSection.EntryNode and GlobalDemand[d].DestMacroNodeID == RouteSection.EntryNode:
-            levelofdemand = GlobalDemand[d].get_levelofdemand(t)
-            coeff = GlobalDemand[d].get_assignmentcoefficient(RouteSection.Route.ID, t)
-            return levelofdemand*coeff
+    if GlobalDemand[0] is FlowDemand:
+        for d in GlobalDemand:
+            if GlobalDemand[d].OriginMacroNodeID == RouteSection.EntryNode and GlobalDemand[d].DestMacroNodeID == RouteSection.EntryNode:
+                levelofdemand = GlobalDemand[d].get_levelofdemand(t)
+                coeff = GlobalDemand[d].get_assignmentcoefficient(RouteSection.Route.ID, t)
+                return levelofdemand*coeff
+    else:
+        next_t = get_next_trip_from_origin(GlobalDemand,RouteSection.EntryNode.ID,t)
+        prev_t = get_previous_trip_from_origin(GlobalDemand,RouteSection.EntryNode.ID,t)
+        
+        return 1. / (next_t-prev_t) 
         
 def get_next_trip(GlobalDemand,t):
     # To improve ?
@@ -73,4 +79,12 @@ def get_next_trip_from_origin(GlobalDemand,originID,t):
     for trip in GlobalDemand:
         if trip.Time > t and trip.OriginMacroNodeID==originID:
             return trip
+        
+    return float('inf')
+        
+def get_previous_trip_from_origin(GlobalDemand,originID,t):
+    for trip in reversed(GlobalDemand):
+        if trip.Time < t and trip.OriginMacroNodeID==originID:
+            return trip
     
+    return 0.
