@@ -243,6 +243,8 @@ def TripBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
     next_trip = Demand.get_next_trip(GlobalDemand, prevtime)
     
     curtime = next_trip.Time
+    
+    # Time step (s)
     elapsedtime = curtime - prevtime
     
     nvehs = 0
@@ -262,16 +264,12 @@ def TripBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
                 
             reservoir.Data[indcurtime]['MeanSpeed']=reservoir.Data[indprevtime]['MeanSpeed']
             
-        # Update mean speed for each reservoir
-        for reservoir in Reservoirs:
-            reservoir.Data[indcurtime]['TotalTraveledDistance'] = elapsedtime * reservoir.Data[indcurtime]['MeanSpeed']
-            
         # Update traveled distances and times for each vehicle on the network
         for vehicle in vehicles:
             curres = Vehicle.get_current_reservoir(vehicle)
-            vehicle.TotalTraveledDistance += curres.Data[indcurtime]['TotalTraveledDistance']
+            vehicle.TotalTraveledDistance += elapsedtime * curres.Data[indcurtime]['MeanSpeed']
             vehicle.TotalTraveledTime += elapsedtime
-            vehicle.RemainingLengthOfCurrentReservoir -= curres.Data[indcurtime]['TotalTraveledDistance']
+            vehicle.RemainingLengthOfCurrentReservoir -= elapsedtime * curres.Data[indcurtime]['MeanSpeed']
             
         # Update entering and/or exiting reservoir information by considering next vehicle to deal with
         
@@ -285,7 +283,9 @@ def TripBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
             
             pu0.Data[indcurtime]['Acc']-=1
             pu0.Data[indcurtime]['Nout']+=1
-            ru0.Data[indcurtime]['MeanSpeed']=ru0.get_speed_from_accumulation(ru0.Data[indcurtime]['Acc']) # accu dans le réservoir ???
+            
+            ru0.Data[indcurtime]['Acc']-=1
+            ru0.Data[indcurtime]['MeanSpeed']=ru0.get_speed_from_accumulation(ru0.Data[indcurtime]['Acc'])
             
             pu0.SortedVehicles.pop(0)           # remove u0 from the list of the route section
             
@@ -307,7 +307,9 @@ def TripBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
             
             pu0.Data[indcurtime]['Acc']+=1
             pu0.Data[indcurtime]['Nin']+=1
-            ru0.Data[indcurtime]['MeanSpeed']=ru0.get_speed_from_accumulation(ru0.Data[indcurtime]['Acc']) # accu dans le réservoir ???
+            
+            ru0.Data[indcurtime]['Acc']+=1
+            ru0.Data[indcurtime]['MeanSpeed']=ru0.get_speed_from_accumulation(ru0.Data[indcurtime]['Acc'],u0.Mode)
             
             pu0.SortedVehicles.append(u0)   # Added to the end of list
             u0.RemainingLengthOfCurrentReservoir = pu0.TripLength

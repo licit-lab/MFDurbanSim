@@ -6,7 +6,7 @@ def get_macronode(macronodes,macronode_id):
         if mn.ID==macronode_id:
             return mn
         
-    return 0
+    return None
 
 class MacroNode:
     def __init__(self):
@@ -25,15 +25,14 @@ class MacroNode:
         
         if 'Capacity' in loadNetwork["MACRONODES"][i]:
             self.Capacities=pandas.DataFrame.from_dict(loadNetwork["MACRONODES"][i]["Capacity"])
-        else:
-            self.Capacities=pandas.DataFrame([[float('int'), 1]],
-	                          columns=['Time', 'Data'])
-        self.Capacities.set_index('Time')
+            self.Capacities.set_index('Time')
        
         if 'Coord' in loadNetwork["MACRONODES"][i]:
             self.Coord = loadNetwork["MACRONODES"][i]["Coord"]
 
     def get_capacity(self, time):
+        if self.Capacities.size== 0:
+            return 1.
         return self.Capacities.loc[:time].tail(1).Data[0]
     
     

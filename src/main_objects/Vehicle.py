@@ -20,16 +20,17 @@ class Vehicle:
 
         route = Route.get_route(routes, routeID)
         
-        self.Path = route.CrossedReservoirs              # list of successive crossed reservoirs
-        self.RouteSections = route.RouteSections         # list of successive route sections
+        if not route is None:
+            self.Path = route.CrossedReservoirs              # list of successive crossed reservoirs
+            self.RouteSections = route.RouteSections         # list of successive route sections
         
-        self.PathIndex = -1             # index of the current reservoir int the path
-        self.RemainingLengthOfCurrentReservoir = -1
-        
-        self.DesiredExitTimes = [-1 for e in range(len(self.Path))]      # List of desired exit times in the successive reservoir of the route assigned to the vehicle
-        
-        self.EntryTimes = [-1 for e in range(len(self.Path))]            #List of entry times in the successive reservoir of the route assigned to the vehicle
-        self.ExitTimes = [-1 for e in range(len(self.Path))]                                              # List of exit times in the successive reservoir of the route assigned to the vehicle
+            self.PathIndex = -1             # index of the current reservoir int the path
+            self.RemainingLengthOfCurrentReservoir = -1
+            
+            self.DesiredExitTimes = [-1 for e in range(len(self.Path))]      # List of desired exit times in the successive reservoir of the route assigned to the vehicle
+            
+            self.EntryTimes = [-1 for e in range(len(self.Path))]            #List of entry times in the successive reservoir of the route assigned to the vehicle
+            self.ExitTimes = [-1 for e in range(len(self.Path))]                                              # List of exit times in the successive reservoir of the route assigned to the vehicle
         
         self.TotalTraveledDistance = 0
         self.TotalTraveledTime = 0

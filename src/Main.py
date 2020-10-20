@@ -92,10 +92,10 @@ else:
     print("Demand Type error")
 
 #### Initialize variables ####
-for r in reservoirs:
-    r.init_fct_param(0.8, 1, 1, len(simulation_settings.Modes))
-    if DEBUG == 1:
-        print(r.EntryfctParam)
+# for r in reservoirs:
+#     r.init_fct_param(0.8, 1, 1, len(simulation_settings.Modes))
+#     if DEBUG == 1:
+#         print(r.EntryfctParam)
     
 Init(reservoirs, routes, macronodes)
 

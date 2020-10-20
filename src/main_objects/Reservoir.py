@@ -1,13 +1,14 @@
 import copy
 from main_objects.Element import Element
 
+
 def get_reservoir(reservoirs,reservoir_id):
     
     for r in reservoirs:
         if r.ID==reservoir_id:
             return r
         
-    return 0
+    return None
 
 class Reservoir(Element):
     
@@ -40,10 +41,9 @@ class Reservoir(Element):
         
         #Input
         self.ID = ""                        #ID of the reservoir
-        self.FreeflowSpeed = []             #Free-flow speed in the reservoir per mode
-        self.MaxProd = []                   #Reservoir maximum production per mode
-        self.MaxAcc = []                    #Reservoir maximum accumulation per mode
-        self.CritAcc = []                   #Reservoir critical accumulation per mode
+        
+        self.MFDsetting = []                # Setting of the MFD (mode, free flow speed, max production, max accumulation)
+      
         self.Centroid = []                  #Abscissa and ordinate of reservoir center (plotting purpose)
         self.BorderPoints = []              #List of abscissa and ordinates of the N points delimiting the reservoir (plotting purpose)
 
@@ -73,10 +73,17 @@ class Reservoir(Element):
 
     def load_input(self, loadNetwork, i):               
         self.ID = loadNetwork["RESERVOIRS"][i]["ID"]
-        self.FreeflowSpeed = loadNetwork["RESERVOIRS"][i]["FreeflowSpeed"]
-        self.MaxProd = loadNetwork["RESERVOIRS"][i]["MaxProd"]
-        self.MaxAcc = loadNetwork["RESERVOIRS"][i]["MaxAcc"]
-        self.CritAcc = loadNetwork["RESERVOIRS"][i]["CritAcc"]
+        
+        MFDs = {}
+        
+        for m in loadNetwork["RESERVOIRS"][i]["FreeflowSpeed"]:
+            MFDs['mode']=m['mode']
+            MFDs['FreeflowSpeed']=m['value']
+            MFDs['MaxProd'] = [tag for tag in loadNetwork["RESERVOIRS"][i]["MaxProd"] if tag['mode']=='VL'][0]['value']
+            MFDs['MaxAcc'] = [tag for tag in loadNetwork["RESERVOIRS"][i]["MaxAcc"] if tag['mode']=='VL'][0]['value']
+            MFDs['CritAcc'] = [tag for tag in loadNetwork["RESERVOIRS"][i]["CritAcc"] if tag['mode']=='VL'][0]['value']
+           
+        self.MFDsetting.append(MFDs)
         
         if 'Centroid' in loadNetwork["RESERVOIRS"][i]:
             self.Centroid = loadNetwork["RESERVOIRS"][i]["Centroid"]
@@ -84,20 +91,20 @@ class Reservoir(Element):
         if 'BorderPoints' in loadNetwork["RESERVOIRS"][i]:
             self.BorderPoints = loadNetwork["RESERVOIRS"][i]["BorderPoints"]
 
-    def init_fct_param(self, EntryCoeff4, EntryCoeff5, EntryCoeff6, numModes):
-        self.MFDfctParam = [self.MaxAcc, self.CritAcc, self.MaxProd]
+    # def init_fct_param(self, EntryCoeff4, EntryCoeff5, EntryCoeff6, numModes):
+    #     self.MFDfctParam = [self.MaxAcc, self.CritAcc, self.MaxProd]
 
-        coeff4 = copy.deepcopy(self.CritAcc)
-        coeff5 = copy.deepcopy(self.CritAcc)
-        coeff6 = copy.deepcopy(self.MaxProd)
-        for i in range(numModes):
-            coeff4[i]["value"] *= EntryCoeff4
-            coeff5[i]["value"] *= EntryCoeff5
-            coeff6[i]["value"] *= EntryCoeff6
+    #     coeff4 = copy.deepcopy(self.CritAcc)
+    #     coeff5 = copy.deepcopy(self.CritAcc)
+    #     coeff6 = copy.deepcopy(self.MaxProd)
+    #     for i in range(numModes):
+    #         coeff4[i]["value"] *= EntryCoeff4
+    #         coeff5[i]["value"] *= EntryCoeff5
+    #         coeff6[i]["value"] *= EntryCoeff6
 
-        self.EntryfctParam = [self.MaxAcc, self.CritAcc, self.MaxProd, coeff4, coeff5, coeff6]
+    #     self.EntryfctParam = [self.MaxAcc, self.CritAcc, self.MaxProd, coeff4, coeff5, coeff6]
         
-    def get_entry_supply(self, accumulation):
+    def get_entry_supply(self, accumulation, mode):
         
         # self.EntryfctParam = []             #Parameters of the entry supply function
 # % Entry supply function
@@ -110,10 +117,20 @@ class Reservoir(Element):
         entry_supply=0
         return entry_supply
     
-    def get_production_from_accumulation(self, accumulation):
-        return self.MaxAcc*accumulation**2 + self.CritAcc*accumulation + self.MaxProd
+    def get_production_from_accumulation(self, accumulation, mode):
+        MFDset = [tag for tag in self.MFDsetting if tag['mode']==mode][0]
+        return MFDset['MaxAcc']*accumulation**2 + MFDset['CritAcc']*accumulation + MFDset['MaxProd']
     
-    def get_speed_from_accumulation(self, accumulation):
-        return self.get_production_from_accumulation(accumulation)
+    def get_speed_from_accumulation(self, accumulation, mode):
+        MFDset = [tag for tag in self.MFDsetting if tag['mode']==mode][0]
+        production = self.get_production_from_accumulation(accumulation,mode)
+        
+        if production>0:
+            return accumulation / production
+        
+        return MFDset['FreeflowSpeed']
          
+    def get_MFD_setting(self, data, mode):
+        MFDset = [tag for tag in self.MFDsetting if tag['mode']==mode][0]
+        return MFDset[data]
         

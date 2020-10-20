@@ -53,7 +53,7 @@ def Init(Res, Routes, MacroNodes):
         temp_TT = 0
         ind = 0
         for reservoir in route.CrossedReservoirs:
-            temp_TT += route.TripLengths[ind] // reservoir.FreeflowSpeed[0]['value'] # multimodality management to do
+            temp_TT += route.TripLengths[ind] // reservoir.get_MFD_setting('FreeflowSpeed','VL') # multimodality management to do
             ind = ind+1
             
         route.TotalTime = temp_TT

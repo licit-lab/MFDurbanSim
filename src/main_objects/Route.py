@@ -8,7 +8,7 @@ def get_route(routes,route_id):
         if r.ID==route_id:
             return r
         
-    return 0
+    return None
 
 class Route(Element):
     def __init__(self):
