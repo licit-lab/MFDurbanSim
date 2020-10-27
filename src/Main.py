@@ -9,19 +9,19 @@ import plot_fct
 
 DEBUG = 0
 PLOT = 0
-DYNAMIC_PLOT = 1
-
-root = os.getcwd()
-root = os.path.join(root, "symures-dev/examples")
+DYNAMIC_PLOT = 0
 
 #root='../../../samples/'
 #folder='3reservoirs/'
-folder = 'SingleRes/DemSC1/'
-path = os.path.join(root, folder)
+
+(head, tail) = os.path.split(os.getcwd())
+root = os.path.normpath(os.path.join(head, "examples"))
+folder = 'Braess/DemSC1/'
+path = os.path.normpath(os.path.join(root, folder))
 
 reservoirs = []                 # list of reservoirs
 routes = []                     # list of routes
-macronodes=[]                   # list of macro-nodes
+macronodes = []                 # list of macro-nodes
 
 #### Load Input Parameters ####
 
@@ -34,14 +34,29 @@ simulation_settings = Simulation.Simulation()
 simulation_settings.load_input(loadSimulation, path)
 
 # Network loading
-with open(root + folder + simulation_settings.Network, "r") as file:
+path_network = os.path.join(path, simulation_settings.Network)
+with open(path_network, "r") as file:
     loadNetwork = json.load(file)
 
 numRes = len(loadNetwork["RESERVOIRS"])
-
+list_res_id = []
 for i in range(numRes):
     res = Reservoir.Reservoir()
     res.load_input(loadNetwork, i)
+
+    # Verify reservoir id is unique
+    if res.ID not in list_res_id:
+        list_res_id.append(res.ID)
+    else:
+        print("ResID already used, this reservoir won't be added to the list of reservoirs.")
+        continue
+
+    # Verify Critical accumulation < Maximum accumulation
+    for mode in range(len(res.MFDsetting)):
+        if res.MFDsetting[mode]["CritAcc"] >= res.MFDsetting[mode]["MaxAcc"]:
+            print("MaxAcc < CritAcc, this reservoir won't be added to the list of reservoirs.")
+            continue
+
     reservoirs.append(res)
     if DEBUG == 1:
         print(res.ID)
@@ -64,12 +79,10 @@ for i in range(numRoutes):
     if DEBUG == 1:
         print(route.Length, route.ResOriginID, route.ResDestinationID, route.OriginMacroNode, route.DestMacroNode)
 
-
-    
 #Demand
-with open(root + folder + simulation_settings.Demand, "r") as file:
+path_demand = os.path.join(path, simulation_settings.Demand)
+with open(path_demand, "r") as file:
     loadDemand = json.load(file)
-file.close()
 
 GlobalDemand = {}  
 if simulation_settings.DemandType == "FlowDemand":
@@ -82,7 +95,7 @@ if simulation_settings.DemandType == "FlowDemand":
     
 elif simulation_settings.DemandType == "micro":
     numDemand = len(loadDemand["MICRO"])
-    GlobalDemand =  []
+    GlobalDemand = []
     if DEBUG == 1:
         print(numDemand)
     for i in range(numDemand):
@@ -117,9 +130,9 @@ SimulTime = list(range(0, simulation_settings.Duration, simulation_settings.Time
 SpeedRange = [3, 14]
 t0 = 10
 
-with open(root + folder + "Output.json", "r") as file:
+path_output = os.path.join(path, "Output.json")
+with open(path_output, "r") as file:
     Output = json.load(file)
-file.close()
 
 ResOutput = Output["RESERVOIRS"]
 RoutesOutput = Output["ROUTES"]
