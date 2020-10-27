@@ -61,20 +61,36 @@ for i in range(numRes):
     if DEBUG == 1:
         print(res.ID)
         
-numMacroNodes = len(loadNetwork["MACRONODES"])
-
-for i in range(numMacroNodes):
+num_mn = len(loadNetwork["MACRONODES"])
+list_mn_id = []
+for i in range(num_mn):
     macronode = MacroNode.MacroNode()
     macronode.load_input(loadNetwork, i)
+
+    # Verify macro node id is unique
+    if macronode.ID not in list_mn_id:
+        list_mn_id.append(macronode.ID)
+    else:
+        print("Macro node ID already used, this macro node won't be added to the list of macro nodes.")
+        continue
+
     macronodes.append(macronode)
     if DEBUG == 1:
         print(macronode.ResID)
 
-numRoutes = len(loadNetwork["ROUTES"])
-
-for i in range(numRoutes):
+num_routes = len(loadNetwork["ROUTES"])
+list_routes_id = []
+for i in range(num_routes):
     route = Route.Route()
     route.load_input(loadNetwork, i, reservoirs, macronodes)
+
+    # Verify route id is unique
+    if route.ID not in list_routes_id:
+        list_routes_id.append(route.ID)
+    else:
+        print("Route ID already used, this route won't be added to the list of routes.")
+        continue
+
     routes.append(route)
     if DEBUG == 1:
         print(route.Length, route.ResOriginID, route.ResDestinationID, route.OriginMacroNode, route.DestMacroNode)
