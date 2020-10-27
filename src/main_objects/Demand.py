@@ -36,7 +36,7 @@ class DiscreteDemand:
         self.TripID = ""                       #ID of the trip
         self.OriginMacroNodeID = ""            #ID of macronode of origin
         self.DestMacroNodeID = ""              #ID of macronode of destination
-        self.Mode=""                           #Used mode of the trip
+        self.Mode = ""                           #Used mode of the trip
         self.Time = 0                          #Time at which the simulation starts
         self.RouteID = ""                      #ID of route used
         self.PrevTripID = ""                   #ID of previous trip
@@ -45,7 +45,7 @@ class DiscreteDemand:
         self.TripID = loadDemand["MICRO"][i]["TripID"]                        
         self.OriginMacroNodeID = loadDemand["MICRO"][i]["OriginMacroNodeID"]            
         self.DestMacroNodeID = loadDemand["MICRO"][i]["DestMacroNodeID"]            
-        self.Mode=loadDemand["MICRO"][i]["Mode"]     
+        self.Mode = loadDemand["MICRO"][i]["Mode"]
         self.Time = loadDemand["MICRO"][i]["Time"]                           
         self.RouteID = loadDemand["MICRO"][i]["RouteID"]    
 
@@ -53,7 +53,6 @@ class DiscreteDemand:
             self.PrevTripID = loadDemand["MICRO"][i]["PrevTripID"]   
             
 def get_partial_demand(GlobalDemand, RouteSection, t):
-    
     if RouteSection.EntryNode.Type != 'externalentry':
         return 0
     
@@ -71,20 +70,23 @@ def get_partial_demand(GlobalDemand, RouteSection, t):
         
 def get_next_trip(GlobalDemand,t):
     # To improve ?
-    for trip in GlobalDemand:
-        if trip.Time > t:
-            return trip
+    if GlobalDemand[0] is DiscreteDemand:
+        for trip in GlobalDemand:
+            if trip.Time > t:
+                return trip
         
-def get_next_trip_from_origin(GlobalDemand,originID,t):
-    for trip in GlobalDemand:
-        if trip.Time > t and trip.OriginMacroNodeID==originID:
-            return trip
+def get_next_trip_from_origin(GlobalDemand, originID, t):
+    if GlobalDemand[0] is DiscreteDemand:
+        for trip in GlobalDemand:
+            if trip.Time > t and trip.OriginMacroNodeID == originID:
+                return trip
         
     return float('inf')
         
 def get_previous_trip_from_origin(GlobalDemand,originID,t):
-    for trip in reversed(GlobalDemand):
-        if trip.Time < t and trip.OriginMacroNodeID==originID:
-            return trip
+    if GlobalDemand[0] is DiscreteDemand:
+        for trip in reversed(GlobalDemand):
+            if trip.Time < t and trip.OriginMacroNodeID == originID:
+                return trip
     
     return 0.
