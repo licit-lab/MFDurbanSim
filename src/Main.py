@@ -74,7 +74,22 @@ for i in range(num_mn):
 
     # Verify macro node id is unique
     if macronode.ID not in list_mn_id:
-        list_mn_id.append(macronode.ID)
+        # Verify macro node type is well-defined
+        if macronode.Type is not None:
+            # Verify reservoir is well-defined
+            i = 0
+            for res_id in macronode.ResID:
+                if res_id in list_res_id:
+                    i = i + 1
+
+            if i == len(macronode.ResID):
+                list_mn_id.append(macronode.ID)
+            else:
+                print("Reservoir doesn't exist, this macro node won't be added to the list of macro nodes.")
+                continue
+        else:
+            print("Macro node type unknown, this macro node won't be added to the list of macro nodes")
+            continue
     else:
         print("Macro node ID already used, this macro node won't be added to the list of macro nodes.")
         continue
@@ -82,15 +97,6 @@ for i in range(num_mn):
     macronodes.append(macronode)
     if DEBUG == 1:
         print(macronode.ResID)
-
-'''
-    # Verify reservoir is well-defined
-    for res_id in macronode.ResID:
-        if res_id not in list_res_id:
-            print("Reservoir doesn't exist, this macro node won't be added to the list of macro nodes.")
-        continue'''
-
-
 
 num_routes = len(loadNetwork["ROUTES"])
 list_routes_id = []
@@ -126,7 +132,9 @@ for i in range(num_routes):
         print("Number of nodes isn't equal to number of reservoirs + 1, this route won't be added to the list of routes.")
         continue'''
 
-
+print(list_routes_id)
+route_list = [route.ID for route in routes]
+print(route_list)
 
 
 #Demand
