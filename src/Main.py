@@ -46,18 +46,23 @@ for i in range(numRes):
 
     # Verify reservoir id is unique
     if res.ID not in list_res_id:
-        list_res_id.append(res.ID)
+        # Verify Critical accumulation < Maximum accumulation
+        i = 0
+        for mode in range(len(res.MFDsetting)):
+            if res.MFDsetting[mode]["CritAcc"] < res.MFDsetting[mode]["MaxAcc"]:
+                i = i + 1
+
+        if i == len(res.MFDsetting):
+            list_res_id.append(res.ID)
+        else:
+            print("MaxAcc <= CritAcc, this reservoir won't be added to the list of reservoirs.")
+            continue
     else:
         print("ResID already used, this reservoir won't be added to the list of reservoirs.")
         continue
 
-    # Verify Critical accumulation < Maximum accumulation
-    for mode in range(len(res.MFDsetting)):
-        if res.MFDsetting[mode]["CritAcc"] >= res.MFDsetting[mode]["MaxAcc"]:
-            print("MaxAcc < CritAcc, this reservoir won't be added to the list of reservoirs.")
-            continue
-
     reservoirs.append(res)
+
     if DEBUG == 1:
         print(res.ID)
         
@@ -78,6 +83,15 @@ for i in range(num_mn):
     if DEBUG == 1:
         print(macronode.ResID)
 
+'''
+    # Verify reservoir is well-defined
+    for res_id in macronode.ResID:
+        if res_id not in list_res_id:
+            print("Reservoir doesn't exist, this macro node won't be added to the list of macro nodes.")
+        continue'''
+
+
+
 num_routes = len(loadNetwork["ROUTES"])
 list_routes_id = []
 for i in range(num_routes):
@@ -94,6 +108,26 @@ for i in range(num_routes):
     routes.append(route)
     if DEBUG == 1:
         print(route.Length, route.ResOriginID, route.ResDestinationID, route.OriginMacroNode, route.DestMacroNode)
+'''
+    # Verify reservoir is well-defined
+    for res in route.CrossedReservoirs:
+        if res not in reservoirs:
+            print("Reservoir doesn't exist, this route won't be added to the list of routes.")
+        continue
+
+    # Verify macro node is well-defined
+    for node in route.NodePath:
+        if node not in macronodes:
+            print("Macro node doesn't exist, this route won't be added to the list of routes.")
+        continue
+
+    # Verify nb of nodes = nb of reservoirs + 1
+    if len(route.NodePath) != len(route.CrossedReservoirs) + 1:
+        print("Number of nodes isn't equal to number of reservoirs + 1, this route won't be added to the list of routes.")
+        continue'''
+
+
+
 
 #Demand
 path_demand = os.path.join(path, simulation_settings.Demand)
