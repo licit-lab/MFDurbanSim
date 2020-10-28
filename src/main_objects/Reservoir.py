@@ -5,7 +5,7 @@ from main_objects.Element import Element
 def get_reservoir(reservoirs,reservoir_id):
     
     for r in reservoirs:
-        if r.ID==reservoir_id:
+        if r.ID == reservoir_id:
             return r
         
     return None

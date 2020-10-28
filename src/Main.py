@@ -106,7 +106,32 @@ for i in range(num_routes):
 
     # Verify route id is unique
     if route.ID not in list_routes_id:
-        list_routes_id.append(route.ID)
+        # Verify reservoir is well-defined
+        i = 0
+        for res in route.CrossedReservoirs:
+            if res is not None:
+                i = i + 1
+
+        if i == len(route.CrossedReservoirs):
+            # Verify macro node is well-defined
+            j = 0
+            for node in route.NodePath:
+                if node is not None:
+                    j = j + 1
+
+            if j == len(route.NodePath):
+                # Verify nb of nodes = nb of reservoirs + 1
+                if len(route.NodePath) == len(route.CrossedReservoirs) + 1:
+                    list_routes_id.append(route.ID)
+                else:
+                    print("Number of nodes isn't equal to number of reservoirs + 1, this route won't be added to the list of routes.")
+                    continue
+            else:
+                print("Node path incorrect, this route won't be added to the list of routes.")
+                continue
+        else:
+            print("Reservoir path incorrect, this route won't be added to the list of routes.")
+            continue
     else:
         print("Route ID already used, this route won't be added to the list of routes.")
         continue
@@ -114,28 +139,6 @@ for i in range(num_routes):
     routes.append(route)
     if DEBUG == 1:
         print(route.Length, route.ResOriginID, route.ResDestinationID, route.OriginMacroNode, route.DestMacroNode)
-'''
-    # Verify reservoir is well-defined
-    for res in route.CrossedReservoirs:
-        if res not in reservoirs:
-            print("Reservoir doesn't exist, this route won't be added to the list of routes.")
-        continue
-
-    # Verify macro node is well-defined
-    for node in route.NodePath:
-        if node not in macronodes:
-            print("Macro node doesn't exist, this route won't be added to the list of routes.")
-        continue
-
-    # Verify nb of nodes = nb of reservoirs + 1
-    if len(route.NodePath) != len(route.CrossedReservoirs) + 1:
-        print("Number of nodes isn't equal to number of reservoirs + 1, this route won't be added to the list of routes.")
-        continue'''
-
-print(list_routes_id)
-route_list = [route.ID for route in routes]
-print(route_list)
-
 
 #Demand
 path_demand = os.path.join(path, simulation_settings.Demand)

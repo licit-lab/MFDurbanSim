@@ -28,6 +28,7 @@ class MacroNode:
         if network["Type"] in self.macronode_types_list:
             self.Type = network["Type"]
         else:
+            self.Type = None
             print("Type of macro node unknown, please change the input file entry Type.")
 
         self.ResID = network["ResID"]
