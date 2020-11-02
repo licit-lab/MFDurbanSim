@@ -2,30 +2,35 @@
 
 import pandas
 
+from main_objects import MacroNode
+from main_objects import Route
+
 class FlowDemand:
     def __init__(self):
-        self.OriginMacroNodeID = ""            #ID of macronode of origin
-        self.DestMacroNodeID = ""              #ID of macronode of destination
-        self.Demands = pandas.DataFrame()      # Values of demand veh/s (may be dynamic)
+        self.OriginMacroNode = ""                       # Macronode of origin
+        self.DestMacroNode = ""                         # Macronode of destination
+        self.Demands = pandas.DataFrame()               # Values of demand veh/s (may be dynamic)
         self.RouteAssignments = pandas.DataFrame()      # Assignment coeff per route (may be dynamic)
         
-    def load_input(self, loadDemand, i):
-        self.OriginMacroNodeID = loadDemand["FLOW DEMAND"][i]["OriginMacroNodeID"]
-        self.DestMacroNodeID = loadDemand["FLOW DEMAND"][i]["DestMacroNodeID"]
+    def load_input(self, load_demand, i, macronodes):
+        flow_demand = load_demand["FLOW DEMAND"][i]
+
+        self.OriginMacroNode = MacroNode.get_macronode(macronodes, flow_demand["OriginMacroNodeID"])
+        self.DestMacroNode = MacroNode.get_macronode(macronodes, flow_demand["DestMacroNodeID"])
         
-        self.Demands=pandas.DataFrame.from_dict(loadDemand["FLOW DEMAND"][i]["Demand"])
+        self.Demands = pandas.DataFrame.from_dict(flow_demand["Demand"])
         self.Demands.set_index('Time')
-        
-        self.RouteAssignments=pandas.DataFrame.from_dict(loadDemand["FLOW DEMAND"][i]["Route"])
+
+        self.RouteAssignments = pandas.DataFrame.from_dict(flow_demand["Route"])
         self.RouteAssignments.set_index('Time')
         
     def get_levelofdemand(self, time):
         return float(self.Demands.loc[:time].tail(1)['Data'].iloc[0])
     
-    def get_assignmentcoefficient(self, routeID, time):
+    def get_assignmentcoefficient(self, route_id, time):
         data = self.RouteAssignments.loc[:time].tail(1)['Data'].iloc[0]
         for d in range(len(data)):
-            if data[d]['ID'] == routeID:
+            if data[d]['ID'] == route_id:
                 return data[d]['Coeff']
         
         return 0
@@ -33,24 +38,28 @@ class FlowDemand:
         
 class DiscreteDemand:
     def __init__(self):
-        self.TripID = ""                       #ID of the trip
-        self.OriginMacroNodeID = ""            #ID of macronode of origin
-        self.DestMacroNodeID = ""              #ID of macronode of destination
-        self.Mode = ""                           #Used mode of the trip
-        self.Time = 0                          #Time at which the simulation starts
-        self.RouteID = ""                      #ID of route used
-        self.PrevTripID = ""                   #ID of previous trip
+        self.TripID = ""                        #ID of the trip
+        self.OriginMacroNode = ""               #ID of macronode of origin
+        self.DestMacroNode = ""                 #ID of macronode of destination
+        self.Mode = ""                          #Used mode of the trip
+        self.Time = 0                           #Time at which the simulation starts
+        self.Route = ""                         #ID of route used
+        self.PrevTripID = ""                    #ID of previous trip
 
-    def load_input(self, loadDemand, i):
-        self.TripID = loadDemand["MICRO"][i]["TripID"]                        
-        self.OriginMacroNodeID = loadDemand["MICRO"][i]["OriginMacroNodeID"]            
-        self.DestMacroNodeID = loadDemand["MICRO"][i]["DestMacroNodeID"]            
-        self.Mode = loadDemand["MICRO"][i]["Mode"]
-        self.Time = loadDemand["MICRO"][i]["Time"]                           
-        self.RouteID = loadDemand["MICRO"][i]["RouteID"]    
+    def load_input(self, load_demand, i, routes, macronodes):
+        micro_demand = load_demand["MICRO"][i]
 
-        if 'PrevTripID' in loadDemand["MICRO"][i]:                   
-            self.PrevTripID = loadDemand["MICRO"][i]["PrevTripID"]   
+        self.TripID = micro_demand["TripID"]
+
+        self.OriginMacroNode = MacroNode.get_macronode(macronodes, micro_demand["OriginMacroNodeID"])
+        self.DestMacroNode = MacroNode.get_macronode(macronodes, micro_demand["DestMacroNodeID"])
+        
+        self.Mode = micro_demand["Mode"]
+        self.Time = micro_demand["Time"]
+        self.Route = Route.get_route(routes, micro_demand["RouteID"])
+
+        if 'PrevTripID' in micro_demand:
+            self.PrevTripID = micro_demand["PrevTripID"]
             
 def get_partial_demand(GlobalDemand, RouteSection, t):
     if RouteSection.EntryNode.Type != 'externalentry':
@@ -68,24 +77,24 @@ def get_partial_demand(GlobalDemand, RouteSection, t):
         
         return 1. / (next_t-prev_t) 
         
-def get_next_trip(GlobalDemand,t):
+def get_next_trip(global_demand, t):
     # To improve ?
-    if GlobalDemand[0] is DiscreteDemand:
-        for trip in GlobalDemand:
+    if global_demand[0] is DiscreteDemand:
+        for trip in global_demand:
             if trip.Time > t:
                 return trip
         
-def get_next_trip_from_origin(GlobalDemand, originID, t):
-    if GlobalDemand[0] is DiscreteDemand:
-        for trip in GlobalDemand:
+def get_next_trip_from_origin(global_demand, originID, t):
+    if global_demand[0] is DiscreteDemand:
+        for trip in global_demand:
             if trip.Time > t and trip.OriginMacroNodeID == originID:
                 return trip
         
     return float('inf')
         
-def get_previous_trip_from_origin(GlobalDemand,originID,t):
-    if GlobalDemand[0] is DiscreteDemand:
-        for trip in reversed(GlobalDemand):
+def get_previous_trip_from_origin(global_demand, originID, t):
+    if global_demand[0] is DiscreteDemand:
+        for trip in reversed(global_demand):
             if trip.Time < t and trip.OriginMacroNodeID == originID:
                 return trip
     

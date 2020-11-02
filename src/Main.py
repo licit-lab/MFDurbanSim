@@ -124,7 +124,8 @@ for i in range(num_routes):
                 if len(route.NodePath) == len(route.CrossedReservoirs) + 1:
                     list_routes_id.append(route.ID)
                 else:
-                    print("Number of nodes isn't equal to number of reservoirs + 1, this route won't be added to the list of routes.")
+                    print("Number of nodes isn't equal to number of reservoirs + 1, this route won't be added "
+                          "to the list of routes.")
                     continue
             else:
                 print("Node path incorrect, this route won't be added to the list of routes.")
@@ -140,34 +141,79 @@ for i in range(num_routes):
     if DEBUG == 1:
         print(route.Length, route.ResOriginID, route.ResDestinationID, route.OriginMacroNode, route.DestMacroNode)
 
-#Demand
+# Demand
 path_demand = os.path.join(path, simulation_settings.Demand)
 with open(path_demand, "r") as file:
     loadDemand = json.load(file)
 
 GlobalDemand = {}  
 if simulation_settings.DemandType == "FlowDemand":
-    numDemand = len(loadDemand["FLOW DEMAND"])
+    num_demand = len(loadDemand["FLOW DEMAND"])
+
     if DEBUG == 1:
-        print(numDemand)
-    for i in range(numDemand):
-        GlobalDemand[i] = Demand.FlowDemand()
-        GlobalDemand[i].load_input(loadDemand, i)
+        print(num_demand)
+
+    for i in range(num_demand):
+        flow = Demand.FlowDemand()
+        flow.load_input(loadDemand, i, macronodes)
+
+        # Verify origin and destination nodes exist
+        if flow.OriginMacroNode is not None and flow.DestMacroNode is not None:
+            verify = True
+            for k in range(len(flow.RouteAssignments["Data"])):
+                list_data_routes_id = []
+
+                for data in flow.RouteAssignments["Data"][k]:
+                    if data["ID"] in list_routes_id and data["ID"] not in list_data_routes_id:
+                        list_data_routes_id.append(data["ID"])
+                    else:
+                        verify = False
+
+            if verify:
+                GlobalDemand[i] = flow
+            else:
+                print("Route is unknown or already used, this demand won't be added to the list of demands")
+                continue
+        else:
+            print("Origin or destination node is incorrect, this demand won't be added to the list of demands.")
+            continue
     
 elif simulation_settings.DemandType == "micro":
-    numDemand = len(loadDemand["MICRO"])
+    num_demand = len(loadDemand["MICRO"])
+    list_trip_id = []
     GlobalDemand = []
+
     if DEBUG == 1:
-        print(numDemand)
-    for i in range(numDemand):
+        print(num_demand)
+
+    for i in range(num_demand):
         trip = Demand.DiscreteDemand()
-        trip.load_input(loadDemand, i)
+        trip.load_input(loadDemand, i, routes, macronodes)
+
+        # Verify route id is unique
+        if trip.TripID not in list_trip_id:
+            # Verify origin and destination nodes exist
+            if trip.OriginMacroNode is not None and trip.DestMacroNode is not None:
+                # Verify route exists
+                if trip.Route is not None:
+                    list_trip_id.append(trip.TripID)
+                else:
+                    print("Route is incorrect, this trip won't be added to the list of trips.")
+                    continue
+            else:
+                print("Origin or destination node is incorrect, this trip won't be added to the list of trips.")
+                continue
+        else:
+            print("Trip ID already used, this trip won't be added to the list of trips.")
+            continue
+
         GlobalDemand.append(trip)
     
     # Sorts trips by creation time
-    GlobalDemand = sorted(GlobalDemand,key=lambda trip: trip.Time)
+    GlobalDemand = sorted(GlobalDemand, key = lambda trip: trip.Time)
 else:
     print("Demand Type error")
+
 
 #### Initialize variables ####
 # for r in reservoirs:
