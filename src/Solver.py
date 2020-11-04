@@ -113,7 +113,7 @@ def AccBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
                 if rs.EntryNode.Type == 'externalentry':
                     tmp=tmp+rs.TripLength*Demand.get_partial_demand(GlobalDemand, rs, t)
 
-            reservoir.Data[indtime]['ProductionSupply']=reservoir.get_entry_supply(reservoir.Data[indtime]['Acc'])-tmp
+            reservoir.Data[indtime]['ProductionSupply']=reservoir.get_entry_supply_from_accumulation(reservoir.Data[indtime]['Acc'],'VL')-tmp
             
             # Average trip length update
             tmp = 0

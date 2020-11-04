@@ -10,9 +10,9 @@ PLOT = 0
 DYNAMIC_PLOT = 1
 
 root='../examples/'
-root='../../../samples/'
-folder='3reservoirs/'
-#folder='Braess/DemSC1/'
+#root='../../../samples/'
+#folder='3reservoirs/'
+folder='Braess/DemSC1/'
 
 reservoirs = []                 # list of reservoirs
 routes = []                     # list of routes
@@ -153,28 +153,28 @@ if PLOT == 1:
 
 if DYNAMIC_PLOT == 1:
     plt.figure
-    for t in range(0, 50, simulation_settings.TimeStep):
+    for t in range(0, simulation_settings.Duration, simulation_settings.TimeStep):
         plt.clf()
         # Plot reservoir state (total accumulation) at t, schematic representation
         plotResBallAcc(t, reservoirs, ResOutput, SimulTime, 0.5, [1.5, 1.5])
         plt.draw()
-        plt.pause(0.5)
+        plt.pause(5)
     plt.show()
 
     plt.figure
-    for t in range(0, 50, Simu.TimeStep):
+    for t in range(0, simulation_settings.Duration, simulation_settings.TimeStep):
         plt.clf()
         # Plot reservoir state (accumulation per route) at t, schematic representation
         plotResBallAccPerRoute(t, reservoirs, ResOutput, routes, SimulTime, 0.5, [1.5, 1.5])
         plt.draw()
-        plt.pause(0.5)
+        plt.pause(5)
     plt.show()
 
     plt.figure
-    for t in range(0, 50, simulation_settings.TimeStep):
+    for t in range(0, simulation_settings.Duration, simulation_settings.TimeStep):
         plt.clf()
         # Plot reservoir state (mean speed) at t, real network
         plotResNetSpeed(t, reservoirs, ResOutput, SimulTime, SpeedRange)
         plt.draw()
-        plt.pause(0.5)
+        plt.pause(5)
     plt.show()

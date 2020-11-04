@@ -42,7 +42,7 @@ class Reservoir(Element):
         #Input
         self.ID = ""                        #ID of the reservoir
         
-        self.MFDsetting = []                # Setting of the MFD (mode, free flow speed, max production, max accumulation)
+        self.MFDsetting = []                # Setting of the MFD by mode (mode, free flow speed, max production, max accumulation)
       
         self.Centroid = []                  #Abscissa and ordinate of reservoir center (plotting purpose)
         self.BorderPoints = []              #List of abscissa and ordinates of the N points delimiting the reservoir (plotting purpose)
@@ -104,7 +104,7 @@ class Reservoir(Element):
 
     #     self.EntryfctParam = [self.MaxAcc, self.CritAcc, self.MaxProd, coeff4, coeff5, coeff6]
         
-    def get_entry_supply(self, accumulation, mode):
+    def get_entry_supply_from_accumulation(self, accumulation, mode):
         
         # self.EntryfctParam = []             #Parameters of the entry supply function
 # % Entry supply function
