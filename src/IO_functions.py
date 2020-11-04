@@ -1,51 +1,58 @@
 import json
-import pandas
-from main_objects import RouteSection, MacroNode
+from src.main_objects import RouteSection
 
 def Init(Res, Routes, MacroNodes):
 
-    numRes = len(Res)
-    numRoutes = len(Routes)
-    numMN = len(MacroNodes)
-    
+    num_res = len(Res)
+    num_routes = len(Routes)
+    num_mn = len(MacroNodes)
+
     ### Init Res ###
     
-    #Loop on all reservoirs
-    for i in range(numRes):
-        #Loop on all macronodes
-        #Init MacroNodesID & AdjacentResID
-        for j in range(numMN):
-            if Res[i].ID in MacroNodes[j].ResID:
-                
-                Res[i].MacroNodes.append(MacroNodes[j])
+    # Loop on all reservoirs
+    for res in Res:
+        # Loop on all macronodes
+        for mn in MacroNodes:
+            # Init MacroNodesID & AdjacentResID
+            if type(mn.ResID) == int:
+                mn.ResID = [mn.ResID]
 
-                if len(MacroNodes[j].ResID) == 2:
-                    if MacroNodes[j].ResID[0] != Res[i].ID:
-                        Res[i].AdjacentResID.append(MacroNodes[j].ResID[0])
+            if res.ID in mn.ResID:
+                res.MacroNodes.append(mn)
+
+                if len(mn.ResID) == 2:
+                    if mn.ResID[0] != res.ID:
+                        res.AdjacentResID.append(mn.ResID[0])
                     else:
-                        Res[i].AdjacentResID.append(MacroNodes[j].ResID[1])       
+                        res.AdjacentResID.append(mn.ResID[1])
+                else:
+                    res.AdjacentResID.append(None)
 
     #Init RouteSection
     for route in Routes:            
-        previousroutesection=0
+        previous_route_section = 0
         ind = 0
         
         for reservoir in route.CrossedReservoirs:
-            
             EntryNode = route.NodePath[ind]
             ExitNode = route.NodePath[ind+1]
+
+            if EntryNode is None:
+                print(EntryNode)
+                print(route.ID)
+                print(reservoir.ID)
             
             rs = RouteSection.RouteSection(route, reservoir, EntryNode, ExitNode, route.TripLengths[ind])
-            rs.PreviousRouteSection = previousroutesection
+            rs.PreviousRouteSection = previous_route_section
             reservoir.RouteSections.append(rs)
             
             route.RouteSections.append(rs)
             
-            if EntryNode.Type=='externalentry':
-                reservoir.NumberOfExtRouteSection=reservoir.NumberOfExtRouteSection+1
+            if EntryNode.Type == 'externalentry':
+                reservoir.NumberOfExtRouteSection += reservoir.NumberOfExtRouteSection
                 
-            previousroutesection=rs
-            ind = ind+1
+            previous_route_section = rs
+            ind = ind + 1
 
     #Loop on all routes
     for route in Routes:
@@ -64,7 +71,7 @@ def SaveOutput(Simulation, Reservoirs, Routes, Vehicle = []):
     output = {}
 
     ##SIMULATION##
-    simulation_out = [{"Date":Simulation.Date, "Version":Simulation.Version}]
+    simulation_out = [{"Date": Simulation.Date, "Version": Simulation.Version}]
 
     ##RESERVOIR##
     reservoirs_out = []
@@ -80,7 +87,7 @@ def SaveOutput(Simulation, Reservoirs, Routes, Vehicle = []):
                                                "OutflowDemand":Reservoirs[i].RouteSections[j].Data[k]["OutflowDemand"], "Nin":Reservoirs[i].RouteSections[j].Data[k]["Nin"], "Nout":Reservoirs[i].RouteSections[j].Data[k]["Nout"],
                                                "NoutCircu":Reservoirs[i].RouteSections[j].Data[k]["NoutCircu"]})        
         
-        reservoirs_out.append({"ID":Reservoirs[i].ID, "ReservoirData":reservoir_data, "DataPerRoute":routes_data})
+        reservoirs_out.append({"ID": Reservoirs[i].ID, "ReservoirData": reservoir_data, "DataPerRoute": routes_data})
 
     ##ROUTES##
     routes_out = []
@@ -88,7 +95,7 @@ def SaveOutput(Simulation, Reservoirs, Routes, Vehicle = []):
         data = []
         #TODO
         
-        routes_out.append({"ID":Routes[i].ID, "Data":data, "NVehicles":Routes[i].NVehicles})
+        routes_out.append({"ID": Routes[i].ID, "Data": data, "NVehicles": Routes[i].NVehicles})
 
     if len(Vehicle) > 0:
         ##VEHICLE##
@@ -104,7 +111,7 @@ def SaveOutput(Simulation, Reservoirs, Routes, Vehicle = []):
         output = {"SIMULATION":simulation_out, "RESERVOIRS":reservoirs_out, "ROUTES":routes_out}
 
     with open("Output.json", "w") as fichier:
-        json.dump(output)
+        json.dump(output, fichier, indent = 4)
 
 
 

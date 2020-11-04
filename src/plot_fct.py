@@ -23,10 +23,10 @@ def plotResBallConfig(Reservoir, plotborders, ResRadius, coordscale):
     x1 = 0
     y1 = 0
 
-    for r in range(0, numRes):
-        if Reservoir[r].ID == Reservoir[0].AdjacentResID[0]:
-            x1 = Reservoir[r].Centroid[0]["x"]
-            y1 = Reservoir[r].Centroid[0]["y"]
+    for res in Reservoir:
+        if res.ID == Reservoir[0].AdjacentResID[0] or len(Reservoir) == 1:
+            x1 = res.Centroid[0]["x"]
+            y1 = res.Centroid[0]["y"]
 
     dx0 = max([abs(x1 - x0), abs(y1 - y0)])
     dx0 = (0 < dx0) * dx0 + (0 == dx0) * 1
@@ -39,9 +39,9 @@ def plotResBallConfig(Reservoir, plotborders, ResRadius, coordscale):
             if len(Reservoir[r].BorderPoints) != 0:
                 xResbp = []
                 yResbp = []
-                for bp in range(len(Reservoir[r].BorderPoints)):
-                    xResbp_tmp = (coordscale[0] * Reservoir[r].BorderPoints[bp]["x"] - x0) / dx0
-                    yResbp_tmp = (coordscale[1] * Reservoir[r].BorderPoints[bp]["y"] - y0) / dx0
+                for bp in Reservoir[r].BorderPoints:
+                    xResbp_tmp = (coordscale[0] * bp["x"] - x0) / dx0
+                    yResbp_tmp = (coordscale[1] * bp["y"] - y0) / dx0
                     xResbp.append(xResbp_tmp)
                     yResbp.append(yResbp_tmp)
 
@@ -62,12 +62,11 @@ def plotResBallConfig(Reservoir, plotborders, ResRadius, coordscale):
 
         # Plot flow exchanges
         if r < numRes: # to avoid flow line duplication
-            for i in range(len(Reservoir[r].AdjacentResID)):
-                adjID = Reservoir[r].AdjacentResID[i]
-                for j in range(numRes):
-                    if adjID == Reservoir[j].ID:
-                        xResAdj = coordscale[0] * (Reservoir[j].Centroid[0]["x"] - x0) / dx0
-                        yResAdj = coordscale[1] * (Reservoir[j].Centroid[0]["y"] - y0) / dx0
+            for adjID in Reservoir[r].AdjacentResID:
+                for res2 in Reservoir:
+                    if adjID == res2.ID:
+                        xResAdj = coordscale[0] * (res2.Centroid[0]["x"] - x0) / dx0
+                        yResAdj = coordscale[1] * (res2.Centroid[0]["y"] - y0) / dx0
 
                         ang = math.atan2(xResAdj - yResC, xResAdj - xResC) + math.pi / 2
 
@@ -152,7 +151,7 @@ def plotResBallAcc(t, Reservoir, ResOutput, SimulTime, ResRadius, coordscale):
     tlabel = 't = ' + str(t) + ' s' # default
     showflowval = 1 # default
     txtcolor = [0.9, 0.9, 1]
-    flowspac = 0.2 # spacing between flow lines
+    flowspace = 0.2 # spacing between flow lines
     maxwidth = 30 # flow line max width
 
     xList = []
@@ -190,43 +189,40 @@ def plotResBallAcc(t, Reservoir, ResOutput, SimulTime, ResRadius, coordscale):
         yList.append(yResC)
 
         # Plot flow exchanges
-        if r < numRes:
-            for i in range(len(Reservoir[r].AdjacentResID)):
-                adjID = Reservoir[r].AdjacentResID[i]
-                if adjID > Reservoir[r].ID : # to avoid flow line duplication
-                    for j in range(numRes):
-                        if adjID == Reservoir[j].ID:
-                            xResAdj = coordscale[0] * (Reservoir[j].Centroid[0]["x"] - x0) / dx0
-                            yResAdj = coordscale[1] * (Reservoir[j].Centroid[0]["y"] - y0) / dx0
+        if r < numRes: # to avoid flow line duplication
+            for adjID in Reservoir[r].AdjacentResID:
+                for res2 in Reservoir:
+                    if adjID == res2.ID:
+                        xResAdj = coordscale[0] * (res2.Centroid[0]["x"] - x0) / dx0
+                        yResAdj = coordscale[1] * (res2.Centroid[0]["y"] - y0) / dx0
 
-                            ang = math.atan2(yResAdj - yResC, xResAdj - xResC) + math.pi / 2
+                        ang = math.atan2(yResAdj - yResC, xResAdj - xResC) + math.pi / 2
 
-                            dx = flowspac * math.cos(ang)
-                            dy = flowspac * math.sin(ang)
+                        dx = flowspace * math.cos(ang)
+                        dy = flowspace * math.sin(ang)
 
-                            xRes1 = xResC + dx
-                            yRes1 = yResC + dy
-                            xRes2 = xResC - dx
-                            yRes2 = yResC - dy
-                            xResAdj1 = xResAdj + dx
-                            yResAdj1 = yResAdj + dy
-                            xResAdj2 = xResAdj - dx
-                            yResAdj2 = yResAdj - dy
+                        xRes1 = xResC + dx
+                        yRes1 = yResC + dy
+                        xRes2 = xResC - dx
+                        yRes2 = yResC - dy
+                        xResAdj1 = xResAdj + dx
+                        yResAdj1 = yResAdj + dy
+                        xResAdj2 = xResAdj - dx
+                        yResAdj2 = yResAdj - dy
 
-                # Effective flow from Ri to Rj
-                outflowij = 0.35;#sum(Reservoir(r).OutflowPerResPerDest(xResAdj,:, timeID))
-                LW = max([outflowij / maxflow * maxwidth, 0.1])
-                plt.plot([xRes1, xResAdj1], [yRes1, yResAdj1], '-', color = 'k', linewidth = LW)
-                if showflowval == 1:
-                    plt.text(1 / 3 * xRes1 + 2 / 3 * xResAdj1, 1 / 3 * yRes1 + 2 / 3 * yResAdj1, str(outflowij), rotation = ang * 180 / math.pi, ha = 'center', color = 'k', backgroundcolor = 'w', fontname = fontname, fontsize = 0.5 * FS)
+                        # Effective flow from Ri to Rj
+                        outflowij = 0.35 #sum(Reservoir(r).OutflowPerResPerDest(xResAdj,:, timeID))
+                        LW = max([outflowij / maxflow * maxwidth, 0.1])
+                        plt.plot([xRes1, xResAdj1], [yRes1, yResAdj1], '-', color = 'k', linewidth = LW)
+                        if showflowval == 1:
+                            plt.text(1 / 3 * xRes1 + 2 / 3 * xResAdj1, 1 / 3 * yRes1 + 2 / 3 * yResAdj1, str(outflowij), rotation = ang * 180 / math.pi, ha = 'center', color = 'k', backgroundcolor = 'w', fontname = fontname, fontsize = 0.5 * FS)
 
-                # Effective flow from Rj to Ri
-                outflowji = 0.2;#sum(Reservoir(r2).OutflowPerResPerDest(r,:, timeID))
-                LW = max([outflowji / maxflow * maxwidth, 0.1])
-                plt.plot([xRes2, xResAdj2], [yRes2, yResAdj2], '-', color = 'k', linewidth = LW)
-                if showflowval == 1:
-                    plt.text(2 / 3 * xRes2 + 1 / 3 * xResAdj2, 2 / 3 * yRes2 + 1 / 3 * yResAdj2, str(outflowji), rotation = ang * 180 / math.pi, ha = 'center', color = 'k', backgroundcolor = 'w', fontname = fontname, fontsize = 0.5 * FS)
-
+                        # Effective flow from Rj to Ri
+                        outflowji = 0.2;#sum(Reservoir(r2).OutflowPerResPerDest(r,:, timeID))
+                        LW = max([outflowji / maxflow * maxwidth, 0.1])
+                        plt.plot([xRes2, xResAdj2], [yRes2, yResAdj2], '-', color = 'k', linewidth = LW)
+                        if showflowval == 1:
+                            plt.text(2 / 3 * xRes2 + 1 / 3 * xResAdj2, 2 / 3 * yRes2 + 1 / 3 * yResAdj2, str(outflowji), rotation = ang * 180 / math.pi, ha = 'center', color = 'k', backgroundcolor = 'w', fontname = fontname, fontsize = 0.5 * FS)
 
         # Plot reservoir disk
         step = 0.01
@@ -348,41 +344,39 @@ def plotResBallAccPerRoute(t, Reservoir, ResOutput, Route, SimulTime, ResRadius,
 
         # Plot flow exchanges
         if r < numRes:  # avoid flow line duplication
-            for i in range(len(Reservoir[r].AdjacentResID)):
-                adjID = Reservoir[r].AdjacentResID[i]
-                if adjID > Reservoir[r].ID: # avoid flow line duplication
-                    for j in range(numRes):
-                        if adjID == Reservoir[j].ID:
-                            xResAdj = coordscale[0] * (Reservoir[j].Centroid[0]["x"] - x0) / dx0
-                            yResAdj = coordscale[1] * (Reservoir[j].Centroid[0]["y"] - y0) / dx0
+            for adjID in Reservoir[r].AdjacentResID:
+                for j in range(numRes):
+                    if adjID == Reservoir[j].ID:
+                        xResAdj = coordscale[0] * (Reservoir[j].Centroid[0]["x"] - x0) / dx0
+                        yResAdj = coordscale[1] * (Reservoir[j].Centroid[0]["y"] - y0) / dx0
 
-                            ang = math.atan2(yResAdj - yResC, xResAdj - xResC) + math.pi / 2
+                        ang = math.atan2(yResAdj - yResC, xResAdj - xResC) + math.pi / 2
 
-                            dx = flowspac * math.cos(ang)
-                            dy = flowspac * math.sin(ang)
+                        dx = flowspac * math.cos(ang)
+                        dy = flowspac * math.sin(ang)
 
-                            xRes1 = xResC + dx
-                            yRes1 = yResC + dy
-                            xRes2 = xResC - dx
-                            yRes2 = yResC - dy
-                            xResAdj1 = xResAdj + dx
-                            yResAdj1 = yResAdj + dy
-                            xResAdj2 = xResAdj - dx
-                            yResAdj2 = yResAdj - dy
+                        xRes1 = xResC + dx
+                        yRes1 = yResC + dy
+                        xRes2 = xResC - dx
+                        yRes2 = yResC - dy
+                        xResAdj1 = xResAdj + dx
+                        yResAdj1 = yResAdj + dy
+                        xResAdj2 = xResAdj - dx
+                        yResAdj2 = yResAdj - dy
 
-                # Effective flow from Ri to Rj
-                outflowij = 0.8  # sum(Reservoir(r).OutflowPerResPerDest(xResAdj,:, timeID))
-                LW = max([outflowij / maxflow * maxwidth, 0.1])
-                plt.plot([xRes1, xResAdj1], [yRes1, yResAdj1], '-', color='k', linewidth=LW, zorder = 0)
-                if showflowval == 1:
-                    plt.text(1 / 3 * xRes1 + 2 / 3 * xResAdj1, 1 / 3 * yRes1 + 2 / 3 * yResAdj1, str(outflowij), rotation=ang * 180 / math.pi, ha='center', color='k', backgroundcolor='w', fontname=fontname, fontsize=0.5 * FS)
+                        # Effective flow from Ri to Rj
+                        outflowij = 0.8  # sum(Reservoir(r).OutflowPerResPerDest(xResAdj,:, timeID))
+                        LW = max([outflowij / maxflow * maxwidth, 0.1])
+                        plt.plot([xRes1, xResAdj1], [yRes1, yResAdj1], '-', color='k', linewidth=LW, zorder = 0)
+                        if showflowval == 1:
+                            plt.text(1 / 3 * xRes1 + 2 / 3 * xResAdj1, 1 / 3 * yRes1 + 2 / 3 * yResAdj1, str(outflowij), rotation=ang * 180 / math.pi, ha='center', color='k', backgroundcolor='w', fontname=fontname, fontsize=0.5 * FS)
 
-                # Effective flow from Rj to Ri
-                outflowji = 0.2  # sum(Reservoir(r2).OutflowPerResPerDest(r,:, timeID))
-                LW = max([outflowji / maxflow * maxwidth, 0.1])
-                plt.plot([xRes2, xResAdj2], [yRes2, yResAdj2], '-', color='k', linewidth=LW, zorder = 0)
-                if showflowval == 1:
-                    plt.text(2 / 3 * xRes2 + 1 / 3 * xResAdj2, 2 / 3 * yRes2 + 1 / 3 * yResAdj2, str(outflowji), rotation=ang * 180 / math.pi, ha='center', color='k', backgroundcolor='w', fontname=fontname, fontsize=0.5 * FS)
+                        # Effective flow from Rj to Ri
+                        outflowji = 0.2  # sum(Reservoir(r2).OutflowPerResPerDest(r,:, timeID))
+                        LW = max([outflowji / maxflow * maxwidth, 0.1])
+                        plt.plot([xRes2, xResAdj2], [yRes2, yResAdj2], '-', color='k', linewidth=LW, zorder = 0)
+                        if showflowval == 1:
+                            plt.text(2 / 3 * xRes2 + 1 / 3 * xResAdj2, 2 / 3 * yRes2 + 1 / 3 * yResAdj2, str(outflowji), rotation=ang * 180 / math.pi, ha='center', color='k', backgroundcolor='w', fontname=fontname, fontsize=0.5 * FS)
 
         # Plot reservoir disk
         step = 0.01
@@ -661,15 +655,13 @@ def plotMacroNodes(Reservoir, coloringres, MacroNode, sizingnodes, Route, colori
     FS = 28
     LW = 2
     MS = 10
-    cmap0 = np.array([51, 51, 255], [0, 204, 51], [204, 0, 0], [204, 153, 0], [153, 0, 102], [51, 153, 153], [204, 102, 204], [204, 204, 102] / 255)
+    cmap0 = np.array([(51, 51, 255), (0, 204, 51), (204, 0, 0), (204, 153, 0), (153, 0, 102), (51, 153, 153), (204, 102, 204), (204, 204, 102)]) / 255
     rescolor = [0.1, 0.1, 0]
     txtcolor = [0.9, 0.9, 1]
     plotlegend = 0
     plotnumnodes = 0
     exactsmooth = 1
-    
-    # Lines
-    line0 = {'-', '--', ':', '-.'}
+
     # Line width
     minLW = 0.2
     maxLW = 5
@@ -680,6 +672,9 @@ def plotMacroNodes(Reservoir, coloringres, MacroNode, sizingnodes, Route, colori
     # Plot the reservoirs
     xLinks = []
     yLinks = []
+
+    while numRes > len(cmap0):
+        cmap0 = np.concatenate((cmap0, cmap0))
 
     # Plot the reservoirs
     for r in range(numRes):
@@ -761,12 +756,12 @@ def plotMacroNodes(Reservoir, coloringres, MacroNode, sizingnodes, Route, colori
         hp.append(plt.plot(xpath, ypath, linestyle = sline, color = colori, linewidth = LWroute))
         strleg.append(str(iroute + 1) + ': [' + str(Route(iroute).ResPath) + ']')
         #TODO
-        plt.arrow([xpath(end-1), xpath(end)],[ypath(end-1), ypath(end)], arrowL,'absolute', 1, colori, LWroute)
+        plt.arrow([xpath[-2], xpath[-1]], [ypath[-2], ypath[-1]], arrowL, 'absolute', 1, colori, LWroute)
     
     # Plot the macro nodes
-    color1 = cmap0[3,:]
-    color2 = cmap0[1,:]
-    color3 = cmap0[4,:]
+    color1 = cmap0[3, :]
+    color2 = cmap0[1, :]
+    color3 = cmap0[4, :]
     MS1 = MS
     MS2 = 1.5 * MS
     MS3 = MS
@@ -853,7 +848,7 @@ def plotMacroNodes(Reservoir, coloringres, MacroNode, sizingnodes, Route, colori
             for j in range(numNodes):
                 dist = math.sqrt((MacroNode[i].Coord[0]["x"] - MacroNode[j].Coord[0]["x"]) ^ 2 + (MacroNode[i].Coord[0]["y"] - MacroNode[j].Coord[0]["y"]) ^ 2)
                 if dist < 0.01 * dx:
-                    similnodes[i,j] = 1 # similar nodes if spatially very close
+                    similnodes[i, j] = 1 # similar nodes if spatially very close
 
         #TODO
         pairnodeslist = gatherelements(similnodes) # gather nodes that are very close

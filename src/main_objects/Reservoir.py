@@ -5,7 +5,7 @@ from main_objects.Element import Element
 def get_reservoir(reservoirs,reservoir_id):
     
     for r in reservoirs:
-        if r.ID==reservoir_id:
+        if r.ID == reservoir_id:
             return r
         
     return None
@@ -56,7 +56,7 @@ class Reservoir(Element):
         self.RouteSections = []              #List of all "per route" data
 
         # Usefull variables
-        self.NumberOfExtRouteSection = 0    # route section number whose origin of the section is an external entry
+        self.NumberOfExtRouteSection = 1    # route section number whose origin of the section is an external entry
         
         #Acc-based solver
         # to keep ?
@@ -77,8 +77,8 @@ class Reservoir(Element):
         MFDs = {}
         
         for m in loadNetwork["RESERVOIRS"][i]["FreeflowSpeed"]:
-            MFDs['mode']=m['mode']
-            MFDs['FreeflowSpeed']=m['value']
+            MFDs['mode'] = m['mode']
+            MFDs['FreeflowSpeed'] = m['value']
             MFDs['MaxProd'] = [tag for tag in loadNetwork["RESERVOIRS"][i]["MaxProd"] if tag['mode']=='VL'][0]['value']
             MFDs['MaxAcc'] = [tag for tag in loadNetwork["RESERVOIRS"][i]["MaxAcc"] if tag['mode']=='VL'][0]['value']
             MFDs['CritAcc'] = [tag for tag in loadNetwork["RESERVOIRS"][i]["CritAcc"] if tag['mode']=='VL'][0]['value']
@@ -114,11 +114,11 @@ class Reservoir(Element):
     # (param(5) < n).*MFDfct(n,param(1:3));
 
         
-        entry_supply=0
+        entry_supply = 0
         return entry_supply
     
     def get_production_from_accumulation(self, accumulation, mode):
-        MFDset = [tag for tag in self.MFDsetting if tag['mode']==mode][0]
+        MFDset = [tag for tag in self.MFDsetting if tag['mode'] == mode][0]
         return MFDset['MaxAcc']*accumulation**2 + MFDset['CritAcc']*accumulation + MFDset['MaxProd']
     
     def get_speed_from_accumulation(self, accumulation, mode):
