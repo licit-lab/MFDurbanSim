@@ -176,7 +176,7 @@ def plotResBallAcc(t, Reservoir, ResOutput, SimulTime, ResRadius, coordscale):
     for r in range(numRes):
         flow = []
         if ResOutput[r]["ReservoirData"][timeID]["AvgTripLength"] != 0:
-            flow.append(Reservoir[r].MFDsetting[0]["MaxProd"] / ResOutput[r]["ReservoirData"][timeID]["AvgTripLength"])
+            flow.append(Reservoir[r].get_MFD_setting('MaxProd','VL') / ResOutput[r]["ReservoirData"][timeID]["AvgTripLength"])
         listMaxFlow.append(max(flow))
 
     maxflow = max(listMaxFlow)
@@ -232,7 +232,7 @@ def plotResBallAcc(t, Reservoir, ResOutput, SimulTime, ResRadius, coordscale):
         plt.fill(x, y, 'k', edgecolor = 'none')
 
         # Plot accumulation evolution
-        accratio = ResOutput[r]["ReservoirData"][timeID]["Acc"] / Reservoir[r].MFDsetting[0]["MaxAcc"]
+        accratio = ResOutput[r]["ReservoirData"][timeID]["Acc"] / Reservoir[r].get_MFD_setting('MaxAcc','VL')
         heightlevel = accratio * 2 * ResRadius
         th0 = math.asin((heightlevel - ResRadius) / ResRadius)
         th = list(np.arange(-math.pi - th0, th0 + step, step))
@@ -326,7 +326,7 @@ def plotResBallAccPerRoute(t, Reservoir, ResOutput, Route, SimulTime, ResRadius,
     for r in range(numRes):
         flow = []
         if ResOutput[r]["ReservoirData"][timeID]["AvgTripLength"] != 0:
-            flow.append(Reservoir[r].MFDsetting[0]["MaxProd"] / ResOutput[r]["ReservoirData"][timeID]["AvgTripLength"])
+            flow.append(Reservoir[r].get_MFD_setting('MaxProd','VL') / ResOutput[r]["ReservoirData"][timeID]["AvgTripLength"])
         listMaxFlow.append(max(flow))
 
     maxflow = max(listMaxFlow)
@@ -392,7 +392,7 @@ def plotResBallAccPerRoute(t, Reservoir, ResOutput, Route, SimulTime, ResRadius,
         for iroute in range(numRoutes):
             for iRouteSect in range(len(ResOutput[r]["DataPerRoute"])):
                 if ResOutput[r]["DataPerRoute"][iRouteSect]["IDRoute"] == Route[iroute].ID:
-                    accratio = ResOutput[r]["DataPerRoute"][iRouteSect]["Data"][timeID]["Acc"] / Reservoir[r].MFDsetting[0]["MaxAcc"]
+                    accratio = ResOutput[r]["DataPerRoute"][iRouteSect]["Data"][timeID]["Acc"] / Reservoir[r].get_MFD_setting('MaxAcc','VL')
                     angend = angstart + accratio * 2 * math.pi
                     thRoute = list(np.arange(angstart, angend + step, step))
                     x = [xResC + ResRadius * math.cos(element) for element in thRoute]
