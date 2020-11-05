@@ -794,8 +794,8 @@ def plot_network(ax, reservoirs, nodes, routes, options=None):
         color3 = default_color
 
     marker_size_1 = marker_size
-    marker_size_2 = 1.5 * marker_size
-    marker_size_3 = 0.7 * marker_size
+    marker_size_2 = 1.25 * marker_size
+    marker_size_3 = 0.75 * marker_size
 
     entry_nodes_list = []
     exit_nodes_list = []
@@ -879,5 +879,7 @@ def plot_network(ax, reservoirs, nodes, routes, options=None):
         plt.gca().add_artist(legend1)
         plt.gca().add_artist(legend2)
 
+    plt.title('Network')
     ax.axis([x_min, x_max, y_min, y_max])
     ax.axis('off')
+
