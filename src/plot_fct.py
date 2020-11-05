@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 from matplotlib import cm
+from matplotlib.lines import Line2D
 import math
 import numpy as np
 
@@ -672,7 +673,7 @@ def plot_res_route_dem(reservoirs, routes, nodes, demand, demand_type, plot_char
     plt.axis('off')
 
 
-def plot_network(reservoirs, nodes, routes):
+def plot_network(ax, reservoirs, nodes, routes):
     # Plot the real network configuration with reservoirs, nodes and route path.
     # INPUTS
     # ---- reservoirs           : reservoirs structure
@@ -690,14 +691,12 @@ def plot_network(reservoirs, nodes, routes):
                             (204, 102, 204), (204, 204, 102)]) / 255
     res_color = [0.1, 0.1, 0]
     txt_color = [0.9, 0.9, 1]
-    plot_legend = 0
-    plot_num_nodes = 1
+
+    plot_legend = 1
+    plot_num_nodes = 0
 
     # Lines
     line_0 = np.array(['', '-', '--', ':', '-.'])
-    # Line width
-    min_line_width = 0.2
-    max_line_width = 5
 
     # Plot the reservoirs
     x_links = []
@@ -723,11 +722,11 @@ def plot_network(reservoirs, nodes, routes):
                 x_links.append(x_res_bp_tmp)
                 y_links.append(y_res_bp_tmp)
 
-            plt.fill(x_res_bp, y_res_bp, color=res_color, ec='none', alpha=0.5)
-            plt.plot(x_res_bp, y_res_bp, color=res_color)
+            ax.fill(x_res_bp, y_res_bp, color=res_color, ec='none', alpha=0.5)
+            ax.plot(x_res_bp, y_res_bp, color=res_color)
     
     # Plot the routes
-    str_legend = []
+    legend_routes = []
     i = 1
 
     for route in routes:
@@ -746,20 +745,20 @@ def plot_network(reservoirs, nodes, routes):
         for res in route.CrossedReservoirs:
             list_res_id.append(res.ID)
 
-        str_legend.append(route.ID + f': [{str(list_res_id)}]')
-
         for j in range(len(list_x) - 1):
-            plt.annotate("",
-                         xy=(list_x[j], list_y[j]), xycoords='data',
-                         xytext=(list_x[j+1], list_y[j+1]), textcoords='data',
-                         arrowprops=dict(arrowstyle="<-", color=color_i,
-                                         shrinkA=5, shrinkB=5,
-                                         patchA=None, patchB=None,
-                                         connectionstyle='arc3,rad=-0.3',
-                                         linestyle=line_style_i))
+            ax.annotate("",
+                        xy=(list_x[j], list_y[j]), xycoords='data',
+                        xytext=(list_x[j+1], list_y[j+1]), textcoords='data',
+                        arrowprops=dict(arrowstyle="<-", color=color_i,
+                                        shrinkA=5, shrinkB=5,
+                                        patchA=None, patchB=None,
+                                        connectionstyle='arc3,rad=-0.3',
+                                        linestyle=line_style_i))
 
         i += 1
-    
+
+        legend_routes.append(Line2D([0], [0], color=color_i, linestyle=line_style_i, label=route.ID))
+
     # Plot the macro nodes
     color1 = color_map_0[-1, :]
     color2 = color_map_0[-2, :]
@@ -781,21 +780,28 @@ def plot_network(reservoirs, nodes, routes):
             border_nodes_list.append(mn)
 
     for node in exit_nodes_list:
-        plt.plot(node.Coord[0]["x"], node.Coord[0]["y"], 'o',
-                 color=color2, markerfacecolor=color2, markersize=marker_size_2)
+        ax.plot(node.Coord[0]["x"], node.Coord[0]["y"], 'o',
+                color=color2, markerfacecolor=color2, markersize=marker_size_2)
     for node in entry_nodes_list:
-        plt.plot(node.Coord[0]["x"], node.Coord[0]["y"], 'o',
-                 color=color1, markerfacecolor=color1, markersize=marker_size_1)
+        ax.plot(node.Coord[0]["x"], node.Coord[0]["y"], 'o',
+                color=color1, markerfacecolor=color1, markersize=marker_size_1)
     for node in border_nodes_list:
-        plt.plot(node.Coord[0]["x"], node.Coord[0]["y"], 'o',
-                 color=color3, markerfacecolor=color3, markersize=marker_size_3)
+        ax.plot(node.Coord[0]["x"], node.Coord[0]["y"], 'o',
+                color=color3, markerfacecolor=color3, markersize=marker_size_3)
+
+    legend_mn = [Line2D([0], [0], color=color2, marker='o', markerfacecolor=color2, markersize=marker_size_2,
+                        label='Destination', lw=0),
+                 Line2D([0], [0], color=color1, marker='o', markerfacecolor=color1, markersize=marker_size_1,
+                        label='Origin', lw=0),
+                 Line2D([0], [0], color=color3, marker='o', markerfacecolor=color3, markersize=marker_size_3,
+                        label='Border', lw=0)]
 
     # Plot the reservoirs numbers
     for r in range(num_res):
         xr = reservoirs[r].Centroid[0]["x"]
         yr = reservoirs[r].Centroid[0]["y"]
-        plt.text(xr, yr, f'$R_{str(r + 1)}$',
-                 ha='center', color=txt_color, fontname=font_name, fontweight='bold', fontsize=font_size)
+        ax.text(xr, yr, f'$R_{str(r + 1)}$',
+                ha='center', color=txt_color, fontname=font_name, fontweight='bold', fontsize=font_size)
     
     # Plot size
     x_border = 0.1      # increasing factor > 0 for the border spacing along x
@@ -831,21 +837,16 @@ def plot_network(reservoirs, nodes, routes):
                 simil_nodes.append([node_i])
 
         for pair in simil_nodes:
-            plt.text(pair[0].Coord[0]["x"], pair[0].Coord[0]["y"], '  ' + pair[0].ID,
-                     color='k', ha='left', fontname=font_name, fontsize=font_size/4)
+            ax.text(pair[0].Coord[0]["x"], pair[0].Coord[0]["y"], '  ' + pair[0].ID,
+                    color='k', ha='left', fontname=font_name, fontsize=font_size/4)
 
-    # TODO
-    # Plot the legend
+    # Plot the legends
     if plot_legend == 1:
-        x_legend = x_min + 0.75 * (x_max - x_min)
-        y_legend = y_min + 0.95 * (y_max - y_min)
-        w_legend = 0.05 * (x_max - x_min)   # legend symbol width
-        h_legend = 0.06 * (y_max - y_min)   # height between symbols
+        legend1 = ax.legend(handles=legend_routes, loc='upper right')
+        legend2 = ax.legend(handles=legend_mn, loc='lower left')
 
-        plt.plot([x_legend, x_legend + w_legend], y_legend * np.array([1, 1]),
-                 '-k', linewidth=min_line_width)
-        plt.plot([x_legend, x_legend + w_legend], (y_legend - h_legend) * np.array([1, 1]),
-                 '-k', linewidth=max_line_width)
+        plt.gca().add_artist(legend1)
+        plt.gca().add_artist(legend2)
 
-    plt.axis([x_min, x_max, y_min, y_max])
-    plt.axis('off')
+    ax.axis([x_min, x_max, y_min, y_max])
+    ax.axis('off')

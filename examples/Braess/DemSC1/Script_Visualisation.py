@@ -34,9 +34,9 @@ for i in range(num_routes):
     route.load_input(network, i, reservoirs, macronodes)
     routes.append(route)
 
-IO_functions.Init(reservoirs, routes, macronodes)
+IO_functions.init_variables(reservoirs, routes, macronodes)
 
 # Plot reservoirs, nodes and route paths
-plt.figure
-plot_fct.plot_network(reservoirs, macronodes, routes)
+fig, ax = plt.subplots()
+plot_fct.plot_network(ax, reservoirs, macronodes, routes)
 plt.show()
