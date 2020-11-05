@@ -1,6 +1,8 @@
 import pandas
 
-def get_macronode(macronodes,macronode_id):
+from main_objects import Reservoir
+
+def get_macronode(macronodes, macronode_id):
     
     for mn in macronodes:
         if mn.ID == macronode_id:
@@ -20,7 +22,7 @@ class MacroNode:
         self.Capacities = pandas.DataFrame()            # Capacities (may be dynamic)
         self.Coord = []             #Abscissa and ordinate of the node
 
-    def load_input(self, loadNetwork, i):
+    def load_input(self, loadNetwork, i, reservoirs):
         network = loadNetwork["MACRONODES"][i]
 
         self.ID = network["ID"]
@@ -31,7 +33,9 @@ class MacroNode:
             self.Type = None
             print("Type of macro node unknown, please change the input file entry Type.")
 
-        self.ResID = network["ResID"]
+        res_list = network["ResID"]
+        for res in res_list:
+            self.ResID.append(Reservoir.get_reservoir(reservoirs, res))
         
         if 'Capacity' in network:
             self.Capacities = pandas.DataFrame.from_dict(network["Capacity"])

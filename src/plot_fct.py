@@ -1,879 +1,851 @@
 import matplotlib.pyplot as plt
 from matplotlib import cm
-from matplotlib.colors import ListedColormap, LinearSegmentedColormap
 import math
 import numpy as np
 
-def plotResBallConfig(Reservoir, plotborders, ResRadius, coordscale):
-    # Plot the reservoir configuration (ball shapes and connections)
 
+def plot_res_ball_config(reservoirs, plot_borders, res_radius, coord_scale):
+    # Plot the reservoirs configuration (ball shapes and connections)
     # INPUTS
-    # ---- Reservoir: Reservoir list
-    # ---- plotborders: boolean, plot the reservoir borders if = 1
-    # ---- ResRadius: scalar, radius of the disk used to symbolize reservoirs
-    # ---- coordscale: 1 - by - 2 vector, scale factors along x and y axis [fx fy]
+    # ---- reservoirs: reservoirs list
+    # ---- plot_borders: boolean, plot the reservoirs borders if = 1
+    # ---- res_radius: scalar, radius of the disk used to symbolize reservoirs
+    # ---- coord_scale: 1 - by - 2 vector, scale factors along x and y axis [fx fy]
 
-    numRes = len(Reservoir)
-    flowspace = 0 # spacing between flow lines
-    cmap0 = np.array([(51, 51, 255), (0, 204, 51), (204, 0, 0), (204, 153, 0), (153, 0, 102), (51, 153, 153), (204, 102, 204), (204, 204, 102)]) / 255  # default
+    num_res = len(reservoirs)
+    flow_space = 0   # spacing between flow lines
+    c_map0 = np.array([(51, 51, 255), (0, 204, 51), (204, 0, 0), (204, 153, 0), (153, 0, 102), (51, 153, 153),
+                      (204, 102, 204), (204, 204, 102)]) / 255  # default
 
-    # Normalization of reservoir coordinates
-    x0 = Reservoir[0].Centroid[0]["x"]
-    y0 = Reservoir[0].Centroid[0]["y"]
+    # Normalization of reservoirs coordinates
+    x0 = reservoirs[0].Centroid[0]["x"]
+    y0 = reservoirs[0].Centroid[0]["y"]
     x1 = 0
     y1 = 0
 
-    for res in Reservoir:
-        if res.ID == Reservoir[0].AdjacentResID[0] or len(Reservoir) == 1:
+    for res in reservoirs:
+        if res.ID == reservoirs[0].AdjacentResID[0] or len(reservoirs) == 1:
             x1 = res.Centroid[0]["x"]
             y1 = res.Centroid[0]["y"]
 
     dx0 = max([abs(x1 - x0), abs(y1 - y0)])
     dx0 = (0 < dx0) * dx0 + (0 == dx0) * 1
 
-    xLinks = []
-    yLinks = []
-    if plotborders == 1:
+    x_links = []
+    y_links = []
+    if plot_borders == 1:
         # Plot the reservoirs
-        for r in range(numRes):
-            if len(Reservoir[r].BorderPoints) != 0:
-                xResbp = []
-                yResbp = []
-                for bp in Reservoir[r].BorderPoints:
-                    xResbp_tmp = (coordscale[0] * bp["x"] - x0) / dx0
-                    yResbp_tmp = (coordscale[1] * bp["y"] - y0) / dx0
-                    xResbp.append(xResbp_tmp)
-                    yResbp.append(yResbp_tmp)
+        for r in range(num_res):
+            if len(reservoirs[r].BorderPoints) != 0:
+                x_res_bp = []
+                y_res_bp = []
+                for bp in reservoirs[r].BorderPoints:
+                    x_res_bp_tmp = (coord_scale[0] * bp["x"] - x0) / dx0
+                    y_res_bp_tmp = (coord_scale[1] * bp["y"] - y0) / dx0
+                    x_res_bp.append(x_res_bp_tmp)
+                    y_res_bp.append(y_res_bp_tmp)
 
-                    xLinks.append(xResbp_tmp)
-                    yLinks.append(yResbp_tmp)
+                    x_links.append(x_res_bp_tmp)
+                    y_links.append(y_res_bp_tmp)
 
-                plt.fill(xResbp, yResbp, color = cmap0[r], ec = 'none', alpha = 0.5)
-                plt.plot(xResbp, yResbp, color = cmap0[r])
+                plt.fill(x_res_bp, y_res_bp, color=c_map0[r], ec='none', alpha=0.5)
+                plt.plot(x_res_bp, y_res_bp, color=c_map0[r])
 
-    xList = []
-    yList = []
-    for r in range(numRes):
-        xResC = coordscale[0] * (Reservoir[r].Centroid[0]["x"] - x0) / dx0
-        yResC = coordscale[1] * (Reservoir[r].Centroid[0]["y"] - y0) / dx0
+    x_list = []
+    y_list = []
+    for r in range(num_res):
+        x_res_c = coord_scale[0] * (reservoirs[r].Centroid[0]["x"] - x0) / dx0
+        y_res_c = coord_scale[1] * (reservoirs[r].Centroid[0]["y"] - y0) / dx0
 
-        xList.append(xResC)
-        yList.append(yResC)
+        x_list.append(x_res_c)
+        y_list.append(y_res_c)
 
         # Plot flow exchanges
-        if r < numRes: # to avoid flow line duplication
-            for adjID in Reservoir[r].AdjacentResID:
-                for res2 in Reservoir:
+        if r < num_res:  # to avoid flow line duplication
+            for adjID in reservoirs[r].AdjacentResID:
+                for res2 in reservoirs:
                     if adjID == res2.ID:
-                        xResAdj = coordscale[0] * (res2.Centroid[0]["x"] - x0) / dx0
-                        yResAdj = coordscale[1] * (res2.Centroid[0]["y"] - y0) / dx0
+                        x_res_adj = coord_scale[0] * (res2.Centroid[0]["x"] - x0) / dx0
+                        y_res_adj = coord_scale[1] * (res2.Centroid[0]["y"] - y0) / dx0
 
-                        ang = math.atan2(xResAdj - yResC, xResAdj - xResC) + math.pi / 2
+                        ang = math.atan2(x_res_adj - y_res_c, x_res_adj - x_res_c) + math.pi / 2
 
-                        dx = flowspace * math.cos(ang)
-                        dy = flowspace * math.sin(ang)
+                        dx = flow_space * math.cos(ang)
+                        dy = flow_space * math.sin(ang)
 
-                        xi1 = xResC + dx
-                        yi1 = yResC + dy
-                        xj1 = xResAdj + dx
-                        yj1 = yResAdj + dy
+                        xi1 = x_res_c + dx
+                        yi1 = y_res_c + dy
+                        xj1 = x_res_adj + dx
+                        yj1 = y_res_adj + dy
 
                         # Effective flow from Ri to Rj
-                        plt.plot([xi1, xj1], [yi1, yj1], '-', color = 'k')
+                        plt.plot([xi1, xj1], [yi1, yj1], '-', color='k')
 
-        # Plot reservoir disk
+        # Plot reservoirs disk
         step = 0.01
         th = list(np.arange(0, 2 * math.pi + step, step))
-        x = [xResC + ResRadius * math.cos(element) for element in th]
-        y = [yResC + ResRadius * math.sin(element) for element in th]
-        plt.fill(x, y, 'k', edgecolor = 'none')
-        plt.text(xResC, yResC, r'$R_{' + str(r + 1) + '}$', ha = 'center', color = 'w', fontname = 'arial', fontweight = 'bold', fontsize = 18)
+        x = [x_res_c + res_radius * math.cos(element) for element in th]
+        y = [y_res_c + res_radius * math.sin(element) for element in th]
+
+        plt.fill(x, y, 'k', edgecolor='none')
+        plt.text(x_res_c, y_res_c, f'$R_{str(r + 1)}$',
+                 ha='center', color='w', fontname='arial', fontweight='bold', fontsize=18)
 
     # Plot size
-    xborder = 0.1 # increasing factor > 0 for the border spacing along x
-    yborder = 0.1 # increasing factor > 0 for the border spacing along x
-    if plotborders == 1:
-        if max(xLinks) == min(xLinks):
-            dx = max(yLinks) - min(yLinks)
+    x_border = 0.1  # increasing factor > 0 for the border spacing along x
+    y_border = 0.1  # increasing factor > 0 for the border spacing along x
+    if plot_borders == 1:
+        if max(x_links) == min(x_links):
+            dx = max(y_links) - min(y_links)
         else:
-            dx = max(xLinks) - min(xLinks)
+            dx = max(x_links) - min(x_links)
 
-        if max(yLinks) == min(yLinks):
-            dy = max(xLinks) - min(xLinks)
+        if max(y_links) == min(y_links):
+            dy = max(x_links) - min(x_links)
         else:
-            dy = max(yLinks) - min(yLinks)
+            dy = max(y_links) - min(y_links)
 
-        xmin = min(xLinks) - xborder * dx
-        xmax = max(xLinks) + xborder * dx
-        ymin = min(yLinks) - yborder * dy
-        ymax = max(yLinks) + yborder * dy
+        x_min = min(x_links) - x_border * dx
+        x_max = max(x_links) + x_border * dx
+        y_min = min(y_links) - y_border * dy
+        y_max = max(y_links) + y_border * dy
     else:
-        if max(xList) == min(xList):
-            dx = max(yList) - min(yList)
+        if max(x_list) == min(x_list):
+            dx = max(y_list) - min(y_list)
         else:
-            dx = max(xList) - min(xList)
+            dx = max(x_list) - min(x_list)
 
-        if max(yList) == min(yList):
-            dy = max(xList) - min(xList)
+        if max(y_list) == min(y_list):
+            dy = max(x_list) - min(x_list)
         else:
-            dy = max(yList) - min(yList)
+            dy = max(y_list) - min(y_list)
 
-        xmin = min(xList) - ResRadius - xborder * dx
-        xmax = max(xList) + ResRadius + xborder * dx
-        ymin = min(yList) - ResRadius - yborder * dy
-        ymax = max(yList) + ResRadius + yborder * dy
+        x_min = min(x_list) - res_radius - x_border * dx
+        x_max = max(x_list) + res_radius + x_border * dx
+        y_min = min(y_list) - res_radius - y_border * dy
+        y_max = max(y_list) + res_radius + y_border * dy
 
-    plt.axis([xmin, xmax, ymin, ymax])
+    plt.axis([x_min, x_max, y_min, y_max])
     plt.axis('off')
 
-def plotResBallAcc(t, Reservoir, ResOutput, SimulTime, ResRadius, coordscale):
-# Plot the state of reservoirs at time t (accumulation and flow)
-#
-# INPUTS
-#---- t           : scalar, time [s]
-#---- Reservoir   : Reservoirs list
-#---- SimulTime   : vector, simulation time [s]
-#---- ResRadius   : scalar, radius of the disk used to symbolize reservoirs
-#---- coordscale  : 1-by-2 vector, scale factors along x and y axis [fx fy]
 
-    numRes = len(Reservoir)
-    timeStep = SimulTime[1] - SimulTime[0]
-    timeID = 0
+def plot_res_ball_acc(t, reservoirs, res_output, simul_time, res_radius, coord_scale):
+    # Plot the state of reservoirs at time t (accumulation and flow)
+    # INPUTS
+    # ---- t           : scalar, time [s]
+    # ---- reservoirs   : reservoirs list
+    # ---- simul_time   : vector, simulation time [s]
+    # ---- res_radius   : scalar, radius of the disk used to symbolize reservoirs
+    # ---- coord_scale  : 1-by-2 vector, scale factors along x and y axis [fx fy]
+
+    num_res = len(reservoirs)
+    time_step = simul_time[1] - simul_time[0]
+    time_id = 0
 
     # Index of the current time
-    for i in range(len(SimulTime)):
-        if t == SimulTime[i] or abs(t - SimulTime[i]) <= timeStep / 2:
-            timeID = i
+    for i in range(len(simul_time)):
+        if t == simul_time[i] or abs(t - simul_time[i]) <= time_step / 2:
+            time_id = i
 
     # Options
-    fontname = 'arial' # default
-    FS = 16 # default
-    tlabel = 't = ' + str(t) + ' s' # default
-    showflowval = 1 # default
-    txtcolor = [0.9, 0.9, 1]
-    flowspace = 0.2 # spacing between flow lines
-    maxwidth = 30 # flow line max width
+    font_name = 'arial'
+    font_size = 16
+    t_label = f't = {str(t)} s'
+    show_flow_val = 1
+    txt_color = [0.9, 0.9, 1]
+    flow_space = 0.2    # spacing between flow lines
+    max_width = 30      # flow line max width
 
-    xList = []
-    yList = []
+    x_list = []
+    y_list = []
 
-    # Normalization of reservoir coordinates
-    x0 = Reservoir[0].Centroid[0]["x"]
-    y0 = Reservoir[0].Centroid[0]["y"]
+    # Normalization of reservoirs coordinates
+    x0 = reservoirs[0].Centroid[0]["x"]
+    y0 = reservoirs[0].Centroid[0]["y"]
     x1 = 0
     y1 = 0
 
-    for r in range(0, numRes):
-        if Reservoir[r].ID == Reservoir[0].AdjacentResID[0]:
-            x1 = Reservoir[r].Centroid[0]["x"]
-            y1 = Reservoir[r].Centroid[0]["y"]
+    for res in reservoirs:
+        if res.ID == reservoirs[0].AdjacentResID[0]:
+            x1 = res.Centroid[0]["x"]
+            y1 = res.Centroid[0]["y"]
 
     dx0 = max([abs(x1 - x0), abs(y1 - y0)])
     dx0 = (0 < dx0) * dx0 + (0 == dx0) * 1
 
     # Define max flow for plotting purpose
-    listMaxFlow = []
-    for r in range(numRes):
+    list_max_flow = []
+    for r in range(num_res):
         flow = []
-        if ResOutput[r]["ReservoirData"][timeID]["AvgTripLength"] != 0:
-            flow.append(Reservoir[r].get_MFD_setting('MaxProd','VL') / ResOutput[r]["ReservoirData"][timeID]["AvgTripLength"])
-        listMaxFlow.append(max(flow))
+        avg_trip_length = res_output[r]["ReservoirData"][time_id]["AvgTripLength"]
 
-    maxflow = max(listMaxFlow)
+        if avg_trip_length != 0:
+            flow.append(reservoirs[r].MFDsetting[0]["MaxProd"] / avg_trip_length)
 
-    for r in range(numRes):
-        xResC = coordscale[0] * (Reservoir[r].Centroid[0]["x"] - x0) / dx0
-        yResC = coordscale[1] * (Reservoir[r].Centroid[0]["y"] - y0) / dx0
+        list_max_flow.append(max(flow))
 
-        xList.append(xResC)
-        yList.append(yResC)
+    max_flow = max(list_max_flow)
+
+    for r in range(num_res):
+        x_res_c = coord_scale[0] * (reservoirs[r].Centroid[0]["x"] - x0) / dx0
+        y_res_c = coord_scale[1] * (reservoirs[r].Centroid[0]["y"] - y0) / dx0
+
+        x_list.append(x_res_c)
+        y_list.append(y_res_c)
 
         # Plot flow exchanges
-        if r < numRes: # to avoid flow line duplication
-            for adjID in Reservoir[r].AdjacentResID:
-                for res2 in Reservoir:
+        if r < num_res:     # to avoid flow line duplication
+            for adjID in reservoirs[r].AdjacentResID:
+                for res2 in reservoirs:
                     if adjID == res2.ID:
-                        xResAdj = coordscale[0] * (res2.Centroid[0]["x"] - x0) / dx0
-                        yResAdj = coordscale[1] * (res2.Centroid[0]["y"] - y0) / dx0
+                        x_res_adj = coord_scale[0] * (res2.Centroid[0]["x"] - x0) / dx0
+                        y_res_adj = coord_scale[1] * (res2.Centroid[0]["y"] - y0) / dx0
 
-                        ang = math.atan2(yResAdj - yResC, xResAdj - xResC) + math.pi / 2
+                        ang = math.atan2(y_res_adj - y_res_c, x_res_adj - x_res_c) + math.pi / 2
 
-                        dx = flowspace * math.cos(ang)
-                        dy = flowspace * math.sin(ang)
+                        dx = flow_space * math.cos(ang)
+                        dy = flow_space * math.sin(ang)
 
-                        xRes1 = xResC + dx
-                        yRes1 = yResC + dy
-                        xRes2 = xResC - dx
-                        yRes2 = yResC - dy
-                        xResAdj1 = xResAdj + dx
-                        yResAdj1 = yResAdj + dy
-                        xResAdj2 = xResAdj - dx
-                        yResAdj2 = yResAdj - dy
+                        x_res1 = x_res_c + dx
+                        y_res1 = y_res_c + dy
+                        x_res2 = x_res_c - dx
+                        y_res2 = y_res_c - dy
+                        x_res_adj1 = x_res_adj + dx
+                        y_res_adj1 = y_res_adj + dy
+                        x_res_adj2 = x_res_adj - dx
+                        y_res_adj2 = y_res_adj - dy
 
                         # Effective flow from Ri to Rj
-                        outflowij = 0.35 #sum(Reservoir(r).OutflowPerResPerDest(xResAdj,:, timeID))
-                        LW = max([outflowij / maxflow * maxwidth, 0.1])
-                        plt.plot([xRes1, xResAdj1], [yRes1, yResAdj1], '-', color = 'k', linewidth = LW)
-                        if showflowval == 1:
-                            plt.text(1 / 3 * xRes1 + 2 / 3 * xResAdj1, 1 / 3 * yRes1 + 2 / 3 * yResAdj1, str(outflowij), rotation = ang * 180 / math.pi, ha = 'center', color = 'k', backgroundcolor = 'w', fontname = fontname, fontsize = 0.5 * FS)
+                        outflow_ij = 0.35    # sum(reservoirs(r).OutflowPerResPerDest(x_res_adj,:, time_id))
+                        line_width = max([outflow_ij / max_flow * max_width, 0.1])
+                        plt.plot([x_res1, x_res_adj1], [y_res1, y_res_adj1], '-', color='k', linewidth=line_width)
+                        if show_flow_val == 1:
+                            plt.text(1 / 3 * x_res1 + 2 / 3 * x_res_adj1, 1 / 3 * y_res1 + 2 / 3 * y_res_adj1,
+                                     str(outflow_ij), rotation=ang * 180 / math.pi, ha='center', color='k',
+                                     backgroundcolor='w', fontname=font_name, fontsize=0.5 * font_size)
 
                         # Effective flow from Rj to Ri
-                        outflowji = 0.2;#sum(Reservoir(r2).OutflowPerResPerDest(r,:, timeID))
-                        LW = max([outflowji / maxflow * maxwidth, 0.1])
-                        plt.plot([xRes2, xResAdj2], [yRes2, yResAdj2], '-', color = 'k', linewidth = LW)
-                        if showflowval == 1:
-                            plt.text(2 / 3 * xRes2 + 1 / 3 * xResAdj2, 2 / 3 * yRes2 + 1 / 3 * yResAdj2, str(outflowji), rotation = ang * 180 / math.pi, ha = 'center', color = 'k', backgroundcolor = 'w', fontname = fontname, fontsize = 0.5 * FS)
+                        outflow_ji = 0.2    # sum(reservoirs(r2).OutflowPerResPerDest(r,:, time_id))
+                        line_width = max([outflow_ji / max_flow * max_width, 0.1])
+                        plt.plot([x_res2, x_res_adj2], [y_res2, y_res_adj2], '-', color='k', linewidth=line_width)
+                        if show_flow_val == 1:
+                            plt.text(2 / 3 * x_res2 + 1 / 3 * x_res_adj2, 2 / 3 * y_res2 + 1 / 3 * y_res_adj2, 
+                                     str(outflow_ji), rotation=ang * 180 / math.pi, ha='center', color='k', 
+                                     backgroundcolor='w', fontname=font_name, fontsize=0.5 * font_size)
 
-        # Plot reservoir disk
+        # Plot reservoirs disk
         step = 0.01
         th = list(np.arange(0, 2 * math.pi + step, step))
-        x = [xResC + ResRadius * math.cos(element) for element in th]
-        y = [yResC + ResRadius * math.sin(element) for element in th]
-        plt.fill(x, y, 'k', edgecolor = 'none')
+        x = [x_res_c + res_radius * math.cos(element) for element in th]
+        y = [y_res_c + res_radius * math.sin(element) for element in th]
+        plt.fill(x, y, 'k', edgecolor='none')
 
         # Plot accumulation evolution
-        accratio = ResOutput[r]["ReservoirData"][timeID]["Acc"] / Reservoir[r].get_MFD_setting('MaxAcc','VL')
-        heightlevel = accratio * 2 * ResRadius
-        th0 = math.asin((heightlevel - ResRadius) / ResRadius)
+        acc_ratio = res_output[r]["ReservoirData"][time_id]["Acc"] / reservoirs[r].MFDsetting[0]["MaxAcc"]
+        height_level = acc_ratio * 2 * res_radius
+        th0 = math.asin((height_level - res_radius) / res_radius)
         th = list(np.arange(-math.pi - th0, th0 + step, step))
-        x = [xResC + ResRadius * math.cos(element) for element in th]
-        y = [yResC + ResRadius * math.sin(element) for element in th]
+        x = [x_res_c + res_radius * math.cos(element) for element in th]
+        y = [y_res_c + res_radius * math.sin(element) for element in th]
 
-        plt.fill(x, y, 'k', ec = 'none')
-        plt.text(xResC, yResC, r'$R_{' + str(r + 1) + '}$' + '\n' + str(round(ResOutput[r]["ReservoirData"][timeID]["Acc"])), ha = 'center', color = txtcolor, fontname = fontname, fontweight = 'bold', fontsize = FS)
+        str_acc = str(round(res_output[r]["ReservoirData"][time_id]["Acc"]))
+        plt.fill(x, y, 'k', ec='none')
+        plt.text(x_res_c, y_res_c, f'$R_{str(r + 1)}$' + '\n' + str_acc,
+                 ha='center', color=txt_color, fontname=font_name, fontweight='bold', fontsize=font_size)
 
     # Plot size
-    xborder = 0.05 # increasing factor > 0 for the border spacing along x
-    yborder = 0.1 # increasing factor > 0 for the border spacing along x
-    if max(xList) == min(xList):
-        dx = max(yList) - min(yList)
+    x_border = 0.05     # increasing factor > 0 for the border spacing along x
+    y_border = 0.1      # increasing factor > 0 for the border spacing along x
+    if max(x_list) == min(x_list):
+        dx = max(y_list) - min(y_list)
     else:
-        dx = max(xList) - min(xList)
+        dx = max(x_list) - min(x_list)
 
-    if max(yList) == min(yList):
-        dy = max(xList) - min(xList)
+    if max(y_list) == min(y_list):
+        dy = max(x_list) - min(x_list)
     else:
-        dy = max(yList) - min(yList)
+        dy = max(y_list) - min(y_list)
 
-    xmin = min(xList) - ResRadius - xborder * dx
-    xmax = max(xList) + ResRadius + xborder * dx
-    ymin = min(yList) - ResRadius - yborder * dy
-    ymax = max(yList) + ResRadius + yborder * dy
+    x_min = min(x_list) - res_radius - x_border * dx
+    x_max = max(x_list) + res_radius + x_border * dx
+    y_min = min(y_list) - res_radius - y_border * dy
+    y_max = max(y_list) + res_radius + y_border * dy
 
-    plt.text((xmin + xmax) / 2, ymax, tlabel, color = [0.5, 0.5, 0.5], ha = 'center', va = 'top', fontname = fontname, fontsize = FS, fontweight = 'bold')
-    plt.axis([xmin, xmax, ymin, ymax])
+    plt.text((x_min + x_max) / 2, y_max, t_label,
+             color=[0.5, 0.5, 0.5], ha='center', va='top', fontname=font_name, fontsize=font_size, fontweight='bold')
+    plt.axis([x_min, x_max, y_min, y_max])
     plt.axis('off')
 
-def plotResBallAccPerRoute(t, Reservoir, ResOutput, Route, SimulTime, ResRadius, coordscale):
-# Plot the state of reservoirs at time t(accumulation and flow)
-# Plot accumulation ratio of each route in the reservoirs
-#
-# INPUTS
-# ---- t: scalar, time[s]
-# ---- Reservoir: Reservoir structure
-# ---- Route: Route structure
-# ---- SimulTime: vector, simulation time[s]
-# ---- ResRadius: scalar, radius of the disk used to symbolize reservoirs
-# ---- coordscale: 1 - by - 2 vector, scale factors along x and y axis[fx fy]
 
-    numRes = len(Reservoir)
-    numRoutes = len(Route)
+def plot_res_ball_acc_per_route(t, reservoirs, res_output, routes, simul_time, res_radius, coord_scale):
+    # Plot the state of reservoirs at time t(accumulation and flow)
+    # Plot accumulation ratio of each route in the reservoirs
+    #
+    # INPUTS
+    # ---- t: scalar, time[s]
+    # ---- reservoirs: reservoirs structure
+    # ---- routes: routes structure
+    # ---- simul_time: vector, simulation time[s]
+    # ---- res_radius: scalar, radius of the disk used to symbolize reservoirs
+    # ---- coord_scale: 1 - by - 2 vector, scale factors along x and y axis[fx fy]
+
+    num_res = len(reservoirs)
+    num_routes = len(routes)
 
     # Index of the current time
-    timeStep = SimulTime[1] - SimulTime[0]
-    timeID = 0
-    for i in range(len(SimulTime)):
-        if t == SimulTime[i] or abs(t - SimulTime[i]) <= timeStep / 2:
-            timeID = i
+    time_step = simul_time[1] - simul_time[0]
+    time_id = 0
+    for i in range(len(simul_time)):
+        if t == simul_time[i] or abs(t - simul_time[i]) <= time_step / 2:
+            time_id = i
 
     # Options
-    fontname = 'Arial' # default
-    FS = 16 # default
-    cmap0 = np.array([(51, 51, 255), (0, 204, 51), (204, 0, 0), (204, 153, 0), (153, 0, 102), (51, 153, 153), (204, 102, 204), (204, 204, 102)]) / 255 # default
-    txtcolor = [0.9, 0.9, 1] # default
-    tlabel = 't = ' + str(t) + ' s'
-    showleg = 1
-    legloc = 'best' # default
-    showflowval = 1 # default
+    font_name = 'Arial' 
+    font_size = 16    
+    c_map0 = np.array([(51, 51, 255), (0, 204, 51), (204, 0, 0), (204, 153, 0), (153, 0, 102), (51, 153, 153), 
+                      (204, 102, 204), (204, 204, 102)]) / 255 
+    txt_color = [0.9, 0.9, 1]
+    t_label = f't = {str(t)} s'
+    show_legend = 1
+    show_flow_val = 1  
 
-    cmap = cmap0
+    c_map = c_map0
 
-    while np.size(cmap, 1) < numRoutes:
-        cmap = np.vstack(cmap, cmap0)
+    while np.size(c_map, 1) < num_routes:
+        c_map = np.vstack(c_map, c_map0)
 
-    flowspac = 0.2 # spacing between flow lines
-    maxwidth = 30 # flow line max width
+    flow_space = 0.2  # spacing between flow lines
+    max_width = 30   # flow line max width
 
-    xList = []
-    yList = []
+    x_list = []
+    y_list = []
 
-    # Normalization of reservoir coordinates
-    x0 = Reservoir[0].Centroid[0]["x"]
-    y0 = Reservoir[0].Centroid[0]["y"]
+    # Normalization of reservoirs coordinates
+    x0 = reservoirs[0].Centroid[0]["x"]
+    y0 = reservoirs[0].Centroid[0]["y"]
     x1 = 0
     y1 = 0
 
-    for r in range(0, numRes):
-        if Reservoir[r].ID == Reservoir[0].AdjacentResID[0]:
-            x1 = Reservoir[r].Centroid[0]["x"]
-            y1 = Reservoir[r].Centroid[0]["y"]
+    for res in reservoirs:
+        if res.ID == reservoirs[0].AdjacentResID[0]:
+            x1 = res.Centroid[0]["x"]
+            y1 = res.Centroid[0]["y"]
 
     dx0 = max([abs(x1 - x0), abs(y1 - y0)])
     dx0 = (0 < dx0) * dx0 + (0 == dx0) * 1
 
     # Define max flow
-    listMaxFlow = [] # max flow per reservoir
-    for r in range(numRes):
+    list_max_flow = []    # max flow per reservoirs
+    for r in range(num_res):
         flow = []
-        if ResOutput[r]["ReservoirData"][timeID]["AvgTripLength"] != 0:
-            flow.append(Reservoir[r].get_MFD_setting('MaxProd','VL') / ResOutput[r]["ReservoirData"][timeID]["AvgTripLength"])
-        listMaxFlow.append(max(flow))
+        avg_trip_length = res_output[r]["ReservoirData"][time_id]["AvgTripLength"]
 
-    maxflow = max(listMaxFlow)
+        if avg_trip_length != 0:
+            flow.append(reservoirs[r].MFDsetting[0]["MaxProd"] / avg_trip_length)
+
+        list_max_flow.append(max(flow))
+
+    max_flow = max(list_max_flow)
 
     hf = []
-    strleg = []
-    LegList = []
+    str_legend = []
+    legend_list = []
 
-    for r in range(numRes):
-        xResC = coordscale[0] * (Reservoir[r].Centroid[0]["x"] - x0) / dx0
-        yResC = coordscale[1] * (Reservoir[r].Centroid[0]["y"] - y0) / dx0
+    for r in range(num_res):
+        x_res_c = coord_scale[0] * (reservoirs[r].Centroid[0]["x"] - x0) / dx0
+        y_res_c = coord_scale[1] * (reservoirs[r].Centroid[0]["y"] - y0) / dx0
 
-        xList.append(xResC)
-        yList.append(yResC)
+        x_list.append(x_res_c)
+        y_list.append(y_res_c)
 
         # Plot flow exchanges
-        if r < numRes:  # avoid flow line duplication
-            for adjID in Reservoir[r].AdjacentResID:
-                for j in range(numRes):
-                    if adjID == Reservoir[j].ID:
-                        xResAdj = coordscale[0] * (Reservoir[j].Centroid[0]["x"] - x0) / dx0
-                        yResAdj = coordscale[1] * (Reservoir[j].Centroid[0]["y"] - y0) / dx0
+        if r < num_res:  # avoid flow line duplication
+            for adjID in reservoirs[r].AdjacentResID:
+                for j in range(num_res):
+                    if adjID == reservoirs[j].ID:
+                        x_res_adj = coord_scale[0] * (reservoirs[j].Centroid[0]["x"] - x0) / dx0
+                        y_res_adj = coord_scale[1] * (reservoirs[j].Centroid[0]["y"] - y0) / dx0
 
-                        ang = math.atan2(yResAdj - yResC, xResAdj - xResC) + math.pi / 2
+                        ang = math.atan2(y_res_adj - y_res_c, x_res_adj - x_res_c) + math.pi / 2
 
-                        dx = flowspac * math.cos(ang)
-                        dy = flowspac * math.sin(ang)
+                        dx = flow_space * math.cos(ang)
+                        dy = flow_space * math.sin(ang)
 
-                        xRes1 = xResC + dx
-                        yRes1 = yResC + dy
-                        xRes2 = xResC - dx
-                        yRes2 = yResC - dy
-                        xResAdj1 = xResAdj + dx
-                        yResAdj1 = yResAdj + dy
-                        xResAdj2 = xResAdj - dx
-                        yResAdj2 = yResAdj - dy
+                        x_res1 = x_res_c + dx
+                        y_res1 = y_res_c + dy
+                        x_res2 = x_res_c - dx
+                        y_res2 = y_res_c - dy
+                        x_res_adj1 = x_res_adj + dx
+                        y_res_adj1 = y_res_adj + dy
+                        x_res_adj2 = x_res_adj - dx
+                        y_res_adj2 = y_res_adj - dy
 
                         # Effective flow from Ri to Rj
-                        outflowij = 0.8  # sum(Reservoir(r).OutflowPerResPerDest(xResAdj,:, timeID))
-                        LW = max([outflowij / maxflow * maxwidth, 0.1])
-                        plt.plot([xRes1, xResAdj1], [yRes1, yResAdj1], '-', color='k', linewidth=LW, zorder = 0)
-                        if showflowval == 1:
-                            plt.text(1 / 3 * xRes1 + 2 / 3 * xResAdj1, 1 / 3 * yRes1 + 2 / 3 * yResAdj1, str(outflowij), rotation=ang * 180 / math.pi, ha='center', color='k', backgroundcolor='w', fontname=fontname, fontsize=0.5 * FS)
+                        # TODO
+                        outflow_ij = 0.8  # sum(reservoirs(r).OutflowPerResPerDest(x_res_adj,:, time_id))
+                        line_width = max([outflow_ij / max_flow * max_width, 0.1])
+                        plt.plot([x_res1, x_res_adj1], [y_res1, y_res_adj1],
+                                 '-', color='k', linewidth=line_width, zorder=0)
+                        if show_flow_val == 1:
+                            plt.text(1 / 3 * x_res1 + 2 / 3 * x_res_adj1, 1 / 3 * y_res1 + 2 / 3 * y_res_adj1,
+                                     str(outflow_ij),
+                                     rotation=ang * 180 / math.pi, ha='center', color='k', backgroundcolor='w',
+                                     fontname=font_name, fontsize=0.5 * font_size)
 
                         # Effective flow from Rj to Ri
-                        outflowji = 0.2  # sum(Reservoir(r2).OutflowPerResPerDest(r,:, timeID))
-                        LW = max([outflowji / maxflow * maxwidth, 0.1])
-                        plt.plot([xRes2, xResAdj2], [yRes2, yResAdj2], '-', color='k', linewidth=LW, zorder = 0)
-                        if showflowval == 1:
-                            plt.text(2 / 3 * xRes2 + 1 / 3 * xResAdj2, 2 / 3 * yRes2 + 1 / 3 * yResAdj2, str(outflowji), rotation=ang * 180 / math.pi, ha='center', color='k', backgroundcolor='w', fontname=fontname, fontsize=0.5 * FS)
+                        # TODO
+                        outflow_ji = 0.2  # sum(reservoirs(r2).OutflowPerResPerDest(r,:, time_id))
+                        line_width = max([outflow_ji / max_flow * max_width, 0.1])
+                        plt.plot([x_res2, x_res_adj2], [y_res2, y_res_adj2],
+                                 '-', color='k', linewidth=line_width, zorder=0)
+                        if show_flow_val == 1:
+                            plt.text(2 / 3 * x_res2 + 1 / 3 * x_res_adj2, 2 / 3 * y_res2 + 1 / 3 * y_res_adj2,
+                                     str(outflow_ji),
+                                     rotation=ang * 180 / math.pi, ha='center', color='k', backgroundcolor='w',
+                                     fontname=font_name, fontsize=0.5 * font_size)
 
-        # Plot reservoir disk
+        # Plot reservoirs disk
         step = 0.01
         th = list(np.arange(0, 2 * math.pi + step, step))
-        x = [xResC + ResRadius * math.cos(element) for element in th]
-        y = [yResC + ResRadius * math.sin(element) for element in th]
-        plt.fill(x, y, 'grey', edgecolor = 'none')
+        x = [x_res_c + res_radius * math.cos(element) for element in th]
+        y = [y_res_c + res_radius * math.sin(element) for element in th]
+        plt.fill(x, y, 'grey', edgecolor='none')
 
         # Plot accumulation evolution
-        legend = []
-        angstart = 0
+        ang_start = 0
         k_r = 0
-        for iroute in range(numRoutes):
-            for iRouteSect in range(len(ResOutput[r]["DataPerRoute"])):
-                if ResOutput[r]["DataPerRoute"][iRouteSect]["IDRoute"] == Route[iroute].ID:
-                    accratio = ResOutput[r]["DataPerRoute"][iRouteSect]["Data"][timeID]["Acc"] / Reservoir[r].get_MFD_setting('MaxAcc','VL')
-                    angend = angstart + accratio * 2 * math.pi
-                    thRoute = list(np.arange(angstart, angend + step, step))
-                    x = [xResC + ResRadius * math.cos(element) for element in thRoute]
-                    y = [yResC + ResRadius * math.sin(element) for element in thRoute]
-                    angstart = angend
+        for route in routes:
+            for i_routeSect in range(len(res_output[r]["DataPerRoute"])):
+                route_sect = res_output[r]["DataPerRoute"][i_routeSect]
 
-                    if iRouteSect in LegList: # add to the legend
+                if route_sect["IDRoute"] == route.ID:
+                    acc_ratio = route_sect["Data"][time_id]["Acc"] / reservoirs[r].MFDsetting[0]["MaxAcc"]
+                    ang_end = ang_start + acc_ratio * 2 * math.pi
+                    th_route = list(np.arange(ang_start, ang_end + step, step))
+                    x = [x_res_c + res_radius * math.cos(element) for element in th_route]
+                    y = [y_res_c + res_radius * math.sin(element) for element in th_route]
+                    ang_start = ang_end
+
+                    if i_routeSect in legend_list:  # add to the legend
                         for i in range(len(x)):
-                            hf.append(plt.fill([xResC, x[i]], [yResC, y[i]], color = cmap[k_r], ec = 'none'))
+                            hf.append(plt.fill([x_res_c, x[i]], [y_res_c, y[i]], color=c_map[k_r], ec='none'))
                     else:
-                        strlabel = '[ '
-                        for i in range(len(Route[iroute].CrossedReservoirs)):
-                            strlabel += Route[iroute].CrossedReservoirs[i].ID + ' '
-                        strlabel += ']'
+                        str_label = '[ '
+                        for i in range(len(route.CrossedReservoirs)):
+                            str_label += route.CrossedReservoirs[i].ID + ' '
+
+                        str_label += ']'
+
                         for i in range(len(x)):
-                            hf.append(plt.fill([xResC, x[i]], [yResC, y[i]], color = cmap[k_r], ec = 'none', label = strlabel))
-                        LegList.append(iRouteSect)
+                            hf.append(plt.fill([x_res_c, x[i]], [y_res_c, y[i]],
+                                               color=c_map[k_r], ec='none', label=str_label))
+                        legend_list.append(i_routeSect)
             k_r += 1
-        plt.text(xResC, yResC, r'$R_{' + str(r + 1) + '}$' + '\n' + str(round(ResOutput[r]["ReservoirData"][timeID]["Acc"])), ha = 'center', color = txtcolor, fontname = fontname, fontweight = 'bold', fontsize = FS)
+
+        plt.text(x_res_c, y_res_c,
+                 f'$R_{str(r + 1)}$' + '\n' + str(round(res_output[r]["ReservoirData"][time_id]["Acc"])),
+                 ha='center', color=txt_color, fontname=font_name, fontweight='bold', fontsize=font_size)
 
     # Plot size
-    xborder = 0.05  # increasing factor > 0 for the border spacing along x
-    yborder = 0.1  # increasing factor > 0 for the border spacing along x
-    if max(xList) == min(xList):
-        dx = max(yList) - min(yList)
+    x_border = 0.05  # increasing factor > 0 for the border spacing along x
+    y_border = 0.1  # increasing factor > 0 for the border spacing along x
+    if max(x_list) == min(x_list):
+        dx = max(y_list) - min(y_list)
     else:
-        dx = max(xList) - min(xList)
+        dx = max(x_list) - min(x_list)
 
-    if max(yList) == min(yList):
-        dy = max(xList) - min(xList)
+    if max(y_list) == min(y_list):
+        dy = max(x_list) - min(x_list)
     else:
-        dy = max(yList) - min(yList)
+        dy = max(y_list) - min(y_list)
 
-    xmin = min(xList) - ResRadius - xborder * dx
-    xmax = max(xList) + ResRadius + xborder * dx
-    ymin = min(yList) - ResRadius - yborder * dy
-    ymax = max(yList) + ResRadius + yborder * dy
+    x_min = min(x_list) - res_radius - x_border * dx
+    x_max = max(x_list) + res_radius + x_border * dx
+    y_min = min(y_list) - res_radius - y_border * dy
+    y_max = max(y_list) + res_radius + y_border * dy
 
-    plt.text((xmin + xmax) / 2, ymax, tlabel, color = [0.5, 0.5, 0.5], ha = 'center', va = 'top', fontname = fontname, fontsize = FS, fontweight = 'bold')
-    plt.axis([xmin, xmax, ymin, ymax])
+    plt.text((x_min + x_max) / 2, y_max, t_label,
+             color=[0.5, 0.5, 0.5], ha='center', va='top', fontname=font_name, fontsize=font_size, fontweight='bold')
+    plt.axis([x_min, x_max, y_min, y_max])
     plt.axis('off')
 
-    if showleg == 1:
-        plt.legend(hf, strleg, bbox_to_anchor=(1.05, 1), loc='center right', borderaxespad=0., fontsize = FS)
+    if show_legend == 1:
+        plt.legend(hf, str_legend, bbox_to_anchor=(1.05, 1), loc='center right', borderaxespad=0., fontsize=font_size)
 
-def plotResNetSpeed(t, Reservoir, ResOutput, SimulTime, SpeedRange):
-# Plot the state of reservoirs at time t(mean speed), with links and/ or shape borders
-#
-# INPUTS
-# ---- t: scalar, time[s]
-# ---- Reservoir: Reservoir structure
-# ---- SimulTime: vector, simulation time[s]
-# ---- SpeedRange: vector[Vmin Vmax], speed range[m / s] to define the colormap
 
-    numRes = len(Reservoir)
+def plot_res_net_speed(t, reservoirs, res_output, simul_time, speed_range):
+    # Plot the state of reservoirs at time t(mean speed), with links and/or shape borders
+    #
+    # INPUTS
+    # ---- t: scalar, time[s]
+    # ---- reservoirs: reservoirs structure
+    # ---- simul_time: vector, simulation time[s]
+    # ---- speed_range: vector[V_min V_max], speed range[m / s] to define the colormap
+
+    num_res = len(reservoirs)
 
     # Index of the current time
-    timeStep = SimulTime[1] - SimulTime[0]
-    timeID = 0
-    for i in range(len(SimulTime)):
-        if t == SimulTime[i] or abs(t - SimulTime[i]) <= timeStep / 2:
-            timeID = i
+    time_step = simul_time[1] - simul_time[0]
+    time_id = 0
+    for i in range(len(simul_time)):
+        if t == simul_time[i] or abs(t - simul_time[i]) <= time_step / 2:
+            time_id = i
 
     # Choice of a colormap
-    nbColor = 800
-    RdYlGn = cm.get_cmap('RdYlGn', nbColor)
+    nb_color = 800
+    rd_yl_gn = cm.get_cmap('rd_yl_gn', nb_color)
 
-    txtcolor = [0.1, 0.1, 0]
-    fontname = 'Arial'
-    FS = 16
-    LW = 1
-    tlabel = "Mean speed at t = " + str(t) + " s"
+    txt_color = [0.1, 0.1, 0]
+    font_name = 'Arial'
+    font_size = 16
+    line_width = 1
+    t_label = "Mean speed at t = " + str(t) + " s"
 
-    xLinks = []
-    yLinks = []
+    x_links = []
+    y_links = []
 
     # Plot reservoirs
-    for r in range(numRes):
-        speedratio = (ResOutput[r]["ReservoirData"][timeID]["MeanSpeed"] - SpeedRange[0]) / (SpeedRange[1] - SpeedRange[0])
-        indcolor = min([max([math.floor(speedratio * nbColor), 1]), nbColor])
-        colori = RdYlGn(indcolor)
+    for r in range(num_res):
+        mean_speed = res_output[r]["ReservoirData"][time_id]["MeanSpeed"]
+        speed_ratio = (mean_speed - speed_range[0]) / (speed_range[1] - speed_range[0])
+        ind_color = min([max([math.floor(speed_ratio * nb_color), 1]), nb_color])
+        color_i = rd_yl_gn(ind_color)
 
-        if len(Reservoir[r].BorderPoints) != 0:
-            xResbp = []
-            yResbp = []
-            for bp in range(len(Reservoir[r].BorderPoints)):
-                xResbp.append(Reservoir[r].BorderPoints[bp]["x"])
-                yResbp.append(Reservoir[r].BorderPoints[bp]["y"])
+        if len(reservoirs[r].BorderPoints) != 0:
+            x_res_bp = []
+            y_res_bp = []
+            for bp in range(len(reservoirs[r].BorderPoints)):
+                x_res_bp.append(reservoirs[r].BorderPoints[bp]["x"])
+                y_res_bp.append(reservoirs[r].BorderPoints[bp]["y"])
 
-                xLinks.append(Reservoir[r].BorderPoints[bp]["x"])
-                yLinks.append(Reservoir[r].BorderPoints[bp]["y"])
+                x_links.append(reservoirs[r].BorderPoints[bp]["x"])
+                y_links.append(reservoirs[r].BorderPoints[bp]["y"])
 
-            plt.fill(xResbp, yResbp, color = colori, ec='none', alpha=0.5)
-            plt.plot(xResbp, yResbp, '-', color = colori, linewidth = LW)
+            plt.fill(x_res_bp, y_res_bp, color=color_i, ec='none', alpha=0.5)
+            plt.plot(x_res_bp, y_res_bp, '-', color=color_i, linewidth=line_width)
 
-    for r in range(numRes):
-        xr = Reservoir[r].Centroid[0]["x"]
-        yr = Reservoir[r].Centroid[0]["y"]
-        plt.text(xr, yr, r'$R_{' + str(r + 1) + '}$'+ '\n' + str(round(ResOutput[r]["ReservoirData"][timeID]["MeanSpeed"] * 3.6)) + ' km/h', ha = 'center', color = txtcolor, fontname = fontname, fontweight = 'bold', fontsize = FS)
+    for r in range(num_res):
+        xr = reservoirs[r].Centroid[0]["x"]
+        yr = reservoirs[r].Centroid[0]["y"]
+        str_mean_speed = str(round(res_output[r]["ReservoirData"][time_id]["MeanSpeed"] * 3.6))
+        plt.text(xr, yr, f'$R_{str(r + 1)}$' + '\n' + str_mean_speed + ' km/h',
+                 ha='center', color=txt_color, fontname=font_name, fontweight='bold', fontsize=font_size)
 
     # Plot size
-    xborder = 0.1 # increasing factor > 0 for the border spacing along x
-    yborder = 0.1 # increasing factor > 0 for the border spacing along x
-    if max(xLinks) == min(xLinks):
-        dx = max(yLinks) - min(yLinks)
+    x_border = 0.1  # increasing factor > 0 for the border spacing along x
+    y_border = 0.1  # increasing factor > 0 for the border spacing along x
+    if max(x_links) == min(x_links):
+        dx = max(y_links) - min(y_links)
     else:
-        dx = max(xLinks) - min(xLinks)
+        dx = max(x_links) - min(x_links)
 
-    if max(yLinks) == min(yLinks):
-        dy = max(xLinks) - min(xLinks)
+    if max(y_links) == min(y_links):
+        dy = max(x_links) - min(x_links)
     else:
-        dy = max(yLinks) - min(yLinks)
+        dy = max(y_links) - min(y_links)
 
-    xmin = min(xLinks) - xborder * dx
-    xmax = max(xLinks) + xborder * dx
-    ymin = min(yLinks) - yborder * dy
-    ymax = max(yLinks) + yborder * dy
+    x_min = min(x_links) - x_border * dx
+    x_max = max(x_links) + x_border * dx
+    y_min = min(y_links) - y_border * dy
+    y_max = max(y_links) + y_border * dy
 
-    plt.axis([xmin, xmax, ymin, ymax])
+    plt.axis([x_min, x_max, y_min, y_max])
     plt.axis('off')
-    plt.text((xmin + xmax) / 2, ymax - yborder * dy / 4, tlabel, ha = 'center', fontname = fontname, fontsize = FS, fontweight = "bold")
+    plt.text((x_min + x_max) / 2, y_max - y_border * dy / 4, t_label,
+             ha='center', fontname=font_name, fontsize=font_size, fontweight="bold")
 
-def plotResRouteDem(Reservoir, Route, Node, Demand, demandType, plotcharact):
-# Plot the number or demand of a given route list crossing the reservoirs
-#
-# INPUTS
-#---- Reservoir   : Reservoir structure
-#---- Route       : Route structure
-#---- plotcharact : string, 'number' or 'demand'
 
-    numRes = len(Reservoir)
-    numRoute = len(Route)
-    numDemand = len(Demand)
-    numNode = len(Node)
+def plot_res_route_dem(reservoirs, routes, nodes, demand, demand_type, plot_charact):
+    # Plot the number or demand of a given route list crossing the reservoirs
+    # INPUTS
+    # ---- reservoirs   : reservoirs structure
+    # ---- routes       : routes structure
+    # ---- plot_charact : string, 'number' or 'demand'
+
+    num_res = len(reservoirs)
 
     # Choice of a colormap
-    nbColor = 800
-    RdYlGn = cm.get_cmap('RdYlGn', nbColor)
+    nb_color = 800
+    rd_yl_gn = cm.get_cmap('rd_yl_gn', nb_color)
 
     # Options
-    txtcolor = [0.1, 0.1, 0]
-    fontname = 'Arial'
-    FS = 18
-    LW = 2
-    legloc = 'best'
+    txt_color = [0.1, 0.1, 0]
+    font_name = 'Arial'
+    font_size = 18
+    line_width = 2
 
-    xLinks = []
-    yLinks = []
-    resvalues = []
+    x_links = []
+    y_links = []
+    res_values = []
 
-    # Demand per reservoir
-    DemandPerRes = []
+    # demand per reservoirs
+    demand_per_res = []
 
-    #incorrect - TO DO
-    if demandType == "FlowDemand":
-        for d in range(numDemand):
-            demand = 0
-            for t in range(len(Demand[d].Demand)):
-                demand += Demand[d].Demand[t]["Data"]
-            demand /= len(Demand[d].Demand)
+    # TODO
+    if demand_type == "FlowDemand":
+        for dem in demand:
+            flow_demand = 0
+            for dem_t in dem.Demands:
+                flow_demand += dem_t["Data"]
+            flow_demand /= len(dem.Demands)
 
-            for n in range(numNode):
-                if Node[n].ID == Demand[d].OriginMacroNodeID or Node[n].ID == Demand[d].DestMacroNodeID:
-                    resID = Node[n].ResID[0]
-                    DemandPerRes.append({"ID": resID, "Demand": demand})
-    #TODO
-    elif demandType == "DiscreteDemand":
+            for node in nodes:
+                if node.ID == dem.OriginMacroNodeID or node.ID == dem.DestMacroNodeID:
+                    res_id = node.ResID[0]
+                    demand_per_res.append({"ID": res_id, "demand": demand})
+    # TODO
+    elif demand_type == "DiscreteDemand":
         toto = 0
 
-    for r in range(numRes):
-        nbroutes = 0
-        totaldem = 0
-        for iroute in range(numRoute):
-            for r2 in range(len(Route[iroute].CrossedReservoirs)):
-                if Reservoir[r].ID == Route[iroute].CrossedReservoirs[r2].ID:
-                    nbroutes += 1
-        for d in range(len(DemandPerRes)):
-            if Reservoir[r].ID == DemandPerRes[d]["ID"]:
-                totaldem = DemandPerRes[d]["Demand"]
+    for res in reservoirs:
+        nb_routes = 0
+        total_dem = 0
 
-        if plotcharact == 'number':
-            resvalues.append(nbroutes)
-        elif plotcharact == 'demand':
-            resvalues.append(totaldem)
+        for route in routes:
+            for cr in route.CrossedReservoirs:
+                if res.ID == cr.ID:
+                    nb_routes += 1
 
-    maxvalue = max(resvalues)
+        for dem_res in demand_per_res:
+            if res.ID == dem_res["ID"]:
+                total_dem = dem_res["demand"]
+
+        if plot_charact == 'number':
+            res_values.append(nb_routes)
+        elif plot_charact == 'demand':
+            res_values.append(total_dem)
+
+    maxvalue = max(res_values)
 
     # Plot reservoirs
-    for r in range(numRes):
-        ratio = resvalues[r] / maxvalue
-        indcolor = max([math.floor(ratio * nbColor), 1])
-        colori = RdYlGn(indcolor)
+    for r in range(num_res):
+        ratio = res_values[r] / maxvalue
+        ind_color = max([math.floor(ratio * nb_color), 1])
+        color_i = rd_yl_gn(ind_color)
 
-        if len(Reservoir[r].BorderPoints) != 0:
-            xResbp = []
-            yResbp = []
-            for bp in range(len(Reservoir[r].BorderPoints)):
-                xResbp.append(Reservoir[r].BorderPoints[bp]["x"])
-                yResbp.append(Reservoir[r].BorderPoints[bp]["y"])
+        if len(reservoirs[r].BorderPoints) != 0:
+            x_res_bp = []
+            y_res_bp = []
+            for bp in reservoirs[r].BorderPoints:
+                x_res_bp.append(bp["x"])
+                y_res_bp.append(bp["y"])
 
-                xLinks.append(Reservoir[r].BorderPoints[bp]["x"])
-                yLinks.append(Reservoir[r].BorderPoints[bp]["y"])
+                x_links.append(bp["x"])
+                y_links.append(bp["y"])
 
-            plt.fill(xResbp, yResbp, color = colori, ec='none', alpha=0.5)
-            plt.plot(xResbp, yResbp, '-', color = colori, linewidth = LW)
+            plt.fill(x_res_bp, y_res_bp, color=color_i, ec='none', alpha=0.5)
+            plt.plot(x_res_bp, y_res_bp, '-', color=color_i, linewidth=line_width)
 
-    for r in range(numRes):
-        xr = Reservoir[r].Centroid[0]["x"]
-        yr = Reservoir[r].Centroid[0]["y"]
-        plt.text(xr, yr, r'$R_{' + str(r + 1) + '}$' + '\n' + str(resvalues[r]), ha = 'center', color = txtcolor, fontname = fontname, fontweight = 'bold', fontsize = FS)
+    for r in range(num_res):
+        xr = reservoirs[r].Centroid[0]["x"]
+        yr = reservoirs[r].Centroid[0]["y"]
+        plt.text(xr, yr, f'$R_{str(r + 1)}$' + '\n' + str(res_values[r]),
+                 ha='center', color=txt_color, fontname=font_name, fontweight='bold', fontsize=font_size)
 
     # Plot size
-    xborder = 0.1 # increasing factor > 0 for the border spacing along x
-    yborder = 0.1 # increasing factor > 0 for the border spacing along x
-    if max(xLinks) == min(xLinks):
-        dx = max(yLinks) - min(yLinks)
+    x_border = 0.1  # increasing factor > 0 for the border spacing along x
+    y_border = 0.1  # increasing factor > 0 for the border spacing along x
+    if max(x_links) == min(x_links):
+        dx = max(y_links) - min(y_links)
     else:
-        dx = max(xLinks) - min(xLinks)
+        dx = max(x_links) - min(x_links)
 
-    if max(yLinks) == min(yLinks):
-        dy = max(xLinks) - min(xLinks)
+    if max(y_links) == min(y_links):
+        dy = max(x_links) - min(x_links)
     else:
-        dy = max(yLinks) - min(yLinks)
+        dy = max(y_links) - min(y_links)
 
-    xmin = min(xLinks) - xborder*dx
-    xmax = max(xLinks) + xborder*dx
-    ymin = min(yLinks) - yborder*dy
-    ymax = max(yLinks) + yborder*dy
+    x_min = min(x_links) - x_border*dx
+    x_max = max(x_links) + x_border*dx
+    y_min = min(y_links) - y_border*dy
+    y_max = max(y_links) + y_border*dy
 
     # #hcb = plt.colorbar()
-    # if plotcharact == 'number':
+    # if plot_charact == 'number':
     #     hcb.Label.String = 'Number of routes [-]'
-    #     strtitle = 'Number of routes \rm[-]'
-    # elif plotcharact == 'demand':
+    #     str_title = 'Number of routes \rm[-]'
+    # elif plot_charact == 'demand':
     #     hcb.Label.String = 'Cumul. mean demand on routes [veh/s]'
-    #     strtitle = 'Cumul. mean demand on routes \rm[veh/s]'
+    #     str_title = 'Cumul. mean demand on routes \rm[veh/s]'
 
-    plt.axis([xmin, xmax, ymin, ymax])
+    plt.axis([x_min, x_max, y_min, y_max])
     plt.axis('off')
 
-def plotMacroNodes(Reservoir, coloringres, MacroNode, sizingnodes, Route, coloringroutes):
-# Plot the real network configuration with reservoirs and a set of given
-# routes represented by smooth lines. The line thickness represent the
-# demand on the route. The routes are shown as sequences of macro nodes.
-#
-# INPUTS
-#---- Reservoir      : Reservoir structure
-#---- coloringres    : boolean, 1: different colors for the reservoirs
-#---- MacroNode      : MacroNode structure
-#---- sizingnodes    : boolean, 1: node size depends on the flow transfered
-#---- Route          : Route structure
-#---- coloringroutes : boolean, 1: different colors for the routes
 
-    numRes = len(Reservoir)
-    numNodes = len(MacroNode)
-    numRoutes = len(Route)
+def plot_network(reservoirs, nodes, routes):
+    # Plot the real network configuration with reservoirs, nodes and route path.
+    # INPUTS
+    # ---- reservoirs           : reservoirs structure
+    # ---- nodes                : MacroNode structure
+    # ---- routes               : routes structure
+
+    num_res = len(reservoirs)
+    num_routes = len(routes)
     
     # Options
-    fontname = 'Arial'
-    FS = 28
-    LW = 2
-    MS = 10
-    cmap0 = np.array([(51, 51, 255), (0, 204, 51), (204, 0, 0), (204, 153, 0), (153, 0, 102), (51, 153, 153), (204, 102, 204), (204, 204, 102)]) / 255
-    rescolor = [0.1, 0.1, 0]
-    txtcolor = [0.9, 0.9, 1]
-    plotlegend = 0
-    plotnumnodes = 0
-    exactsmooth = 1
+    font_name = 'Arial'
+    font_size = 28
+    marker_size = 10
+    color_map_0 = np.array([(51, 51, 255), (0, 204, 51), (204, 0, 0), (204, 153, 0), (153, 0, 102), (51, 153, 153),
+                            (204, 102, 204), (204, 204, 102)]) / 255
+    res_color = [0.1, 0.1, 0]
+    txt_color = [0.9, 0.9, 1]
+    plot_legend = 0
+    plot_num_nodes = 1
 
+    # Lines
+    line_0 = np.array(['', '-', '--', ':', '-.'])
     # Line width
-    minLW = 0.2
-    maxLW = 5
-    # Marker size
-    minMS = 0.5 * MS
-    maxMS = 3 * MS
+    min_line_width = 0.2
+    max_line_width = 5
 
     # Plot the reservoirs
-    xLinks = []
-    yLinks = []
+    x_links = []
+    y_links = []
 
-    while numRes > len(cmap0):
-        cmap0 = np.concatenate((cmap0, cmap0))
+    while num_res > len(color_map_0):
+        color_map_0 = np.concatenate((color_map_0, color_map_0))
+
+    while num_routes > len(line_0):
+        line_0 = np.concatenate((line_0, line_0))
 
     # Plot the reservoirs
-    for r in range(numRes):
-        if len(Reservoir[r].BorderPoints) != 0:
-            xResbp = []
-            yResbp = []
-            for bp in range(len(Reservoir[r].BorderPoints)):
-                xResbp_tmp = Reservoir[r].BorderPoints[bp]["x"]
-                yResbp_tmp = Reservoir[r].BorderPoints[bp]["y"]
-                xResbp.append(xResbp_tmp)
-                yResbp.append(yResbp_tmp)
+    for r in range(num_res):
+        if len(reservoirs[r].BorderPoints) != 0:
+            x_res_bp = []
+            y_res_bp = []
+            for bp in reservoirs[r].BorderPoints:
+                x_res_bp_tmp = bp["x"]
+                y_res_bp_tmp = bp["y"]
+                x_res_bp.append(x_res_bp_tmp)
+                y_res_bp.append(y_res_bp_tmp)
 
-                xLinks.append(xResbp_tmp)
-                yLinks.append(yResbp_tmp)
+                x_links.append(x_res_bp_tmp)
+                y_links.append(y_res_bp_tmp)
 
-            plt.fill(xResbp, yResbp, color=cmap0[r], ec='none', alpha=0.5)
-            plt.plot(xResbp, yResbp, color=cmap0[r])
+            plt.fill(x_res_bp, y_res_bp, color=res_color, ec='none', alpha=0.5)
+            plt.plot(x_res_bp, y_res_bp, color=res_color)
     
     # Plot the routes
-    routedem = []
-    for iroute in range(numRoutes):
-        #TODO
-        routedem.append(math.mean(Route(iroute).Demand))
-
-    maxdem = max(routedem)
-    mindem = 0.1 * maxdem
-    
-    arrowL = 0.04 * (max(xLinks) - min(xLinks))
-    hp = []
-    strleg = []
+    str_legend = []
     i = 1
-    for iroute in range(numRoutes):
-        if routedem[i] > 0:
-            sline = '-';
-        else:
-            sline = '--';
 
-        colori = cmap0[i]
+    for route in routes:
+        color_i = color_map_0[i]
+        line_style_i = line_0[i]
 
-        listx = []
-        listy = []
-        for inode in range(numNodes):
-            xn = MacroNode[i].Coord[0]["x"]
-            yn = MacroNode[i].Coord[0]["y"]
-            listx.append(xn)
-            listy.append(yn)
-        
-        # Smooth the route line
-        if len(listx) == 1: # one point: internal trip
-            xn = listx[0]
-            yn = listy[0]
+        list_x = []
+        list_y = []
+        for node in route.NodePath:
+            xn = node.Coord[0]["x"]
+            yn = node.Coord[0]["y"]
+            list_x.append(xn)
+            list_y.append(yn)
 
-            for bp in range(len(Reservoir[r].BorderPoints)):
-                xResbp_tmp += Reservoir[r].BorderPoints[bp]["x"]
-                yResbp_tmp += Reservoir[r].BorderPoints[bp]["y"]
-            xb = xResbp_tmp / len(Reservoir[r].BorderPoints)
-            yb = yResbp_tmp / len(Reservoir[r].BorderPoints)
+        list_res_id = []
+        for res in route.CrossedReservoirs:
+            list_res_id.append(res.ID)
 
-            d = math.sqrt((xn - xb)^2 + (yn - yb)^2) # centroid-to-border mean distance
-            thmax = 7 * math.pi / 4
-            th = list(np.arange(0,thmax, 0.05))
-            xpath = [xn + 0.7 * d * th[element] / thmax * math.cos(th[element]) for element in th]
-            ypath = [yn + 0.7 * d * th[element] / thmax * math.sin(th[element]) for element in th]
-        else:
-            if exactsmooth == 0:
-                # The smoothed route does not necessarily connect all the points
-                alpha1 = 0.5 # for way-back turns
-                alpha2 = 1.7 # for direct turns
-                #TODO
-                #[xpath, ypath] = smoothroute(listx, listy, 50, alpha1, alpha2)
-            else:
-                # The smoothed route connects all the points (exact interpolation)
-                tension = 0.5 # smooth coeff
-                #TODO
-                #[xpath, ypath] = smoothroute2(listx, listy, 50, tension)
+        str_legend.append(route.ID + f': [{str(list_res_id)}]')
 
-        LWroute = minLW + (routedem(i) - mindem)/(maxdem - mindem)*(maxLW - minLW)
-        LWroute = max([LWroute, minLW])
-        hp.append(plt.plot(xpath, ypath, linestyle = sline, color = colori, linewidth = LWroute))
-        strleg.append(str(iroute + 1) + ': [' + str(Route(iroute).ResPath) + ']')
-        #TODO
-        plt.arrow([xpath[-2], xpath[-1]], [ypath[-2], ypath[-1]], arrowL, 'absolute', 1, colori, LWroute)
+        for j in range(len(list_x) - 1):
+            plt.annotate("",
+                         xy=(list_x[j], list_y[j]), xycoords='data',
+                         xytext=(list_x[j+1], list_y[j+1]), textcoords='data',
+                         arrowprops=dict(arrowstyle="<-", color=color_i,
+                                         shrinkA=5, shrinkB=5,
+                                         patchA=None, patchB=None,
+                                         connectionstyle='arc3,rad=-0.3',
+                                         linestyle=line_style_i))
+
+        i += 1
     
     # Plot the macro nodes
-    color1 = cmap0[3, :]
-    color2 = cmap0[1, :]
-    color3 = cmap0[4, :]
-    MS1 = MS
-    MS2 = 1.5 * MS
-    MS3 = MS
-    entrynodeslist = []
-    exitnodeslist = []
-    bordernodeslist = []
-    for n in range(numNodes):
-        if MacroNode[n].Type == 'origin' or MacroNode[n].Type == 'externalentry':
-            entrynodeslist.append(n)
-        elif MacroNode(n).Type == 'destination' or MacroNode[n].Type == 'externalexit':
-            exitnodeslist.append(n)
+    color1 = color_map_0[-1, :]
+    color2 = color_map_0[-2, :]
+    color3 = color_map_0[-3, :]
+    marker_size_1 = marker_size
+    marker_size_2 = 1.5 * marker_size
+    marker_size_3 = marker_size
+
+    entry_nodes_list = []
+    exit_nodes_list = []
+    border_nodes_list = []
+
+    for mn in nodes:
+        if mn.Type == 'origin' or mn.Type == 'externalentry':
+            entry_nodes_list.append(mn)
+        elif mn.Type == 'destination' or mn.Type == 'externalexit':
+            exit_nodes_list.append(mn)
         else:
-            bordernodeslist.append(n)
+            border_nodes_list.append(mn)
 
-    if sizingnodes == 0:
-        for i in range(len(exitnodeslist)):
-            plt.plot(MacroNode[i].Coord[0]["x"], MacroNode[i].Coord[0]["y"], 'o', color = color2, markerfacecolor = color2, markersize = MS2)
-        for i in range(len(entrynodeslist)):
-            plt.plot(MacroNode[i].Coord[0]["x"], MacroNode[i].Coord[0]["y"], 'o', color = color1, markerfacecolor = color1, markersize = MS1)
-        for i in range(len(bordernodeslist)):
-            plt.plot(MacroNode[i].Coord[0]["x"], MacroNode[i].Coord[0]["y"], 'o', color = color3, markerfacecolor = color3, markersize = MS3)
-    else:
-        nodeflow = []
-        for iroute in range(numRoutes):
-            if Route(iroute).AssignCoeff > 0:
-                r = Route[iroute].ResPath[0]["ID"]
-                #TODO
-                #i_r = Route(iroute).ResRouteIndex(r)
-                inode = Route[iroute].NodePath[0] # entry node
-                #nodeflow[inode] = nodeflow[inode] + mean(Reservoir(r).InflowPerRoute(i_r,:))
-                inode = Route[iroute].NodePath[1] # exit node
-                #nodeflow[inode] = nodeflow[inode] + mean(Reservoir(r).OutflowPerRoute(i_r,:))
-                if len(Route[iroute].ResPath) > 1:
-                    k_r = 1
-                    for r in range(1,len(Route[iroute].ResPath)):
-                        #i_r = Route(iroute).ResRouteIndex(r)
-                        inode = Route[iroute].NodePath[k_r + 1] # exit node
-                        #nodeflow(inode) = nodeflow(inode) + mean(Reservoir(r).OutflowPerRoute(i_r,:))
-                        k_r = k_r + 1
+    for node in exit_nodes_list:
+        plt.plot(node.Coord[0]["x"], node.Coord[0]["y"], 'o',
+                 color=color2, markerfacecolor=color2, markersize=marker_size_2)
+    for node in entry_nodes_list:
+        plt.plot(node.Coord[0]["x"], node.Coord[0]["y"], 'o',
+                 color=color1, markerfacecolor=color1, markersize=marker_size_1)
+    for node in border_nodes_list:
+        plt.plot(node.Coord[0]["x"], node.Coord[0]["y"], 'o',
+                 color=color3, markerfacecolor=color3, markersize=marker_size_3)
 
-        maxflow = max(nodeflow(MacroNode))
-        minflow = 0.1 * maxflow
-        for i in range(len(exitnodeslist)):
-            MSnode = minMS + (nodeflow(i) - minflow)/(maxflow - minflow) * (maxMS - minMS)
-            MSnode = max([MSnode, minMS])
-            plt.plot(MacroNode[i].Coord[0]["x"], MacroNode[i].Coord[0]["y"],'o', color = color2, markerfacecolor = color2, markersize = MSnode)
-        for i in range(len(entrynodeslist)):
-            MSnode = minMS + (nodeflow(i) - minflow) / (maxflow - minflow) * (maxMS - minMS)
-            MSnode = max([MSnode, minMS])
-            plt.plot(MacroNode[i].Coord[0]["x"], MacroNode[i].Coord[0]["y"], 'o', color = color1, markerfacecolor = color1, markersize = MSnode)
-        for i in range(len(bordernodeslist)):
-            MSnode = minMS + (nodeflow(i) - minflow) / (maxflow - minflow) * (maxMS - minMS)
-            MSnode = max([MSnode, minMS])
-            plt.plot(MacroNode[i].Coord[0]["x"], MacroNode[i].Coord[0]["y"], 'o', color = color3, markerfacecolor = color3, markersize = MSnode)
-
-    # Plot the reservoir numbers
-    for r in range(numRes):
-        xr = Reservoir[r].Centroid[0]["x"]
-        yr = Reservoir[r].Centroid[0]["y"]
-        plt.text(xr,yr, r'$R_{' + str(r + 1) + '}$', ha = 'center', color = txtcolor, fontname = fontname, fontweight = 'bold', fontsize = FS)
+    # Plot the reservoirs numbers
+    for r in range(num_res):
+        xr = reservoirs[r].Centroid[0]["x"]
+        yr = reservoirs[r].Centroid[0]["y"]
+        plt.text(xr, yr, f'$R_{str(r + 1)}$',
+                 ha='center', color=txt_color, fontname=font_name, fontweight='bold', fontsize=font_size)
     
     # Plot size
-    xborder = 0.1 # increasing factor > 0 for the border spacing along x
-    yborder = 0.1 # increasing factor > 0 for the border spacing along y
-    if max(xLinks) == min(xLinks):
-        dx = max(yLinks) - min(yLinks)
+    x_border = 0.1      # increasing factor > 0 for the border spacing along x
+    y_border = 0.1      # increasing factor > 0 for the border spacing along y
+    if max(x_links) == min(x_links):
+        dx = max(y_links) - min(y_links)
     else:
-        dx = max(xLinks) - min(xLinks)
+        dx = max(x_links) - min(x_links)
 
-    if max(yLinks) == min(yLinks):
-        dy = max(xLinks) - min(xLinks)
+    if max(y_links) == min(y_links):
+        dy = max(x_links) - min(x_links)
     else:
-        dy = max(yLinks) - min(yLinks)
+        dy = max(y_links) - min(y_links)
 
-    xmin = min(xLinks) - xborder*dx
-    xmax = max(xLinks) + xborder*dx
-    ymin = min(yLinks) - yborder*dy
-    ymax = max(yLinks) + yborder*dy
+    x_min = min(x_links) - x_border * dx
+    x_max = max(x_links) + x_border * dx
+    y_min = min(y_links) - y_border * dy
+    y_max = max(y_links) + y_border * dy
     
     # Plot the macro node numbers
-    if plotnumnodes == 1:
-        similnodes = np.array(numNodes, numNodes)
-        for i in range(numNodes):
-            for j in range(numNodes):
-                dist = math.sqrt((MacroNode[i].Coord[0]["x"] - MacroNode[j].Coord[0]["x"]) ^ 2 + (MacroNode[i].Coord[0]["y"] - MacroNode[j].Coord[0]["y"]) ^ 2)
+    if plot_num_nodes == 1:
+        simil_nodes = []
+        for node_i in nodes:
+            node_i_added = False
+            for node_j in nodes:
+                dist = math.sqrt((node_i.Coord[0]["x"] - node_j.Coord[0]["x"]) ** 2
+                                 + (node_i.Coord[0]["y"] - node_j.Coord[0]["y"]) ** 2)
                 if dist < 0.01 * dx:
-                    similnodes[i, j] = 1 # similar nodes if spatially very close
+                    simil_nodes.append([node_i, node_j])    # similar nodes if spatially very close
+                    node_i_added = True
 
-        #TODO
-        pairnodeslist = gatherelements(similnodes) # gather nodes that are very close
-        for ipair in range(len(pairnodeslist)):
-            i = pairnodeslist[ipair,1]
-            plt.text(MacroNode[i].Coord[0]["x"], MacroNode[i].Coord[0]["y"], '  ' + str(i), color = 'k', ha = 'left', fontname = fontname, fontsize = FS)
-            if len(pairnodeslist[ipair]) > 1:
-                for i in range(1, len(pairnodeslist[ipair])): # plot the node ID on the other side for clarity
-                    plt.text(MacroNode[i].Coord[0]["x"], MacroNode[i].Coord[0]["y"], str(i) + '  ', color = 'k', ha = 'right', fontname = fontname, fontsize = FS)
-    
+            if not node_i_added:
+                simil_nodes.append([node_i])
+
+        for pair in simil_nodes:
+            plt.text(pair[0].Coord[0]["x"], pair[0].Coord[0]["y"], '  ' + pair[0].ID,
+                     color='k', ha='left', fontname=font_name, fontsize=font_size/4)
+
+    # TODO
     # Plot the legend
-    if plotlegend == 1:
-        xleg = xmin + 0.75 * (xmax - xmin)
-        yleg = ymin + 0.95 * (ymax - ymin)
-        wleg = 0.05 * (xmax - xmin) # legend symbol width
-        hleg = 0.06 * (ymax - ymin) # height between symbols
-        plt.plot([xleg, xleg + wleg], yleg * np.array([1, 1]), '-k', linewidth = minLW)
-        plt.text(xleg + wleg, yleg,' < ' + str(mindem) +  ' veh/s', va = 'middle', ha = 'left', fontName = fontname, fontsize = 0.8 * FS)
-        plt.plot([xleg, xleg + wleg], (yleg - hleg) * np.array([1, 1]), '-k', linewidth = maxLW)
-        plt.text(xleg + wleg, yleg - hleg, ' > ' + str(maxdem) + ' veh/s', va = 'middle', ha = 'left', fontname = fontname, fontsize = 0.8 * FS)
-        if sizingnodes == 1:
-            plt.plot(xleg + 0.5 * wleg, yleg - 2 * hleg, 'o', color = 'k', markerfacecolor = 'k', markersize = minMS)
-            plt.text(xleg + wleg, yleg - 2 * hleg,' < ' + str(minflow) + ' veh/s', va = 'middle', ha = 'left', fontname = fontname, fontsize = 0.8 * FS)
-            plt.plot(xleg + 0.5 * wleg, yleg - 3 * hleg,'o', color = 'k', markerfacecolor = 'k', markersize = maxMS)
-            plt.text(xleg + wleg, yleg - 3 * hleg, '  > ' + str(maxflow) + ' veh/s', va = 'middle', ha = 'left', fontname = fontname, fontsize = 0.8 * FS)
+    if plot_legend == 1:
+        x_legend = x_min + 0.75 * (x_max - x_min)
+        y_legend = y_min + 0.95 * (y_max - y_min)
+        w_legend = 0.05 * (x_max - x_min)   # legend symbol width
+        h_legend = 0.06 * (y_max - y_min)   # height between symbols
 
-    plt.axis([xmin, xmax, ymin, ymax])
+        plt.plot([x_legend, x_legend + w_legend], y_legend * np.array([1, 1]),
+                 '-k', linewidth=min_line_width)
+        plt.plot([x_legend, x_legend + w_legend], (y_legend - h_legend) * np.array([1, 1]),
+                 '-k', linewidth=max_line_width)
+
+    plt.axis([x_min, x_max, y_min, y_max])
     plt.axis('off')
