@@ -673,27 +673,42 @@ def plot_res_route_dem(reservoirs, routes, nodes, demand, demand_type, plot_char
     plt.axis('off')
 
 
-def plot_network(ax, reservoirs, nodes, routes):
+def plot_network(ax, reservoirs, nodes, routes, options=None):
     # Plot the real network configuration with reservoirs, nodes and route path.
     # INPUTS
+    # ---- ax                   : figure
     # ---- reservoirs           : reservoirs structure
-    # ---- nodes                : MacroNode structure
+    # ---- nodes                : nodes structure
     # ---- routes               : routes structure
+    # ---- options              : plot options
 
     num_res = len(reservoirs)
     num_routes = len(routes)
     
     # Options
+    if options is not None:
+        plot_legend = options['legend']
+        plot_res_names = options['res_names']
+        plot_mn_names = options['mn_names']
+        plot_res_color = options['res_color']
+        plot_routes_color = options['routes_color']
+        plot_mn_color = options['mn_color']
+    else:
+        plot_legend = True
+        plot_res_names = True
+        plot_mn_names = True
+        plot_res_color = True
+        plot_routes_color = True
+        plot_mn_color = True
+
     font_name = 'Arial'
     font_size = 28
     marker_size = 10
     color_map_0 = np.array([(51, 51, 255), (0, 204, 51), (204, 0, 0), (204, 153, 0), (153, 0, 102), (51, 153, 153),
                             (204, 102, 204), (204, 204, 102)]) / 255
-    res_color = [0.1, 0.1, 0]
-    txt_color = [0.9, 0.9, 1]
 
-    plot_legend = 1
-    plot_num_nodes = 0
+    default_color = [0.1, 0.1, 0]
+    txt_color = [0.9, 0.9, 1]
 
     # Lines
     line_0 = np.array(['', '-', '--', ':', '-.'])
@@ -710,6 +725,11 @@ def plot_network(ax, reservoirs, nodes, routes):
 
     # Plot the reservoirs
     for r in range(num_res):
+        if plot_res_color:
+            color_r = color_map_0[r]
+        else:
+            color_r = default_color
+
         if len(reservoirs[r].BorderPoints) != 0:
             x_res_bp = []
             y_res_bp = []
@@ -722,15 +742,19 @@ def plot_network(ax, reservoirs, nodes, routes):
                 x_links.append(x_res_bp_tmp)
                 y_links.append(y_res_bp_tmp)
 
-            ax.fill(x_res_bp, y_res_bp, color=res_color, ec='none', alpha=0.5)
-            ax.plot(x_res_bp, y_res_bp, color=res_color)
+            ax.fill(x_res_bp, y_res_bp, color=color_r, ec='none', alpha=0.5)
+            ax.plot(x_res_bp, y_res_bp, color=color_r)
     
     # Plot the routes
     legend_routes = []
     i = 1
 
     for route in routes:
-        color_i = color_map_0[i]
+        if plot_routes_color:
+            color_i = color_map_0[i]
+        else:
+            color_i = default_color
+
         line_style_i = line_0[i]
 
         list_x = []
@@ -760,12 +784,18 @@ def plot_network(ax, reservoirs, nodes, routes):
         legend_routes.append(Line2D([0], [0], color=color_i, linestyle=line_style_i, label=route.ID))
 
     # Plot the macro nodes
-    color1 = color_map_0[-1, :]
-    color2 = color_map_0[-2, :]
-    color3 = color_map_0[-3, :]
+    if plot_mn_color:
+        color1 = color_map_0[-1, :]
+        color2 = color_map_0[-2, :]
+        color3 = color_map_0[-3, :]
+    else:
+        color1 = default_color
+        color2 = default_color
+        color3 = default_color
+
     marker_size_1 = marker_size
     marker_size_2 = 1.5 * marker_size
-    marker_size_3 = marker_size
+    marker_size_3 = 0.7 * marker_size
 
     entry_nodes_list = []
     exit_nodes_list = []
@@ -797,12 +827,13 @@ def plot_network(ax, reservoirs, nodes, routes):
                         label='Border', lw=0)]
 
     # Plot the reservoirs numbers
-    for r in range(num_res):
-        xr = reservoirs[r].Centroid[0]["x"]
-        yr = reservoirs[r].Centroid[0]["y"]
-        ax.text(xr, yr, f'$R_{str(r + 1)}$',
-                ha='center', color=txt_color, fontname=font_name, fontweight='bold', fontsize=font_size)
-    
+    if plot_res_names:
+        for r in range(num_res):
+            xr = reservoirs[r].Centroid[0]["x"]
+            yr = reservoirs[r].Centroid[0]["y"]
+            ax.text(xr, yr, f'$R_{str(r + 1)}$',
+                    ha='center', color=txt_color, fontname=font_name, fontweight='bold', fontsize=font_size)
+
     # Plot size
     x_border = 0.1      # increasing factor > 0 for the border spacing along x
     y_border = 0.1      # increasing factor > 0 for the border spacing along y
@@ -820,9 +851,9 @@ def plot_network(ax, reservoirs, nodes, routes):
     x_max = max(x_links) + x_border * dx
     y_min = min(y_links) - y_border * dy
     y_max = max(y_links) + y_border * dy
-    
+
     # Plot the macro node numbers
-    if plot_num_nodes == 1:
+    if plot_mn_names:
         simil_nodes = []
         for node_i in nodes:
             node_i_added = False
@@ -841,7 +872,7 @@ def plot_network(ax, reservoirs, nodes, routes):
                     color='k', ha='left', fontname=font_name, fontsize=font_size/4)
 
     # Plot the legends
-    if plot_legend == 1:
+    if plot_legend:
         legend1 = ax.legend(handles=legend_routes, loc='upper right')
         legend2 = ax.legend(handles=legend_mn, loc='lower left')
 

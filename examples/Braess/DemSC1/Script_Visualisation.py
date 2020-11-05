@@ -37,6 +37,8 @@ for i in range(num_routes):
 IO_functions.init_variables(reservoirs, routes, macronodes)
 
 # Plot reservoirs, nodes and route paths
+options = {'legend': True, 'res_names': False, 'mn_names': False, 'res_color': True, 'routes_color': True,
+           'mn_color': True}
 fig, ax = plt.subplots()
-plot_fct.plot_network(ax, reservoirs, macronodes, routes)
+plot_fct.plot_network(ax, reservoirs, macronodes, routes, options)
 plt.show()
