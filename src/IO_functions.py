@@ -14,14 +14,14 @@ def Init(Res, Routes, MacroNodes):
         # Loop on all macronodes
         for mn in MacroNodes:
             # Init MacroNodesID & AdjacentResID
-            if type(mn.ResID) == int:
+            if type(mn.ResID) == str:
                 mn.ResID = [mn.ResID]
 
-            if res.ID in mn.ResID:
+            if res in mn.ResID:
                 res.MacroNodes.append(mn)
 
                 if len(mn.ResID) == 2:
-                    if mn.ResID[0] != res.ID:
+                    if mn.ResID[0] != res:
                         res.AdjacentResID.append(mn.ResID[0])
                     else:
                         res.AdjacentResID.append(mn.ResID[1])
