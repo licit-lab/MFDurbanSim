@@ -97,11 +97,12 @@ def AccBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
             print("Reservoir : ", reservoir.ID)
           
             # Production modification (todo for queue dyn model)
+            reservoir.Data[indtime]['Production'] = reservoir.get_production_from_accumulation(reservoir.Data[indtime]['Acc'], 'VL')
          
             # Outflow demand update
             for rs in reservoir.RouteSections:
                 if reservoir.Data[indtime]['Acc']>0:
-                    rs.Data[indtime]['OutflowDemand']=rs.Data[indtime]['Acc']/reservoir.Data[indtime]['Acc']*reservoir.Data[indtime]['Production']/reservoir.Data[indtime]['AvgTripLength']
+                    rs.Data[indtime]['OutflowDemand']=rs.Data[indtime]['Acc']/reservoir.Data[indtime]['Acc']*reservoir.Data[indtime]['Production']/rs.TripLength
                 else:
                   rs.Data[indtime]['OutflowDemand']=0.
   
@@ -226,9 +227,11 @@ def AccBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
                 # Accumulation update
                 for rs in reservoir.RouteSections:
                     
-                    rs.Data[indtime+1]['AccCircu'] = rs.Data[indtime+1]['AccCircu'] + Simulation.TimeStep * (rs.Data[indtime]['Inflow'] - rs.Data[indtime]['Outflow'])
+                    rs.Data[indtime+1]['AccCircu'] = rs.Data[indtime]['AccCircu'] + Simulation.TimeStep * (rs.Data[indtime]['Inflow'] - rs.Data[indtime]['Outflow'])
                     
                     rs.Data[indtime+1]['Acc'] = rs.Data[indtime+1]['AccCircu']+rs.Data[indtime+1]['AccQueue']
+                    
+                    reservoir.Data[indtime+1]['Acc'] += rs.Data[indtime+1]['Acc']
 
 def TripBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
     

@@ -1,5 +1,5 @@
 import json
-from src.main_objects import RouteSection
+from main_objects import RouteSection
 
 def Init(Res, Routes, MacroNodes):
 
@@ -67,7 +67,7 @@ def Init(Res, Routes, MacroNodes):
         route.FreeFlowTravelTime = temp_TT
         route.OldTT = temp_TT
         
-def SaveOutput(Simulation, Reservoirs, Routes, Vehicle = []):
+def SaveOutput(outputfile, Simulation, Reservoirs, Routes, Vehicle = []):
     output = {}
 
     ##SIMULATION##
@@ -76,10 +76,12 @@ def SaveOutput(Simulation, Reservoirs, Routes, Vehicle = []):
     ##RESERVOIR##
     reservoirs_out = []
     for i in range(len(Reservoirs)):
+        
         reservoir_data = []
+        
         routes_data = []
         for j in range(len(Reservoirs[i].RouteSections)):
-            routes_data.append({"RouteID":Reservoirs[i].RouteSections[j].RouteID, "Data":[]})
+            routes_data.append({"RouteID":Reservoirs[i].RouteSections[j].Route.ID, "Data":[]})
 
             for k in range(len(Reservoirs[i].RouteSections[j].Data)):
                 routes_data[j]["Data"].append({"Time":Reservoirs[i].RouteSections[j].Data[k]["Time"], "Acc":Reservoirs[i].RouteSections[j].Data[k]["Acc"], "AccCircu":Reservoirs[i].RouteSections[j].Data[k]["AccCircu"],
@@ -110,8 +112,8 @@ def SaveOutput(Simulation, Reservoirs, Routes, Vehicle = []):
     else:
         output = {"SIMULATION":simulation_out, "RESERVOIRS":reservoirs_out, "ROUTES":routes_out}
 
-    with open("Output.json", "w") as fichier:
-        json.dump(output, fichier, indent = 4)
+    with open(outputfile, "w") as of:
+        json.dump(output, of, indent = 4)
 
 
 

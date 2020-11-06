@@ -11,12 +11,13 @@ DEBUG = 0
 PLOT = 0
 DYNAMIC_PLOT = 0
 
-#root='../../../samples/'
-#folder='3reservoirs/'
-
 (head, tail) = os.path.split(os.getcwd())
 root = os.path.normpath(os.path.join(head, "examples"))
 folder = 'Braess/DemSC1/'
+
+#root='../../../samples/'
+#folder='1reservoir/'
+
 path = os.path.normpath(os.path.join(root, folder))
 
 reservoirs = []                 # list of reservoirs
@@ -231,14 +232,15 @@ elif simulation_settings.Solver == "TripBased":
     Solver.TripBased(simulation_settings, reservoirs, routes, macronodes, GlobalDemand)
 
 #### Outputs ####
+file_output = os.path.join(path, "Output.json")
+IO_functions.SaveOutput(file_output, simulation_settings, reservoirs, routes)
 
 ## Reservoir config and states
 SimulTime = list(range(0, simulation_settings.Duration, simulation_settings.TimeStep))
 SpeedRange = [3, 14]
 t0 = 10
 
-path_output = os.path.join(path, "Output.json")
-with open(path_output, "r") as file:
+with open(file_output, "r") as file:
     Output = json.load(file)
 
 ResOutput = Output["RESERVOIRS"]

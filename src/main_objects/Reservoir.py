@@ -91,35 +91,21 @@ class Reservoir(Element):
         if 'BorderPoints' in loadNetwork["RESERVOIRS"][i]:
             self.BorderPoints = loadNetwork["RESERVOIRS"][i]["BorderPoints"]
 
-    # def init_fct_param(self, EntryCoeff4, EntryCoeff5, EntryCoeff6, numModes):
-    #     self.MFDfctParam = [self.MaxAcc, self.CritAcc, self.MaxProd]
-
-    #     coeff4 = copy.deepcopy(self.CritAcc)
-    #     coeff5 = copy.deepcopy(self.CritAcc)
-    #     coeff6 = copy.deepcopy(self.MaxProd)
-    #     for i in range(numModes):
-    #         coeff4[i]["value"] *= EntryCoeff4
-    #         coeff5[i]["value"] *= EntryCoeff5
-    #         coeff6[i]["value"] *= EntryCoeff6
-
-    #     self.EntryfctParam = [self.MaxAcc, self.CritAcc, self.MaxProd, coeff4, coeff5, coeff6]
-        
     def get_entry_supply_from_accumulation(self, accumulation, mode):
-        
-        # self.EntryfctParam = []             #Parameters of the entry supply function
-# % Entry supply function
-# % param = [nj nc Pc a1*nc a2*nc b*Pc], with 0 < a1 < 1 < a2, and 1 < b
-    #     Entryfct = @(n,param) (n <= param(4)).*param(6) + ...
-    # (param(4) < n).*(n <= param(5)).*(param(6)+(n-param(4))./(param(5)-param(4)).*(MFDfct(param(5),param(1:3))-param(6))) + ...
-    # (param(5) < n).*MFDfct(n,param(1:3));
-
-        
         entry_supply = 0
         return entry_supply
     
     def get_production_from_accumulation(self, accumulation, mode):
+                
         MFDset = [tag for tag in self.MFDsetting if tag['mode'] == mode][0]
-        return MFDset['MaxAcc']*accumulation**2 + MFDset['CritAcc']*accumulation + MFDset['MaxProd']
+        
+        if accumulation >= MFDset['MaxAcc']:
+            return 0.
+        
+        a = MFDset['MaxProd'] / (MFDset['CritAcc']*(MFDset['CritAcc']-MFDset['MaxAcc']))
+        b = -a * MFDset['MaxAcc']
+        c = 0
+        return ( (a*accumulation**2) + (b*accumulation) + c)
     
     def get_speed_from_accumulation(self, accumulation, mode):
         MFDset = [tag for tag in self.MFDsetting if tag['mode']==mode][0]

@@ -25,10 +25,10 @@ class FlowDemand:
         self.RouteAssignments.set_index('Time')
         
     def get_levelofdemand(self, time):
-        return float(self.Demands.loc[:time].tail(1)['Data'].iloc[0])
+        return float(self.Demands.loc[self.Demands['Time']<=time].tail(1)['Data'].iloc[0])
     
     def get_assignmentcoefficient(self, route_id, time):
-        data = self.RouteAssignments.loc[:time].tail(1)['Data'].iloc[0]
+        data = self.RouteAssignments.loc[self.RouteAssignments['Time']<=1].tail(1)['Data'].iloc[0]
         for d in range(len(data)):
             if data[d]['ID'] == route_id:
                 return data[d]['Coeff']
@@ -62,15 +62,16 @@ class DiscreteDemand:
             self.PrevTripID = micro_demand["PrevTripID"]
             
 def get_partial_demand(GlobalDemand, RouteSection, t):
-    if RouteSection.EntryNode.Type != 'externalentry':
-        return 0
+    if RouteSection.EntryNode.Type != 'externalentry' and RouteSection.EntryNode.Type != 'origin':
+        return 0.
     
-    if GlobalDemand[0] is FlowDemand:
+    if type(GlobalDemand[0]) is FlowDemand:
         for d in GlobalDemand:
-            if GlobalDemand[d].OriginMacroNodeID == RouteSection.EntryNode and GlobalDemand[d].DestMacroNodeID == RouteSection.EntryNode:
+            if GlobalDemand[d].OriginMacroNode == RouteSection.EntryNode and GlobalDemand[d].DestMacroNode == RouteSection.Route.DestMacroNode:
                 levelofdemand = GlobalDemand[d].get_levelofdemand(t)
                 coeff = GlobalDemand[d].get_assignmentcoefficient(RouteSection.Route.ID, t)
                 return levelofdemand*coeff
+        return 0.
     else:
         next_t = get_next_trip_from_origin(GlobalDemand,RouteSection.EntryNode.ID,t)
         prev_t = get_previous_trip_from_origin(GlobalDemand,RouteSection.EntryNode.ID,t)

@@ -43,7 +43,7 @@ class MacroNode:
     def get_capacity(self, time):
         if self.Capacities.size == 0:
             return 1.
-        return self.Capacities.loc[:time].tail(1).Data[0]
+        return self.Capacities.loc[self.Capacities['Time']<=time].tail(1).Data[0]
     
     
     
