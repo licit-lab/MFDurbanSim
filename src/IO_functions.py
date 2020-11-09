@@ -101,10 +101,11 @@ def init_variables(reservoirs, routes, macronodes):
             temp_tt += route.TripLengths[ind] // reservoir.get_MFD_setting('FreeflowSpeed', route.Mode)
             ind = ind+1
             
-        route.TotalTime = temp_TT
-        route.FreeFlowTravelTime = temp_TT
-        route.OldTT = temp_TT
-        
+        route.TotalTime = temp_tt
+        route.FreeFlowTravelTime = temp_tt
+        route.OldTT = temp_tt
+
+
 def save_output(outputfile, simulation, reservoirs, routes, vehicle=None):
     # --- SIMULATION ---#
     if vehicle is None:
@@ -113,21 +114,23 @@ def save_output(outputfile, simulation, reservoirs, routes, vehicle=None):
 
     # --- RESERVOIR ---#
     reservoirs_out = []
-    for i in range(len(Reservoirs)):
+    for res in reservoirs:
         
         reservoir_data = []
         
         routes_data = []
-        for j in range(len(Reservoirs[i].RouteSections)):
-            routes_data.append({"RouteID":Reservoirs[i].RouteSections[j].Route.ID, "Data":[]})
+        j = 0
+        for rs in res.RouteSections:
+            routes_data.append({"RouteID": rs.Route.ID, "Data": []})
 
-            for k in range(len(Reservoirs[i].RouteSections[j].Data)):
-                routes_data[j]["Data"].append({"Time":Reservoirs[i].RouteSections[j].Data[k]["Time"], "Acc":Reservoirs[i].RouteSections[j].Data[k]["Acc"], "AccCircu":Reservoirs[i].RouteSections[j].Data[k]["AccCircu"],
-                                               "AccQueue":Reservoirs[i].RouteSections[j].Data[k]["AccQueue"], "Inflow":Reservoirs[i].RouteSections[j].Data[k]["Inflow"], "Outflow":Reservoirs[i].RouteSections[j].Data[k]["Outflow"],
-                                               "OutflowDemand":Reservoirs[i].RouteSections[j].Data[k]["OutflowDemand"], "Nin":Reservoirs[i].RouteSections[j].Data[k]["Nin"], "Nout":Reservoirs[i].RouteSections[j].Data[k]["Nout"],
-                                               "NoutCircu":Reservoirs[i].RouteSections[j].Data[k]["NoutCircu"]})        
-        
-        reservoirs_out.append({"ID": Reservoirs[i].ID, "ReservoirData": reservoir_data, "DataPerRoute": routes_data})
+            for data in res.Data:
+                routes_data[j]["Data"].append({"Time": data["Time"], "Acc": data["Acc"], "AccCircu": data["AccCircu"],
+                                               "AccQueue": data["AccQueue"], "Inflow": data["Inflow"],
+                                               "Outflow": data["Outflow"], "OutflowDemand": data["OutflowDemand"],
+                                               "Nin": data["Nin"], "Nout": data["Nout"],
+                                               "NoutCircu": data["NoutCircu"]})
+
+            j += 1
 
         reservoirs_out.append({"ID": res.ID, "ReservoirData": reservoir_data, "DataPerRoute": routes_data})
 
