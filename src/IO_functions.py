@@ -1,7 +1,85 @@
 import json
 from main_objects import RouteSection
 
+def verify_reservoir_input(reservoir, list_res_id):
+    # Verify reservoir id is unique
+    if reservoir.ID not in list_res_id:
+        # Verify Critical accumulation < Maximum accumulation
+        i = 0
+        for mode in range(len(reservoir.MFDsetting)):
+            if reservoir.MFDsetting[mode]["CritAcc"] < reservoir.MFDsetting[mode]["MaxAcc"]:
+                i = i + 1
 
+        if i == len(reservoir.MFDsetting):
+            list_res_id.append(reservoir.ID)
+            return True
+        else:
+            print("MaxAcc <= CritAcc, this reservoir won't be added to the list of reservoirs.")
+            return False
+    else:
+        print("ResID already used, this reservoir won't be added to the list of reservoirs.")
+        return False
+
+
+def verify_nodes_input(macronode, list_mn_id, list_res_id):
+    # Verify macro node id is unique
+    if macronode.ID not in list_mn_id:
+        # Verify macro node type is well-defined
+        if macronode.Type is not None:
+            # Verify reservoir is well-defined
+            i = 0
+            for res_id in macronode.ResID:
+                if res_id.ID in list_res_id:
+                    i = i + 1
+
+            if i == len(macronode.ResID):
+                list_mn_id.append(macronode.ID)
+                return True
+            else:
+                print("Reservoir doesn't exist, this macro node won't be added to the list of macro nodes.")
+                return False
+        else:
+            print("Macro node type unknown, this macro node won't be added to the list of macro nodes")
+            return False
+    else:
+        print("Macro node ID already used, this macro node won't be added to the list of macro nodes.")
+        return False
+
+
+def verify_routes_input(route, list_routes_id):
+    # Verify route id is unique
+    if route.ID not in list_routes_id:
+        # Verify reservoir is well-defined
+        i = 0
+        for res in route.CrossedReservoirs:
+            if res is not None:
+                i = i + 1
+
+        if i == len(route.CrossedReservoirs):
+            # Verify macro node is well-defined
+            j = 0
+            for node in route.NodePath:
+                if node is not None:
+                    j = j + 1
+
+            if j == len(route.NodePath):
+                # Verify nb of nodes = nb of reservoirs + 1
+                if len(route.NodePath) == len(route.CrossedReservoirs) + 1:
+                    list_routes_id.append(route.ID)
+                    return True
+                else:
+                    print("Number of nodes isn't equal to number of reservoirs + 1, this route won't be added "
+                          "to the list of routes.")
+                    return False
+            else:
+                print("Node path incorrect, this route won't be added to the list of routes.")
+                return False
+        else:
+            print("Reservoir path incorrect, this route won't be added to the list of routes.")
+            return False
+    else:
+        print("Route ID already used, this route won't be added to the list of routes.")
+        return False
 def verify_flow_demand_input(flow, list_routes_id):
     # Verify origin and destination nodes exist
     if flow.OriginMacroNode is not None and flow.DestMacroNode is not None:
@@ -123,7 +201,7 @@ def save_output(outputfile, simulation, reservoirs, routes, vehicle=None):
         for rs in res.RouteSections:
             routes_data.append({"RouteID": rs.Route.ID, "Data": []})
 
-            for data in res.Data:
+            for data in rs.Data:
                 routes_data[j]["Data"].append({"Time": data["Time"], "Acc": data["Acc"], "AccCircu": data["AccCircu"],
                                                "AccQueue": data["AccQueue"], "Inflow": data["Inflow"],
                                                "Outflow": data["Outflow"], "OutflowDemand": data["OutflowDemand"],

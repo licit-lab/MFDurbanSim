@@ -66,7 +66,7 @@ def get_partial_demand(GlobalDemand, RouteSection, t):
         return 0.
     
     if type(GlobalDemand[0]) is FlowDemand:
-        for d in GlobalDemand:
+        for d in range(len(GlobalDemand)):
             if GlobalDemand[d].OriginMacroNode == RouteSection.EntryNode and GlobalDemand[d].DestMacroNode == RouteSection.Route.DestMacroNode:
                 levelofdemand = GlobalDemand[d].get_levelofdemand(t)
                 coeff = GlobalDemand[d].get_assignmentcoefficient(RouteSection.Route.ID, t)
