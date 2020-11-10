@@ -80,6 +80,8 @@ def verify_routes_input(route, list_routes_id):
     else:
         print("Route ID already used, this route won't be added to the list of routes.")
         return False
+
+
 def verify_flow_demand_input(flow, list_routes_id):
     # Verify origin and destination nodes exist
     if flow.OriginMacroNode is not None and flow.DestMacroNode is not None:

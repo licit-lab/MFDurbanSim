@@ -15,9 +15,6 @@ DYNAMIC_PLOT = 0
 root = os.path.normpath(os.path.join(head, "examples"))
 folder = 'Braess/DemSC1/'
 
-#root='../../../samples/'
-#folder='1reservoir/'
-
 path = os.path.normpath(os.path.join(root, folder))
 
 reservoirs = []                 # list of reservoirs
@@ -130,7 +127,7 @@ if simulation_settings.Solver == "AccBased":
 elif simulation_settings.Solver == "TripBased":
     Solver.TripBased(simulation_settings, reservoirs, routes, macronodes, GlobalDemand)
 
-#### Outputs ####
+# --- Outputs --- #
 file_output = os.path.join(path, "Output.json")
 IO_functions.save_output(file_output, simulation_settings, reservoirs, routes)
 
@@ -144,6 +141,13 @@ with open(file_output, "r") as file:
 
 ResOutput = Output["RESERVOIRS"]
 RoutesOutput = Output["ROUTES"]
+
+options = {'legend': True, 'res_names': True, 'mn_names': True, 'res_color': True, 'routes_color': True,
+           'mn_color': True}
+
+# Plot macro nodes with route paths
+fig, ax = plot_fct.plt.subplots()
+plot_fct.plot_network(ax, reservoirs, macronodes, routes, options)
 
 if PLOT == 1:
     # Plot reservoir schematic representation (borders and adjacent connections)
@@ -171,10 +175,6 @@ if PLOT == 1:
     plot_fct.plot_res_route_dem(reservoirs, routes, macronodes, GlobalDemand, simulation_settings.DemandType, 'demand')
     plot_fct.plt.show()
 
-# Plot macro nodes with route paths
-# plt.figure
-# plot_fct.plot_network(reservoirs, macronodes, routes)
-# plt.show()
 
 if DYNAMIC_PLOT == 1:
     plot_fct.plt.figure
