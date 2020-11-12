@@ -773,7 +773,8 @@ def plot_network(ax, reservoirs, nodes, routes, options=None):
             res_plot.append(ax.plot(x_res_bp, y_res_bp, color=color_r))
         else:
             if res_centroid_filled:
-                res_plot.append(ax.plot(reservoirs[r].Centroid[0]["x"], reservoirs[r].Centroid[0]["y"], 'x', color=color_r))
+                res_plot.append(ax.plot(reservoirs[r].Centroid[0]["x"], reservoirs[r].Centroid[0]["y"], 'x',
+                                        color=color_r))
 
 
     # Plot the routes
@@ -974,12 +975,19 @@ def plot_network(ax, reservoirs, nodes, routes, options=None):
 
     rax = plt.axes([0.05, 0.4, 0.1, 0.15])
 
+    list_labels = []
+    list_visible = []
     if (res_centroid_filled or res_bp_filled) and mn_coord_filled:
-        check = widgets.CheckButtons(rax, ('Reservoirs', 'MacroNodes', 'Routes'), (True, True, True))
+        list_labels = ['Reservoirs', 'MacroNodes', 'Routes']
+        list_visible = [True, True, True]
     elif mn_coord_filled and not res_bp_filled and not res_bp_filled:
-        check = widgets.CheckButtons(rax, ('MacroNodes', 'Routes'), (True, True))
+        list_labels = ['MacroNodes', 'Routes']
+        list_visible = [True, True]
     elif res_centroid_filled or res_bp_filled and not mn_coord_filled:
-        check = widgets.CheckButtons(rax, ['Reservoirs'], [True])
+        list_labels = ['Reservoirs']
+        list_visible = [True]
+
+    check = widgets.CheckButtons(rax, list_labels, list_visible)
 
     def func(label):
         if label == 'Reservoirs':
@@ -1012,8 +1020,3 @@ def plot_network(ax, reservoirs, nodes, routes, options=None):
     check.on_clicked(func)
 
     plt.show()
-
-
-
-
-
