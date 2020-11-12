@@ -1,24 +1,19 @@
 import json
 
-with open("Network.json", "r") as file:
-    Network = json.load(file)
-file.close()
-
-## RESERVOIRS
+# RESERVOIRS
 with open("ResStruct_Matlab.json", "r") as file:
     ReservoirMatlab = json.load(file)
-file.close()
 
 with open("MFDStruct_Matlab.json", "r") as file:
     MFDMatlab = json.load(file)
-file.close()
     
 numRes = len(ReservoirMatlab)
 numMFD = len(MFDMatlab)
 
-Network["RESERVOIRS"] = []
+Network = {}
 strRes_temp = {}
 
+Network["RESERVOIRS"] = []
 if numRes == numMFD:
     for i in range(numRes):
         strBorderPoints = []
@@ -38,7 +33,7 @@ if numRes == numMFD:
 else:
     print("Number of Reservoirs different than number of MFD points")
     
-## MACRONODES
+# MACRONODES
 with open("NodeStruct_Matlab.json", "r") as file:
     NodeMatlab = json.load(file)
 file.close()
@@ -47,29 +42,36 @@ numNodes = len(NodeMatlab)
 
 Network["MACRONODES"] = []
 strNode_temp = {}
-for i in range(numNodes):
+for mn in NodeMatlab:
     strType = ""
-    if NodeMatlab[i]["Type"] == 1:
+
+    if mn["Type"] == 1:
         strType = "origin"
-    elif NodeMatlab[i]["Type"] == 2:
-        strType =  "destination"
-    elif NodeMatlab[i]["Type"] == 3:
-        strType = "externalentry"
-    elif NodeMatlab[i]["Type"] == 4:
-        strTpe = "externalexit"
-    elif NodeMatlab[i]["Type"] == 5:
+        res_id = f"Res{str(mn['ResID'])}"
+    elif mn["Type"] == 2:
+        strType = "destination"
+        res_id = f"Res{str(mn['ResID'])}"
+    elif mn["Type"] == 0:
         strType = "border"
+
+        if type(mn['ResID']) is list:
+            res_id = []
+            for mn_res_id in mn['ResID']:
+                res_id.append(f"Res{str(mn_res_id)}")
+        else:
+            res_id = f"Res{str(mn['ResID'])}"
     else:
-        strType = "origin"
+        print(f"Type {mn['Type']} unknown")
+        continue
         
-    strNode_temp = {"ID": NodeMatlab[i]["ID"],
+    strNode_temp = {"ID": mn["ID"],
                     "Type": strType,
-                    "ResID": "Res" + str(NodeMatlab[i]["ResID"]),
+                    "ResID": res_id,
                     "Capacity": [{"Time": 0, "Data": 0}],
-                    "Coord": [{"x": NodeMatlab[i]["Coord"][0], "y": NodeMatlab[i]["Coord"][1]}]}
+                    "Coord": [{"x": mn["Coord"][0], "y": mn["Coord"][1]}]}
                     
     Network["MACRONODES"].append(strNode_temp)
 
 with open("Network.json", "w") as file:
-    json.dump(Network, file, indent = 4)
-file.close()
+    json.dump(Network, file, indent=4)
+
