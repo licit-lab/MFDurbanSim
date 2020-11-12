@@ -710,20 +710,44 @@ def plot_network(ax, reservoirs, nodes, routes, options=None):
                             (204, 102, 204), (204, 204, 102)]) / 255
 
     default_color = [0.1, 0.1, 0]
-    txt_color = [0.9, 0.9, 1]
+    txt_color = [1, 1, 1]
 
     # Lines
     line_0 = np.array(['', '-', '--', ':', '-.'])
-
-    # Plot the reservoirs
-    x_links = []
-    y_links = []
 
     while num_res > len(color_map_0):
         color_map_0 = np.concatenate((color_map_0, color_map_0))
 
     while num_routes > len(line_0):
         line_0 = np.concatenate((line_0, line_0))
+
+    # Verify plot information
+    res_bp_filled = True
+    res_centroid_filled = True
+    for r in reservoirs:
+        if r.BorderPoints is None:
+            res_bp_filled = False
+        if r.Centroid is None:
+            res_centroid_filled = False
+
+    mn_coord_filled = True
+    for mn in nodes:
+        if mn.Coord is None:
+            mn_coord_filled = False
+
+    if not res_bp_filled:
+        print("WARNING: Border Points are missing in reservoirs.")
+    if not res_centroid_filled:
+        print("WARNING: Centroid coordinates are missing.")
+    if not mn_coord_filled:
+        print("WARNING: Macro-nodes coordinates are missing.")
+
+    # Plot the reservoirs
+    x_links = None
+    y_links = None
+    if res_bp_filled:
+        x_links = []
+        y_links = []
 
     res_plot = []
     # Plot the reservoirs
@@ -733,7 +757,7 @@ def plot_network(ax, reservoirs, nodes, routes, options=None):
         else:
             color_r = default_color
 
-        if len(reservoirs[r].BorderPoints) != 0:
+        if res_bp_filled:
             x_res_bp = []
             y_res_bp = []
             for bp in reservoirs[r].BorderPoints:
@@ -745,49 +769,56 @@ def plot_network(ax, reservoirs, nodes, routes, options=None):
                 x_links.append(x_res_bp_tmp)
                 y_links.append(y_res_bp_tmp)
 
-            res_plot.append(ax.fill(x_res_bp, y_res_bp, color=color_r, ec='none', alpha=0.5))
+            res_plot.append(ax.fill(x_res_bp, y_res_bp, color=color_r, ec='none', alpha=0.3))
             res_plot.append(ax.plot(x_res_bp, y_res_bp, color=color_r))
-    
+        else:
+            if res_centroid_filled:
+                res_plot.append(ax.plot(reservoirs[r].Centroid[0]["x"], reservoirs[r].Centroid[0]["y"], 'x', color=color_r))
+
+
     # Plot the routes
     legend_routes = []
     i = 1
 
-    route_plot = []
-    for route in routes:
-        if plot_routes_color:
-            color_i = color_map_0[i]
-        else:
-            color_i = default_color
+    if mn_coord_filled:
+        route_plot = []
+        for route in routes:
+            if plot_routes_color:
+                color_i = color_map_0[i]
+            else:
+                color_i = default_color
 
-        line_style_i = line_0[i]
+            line_style_i = line_0[i]
 
-        list_x = []
-        list_y = []
-        for node in route.NodePath:
-            xn = node.Coord[0]["x"]
-            yn = node.Coord[0]["y"]
-            list_x.append(xn)
-            list_y.append(yn)
+            list_x = []
+            list_y = []
+            for node in route.NodePath:
+                xn = node.Coord[0]["x"]
+                yn = node.Coord[0]["y"]
+                list_x.append(xn)
+                list_y.append(yn)
 
-        list_res_id = []
-        for res in route.CrossedReservoirs:
-            list_res_id.append(res.ID)
+            list_res_id = []
+            for res in route.CrossedReservoirs:
+                list_res_id.append(res.ID)
 
-        for j in range(len(list_x) - 1):
-            route_plot.append(ax.annotate("",
-                              xy=(list_x[j], list_y[j]), xycoords='data',
-                              xytext=(list_x[j+1], list_y[j+1]), textcoords='data',
-                              arrowprops=dict(arrowstyle="<-", color=color_i,
-                                              shrinkA=5, shrinkB=5,
-                                              patchA=None, patchB=None,
-                                              connectionstyle='arc3,rad=-0.3',
-                                              linestyle=line_style_i)))
+            for j in range(len(list_x) - 1):
+                route_plot.append(ax.annotate("",
+                                  xy=(list_x[j], list_y[j]), xycoords='data',
+                                  xytext=(list_x[j+1], list_y[j+1]), textcoords='data',
+                                  arrowprops=dict(arrowstyle="<-", color=color_i,
+                                                  shrinkA=5, shrinkB=5,
+                                                  patchA=None, patchB=None,
+                                                  connectionstyle='arc3,rad=-0.3',
+                                                  linestyle=line_style_i)))
 
-        i += 1
+            i += 1
 
-        legend_routes.append(Line2D([0], [0], color=color_i, linestyle=line_style_i, label=route.ID))
+            legend_routes.append(Line2D([0], [0], color=color_i, linestyle=line_style_i, label=route.ID))
 
     # Plot the macro nodes
+    legend_mn = []
+
     if plot_mn_color:
         color1 = color_map_0[-1, :]
         color2 = color_map_0[-2, :]
@@ -813,63 +844,92 @@ def plot_network(ax, reservoirs, nodes, routes, options=None):
         else:
             border_nodes_list.append(mn)
 
-    node_plot = []
-    for node in exit_nodes_list:
-        node_plot.append(ax.plot(node.Coord[0]["x"], node.Coord[0]["y"], 'o',
-                         color=color2, markerfacecolor=color2, markersize=marker_size_2))
-    for node in entry_nodes_list:
-        node_plot.append(ax.plot(node.Coord[0]["x"], node.Coord[0]["y"], 'o',
-                         color=color1, markerfacecolor=color1, markersize=marker_size_1))
-    for node in border_nodes_list:
-        node_plot.append(ax.plot(node.Coord[0]["x"], node.Coord[0]["y"], 'o',
-                         color=color3, markerfacecolor=color3, markersize=marker_size_3))
+    if mn_coord_filled:
+        node_plot = []
+        for node in exit_nodes_list:
+            node_plot.append(ax.plot(node.Coord[0]["x"], node.Coord[0]["y"], 'o',
+                             color=color2, markerfacecolor=color2, markersize=marker_size_2))
+        for node in entry_nodes_list:
+            node_plot.append(ax.plot(node.Coord[0]["x"], node.Coord[0]["y"], 'o',
+                             color=color1, markerfacecolor=color1, markersize=marker_size_1))
+        for node in border_nodes_list:
+            node_plot.append(ax.plot(node.Coord[0]["x"], node.Coord[0]["y"], 'o',
+                             color=color3, markerfacecolor=color3, markersize=marker_size_3))
 
-    legend_mn = [Line2D([0], [0], color=color2, marker='o', markerfacecolor=color2, markersize=marker_size_2,
-                        label='Destination', lw=0),
-                 Line2D([0], [0], color=color1, marker='o', markerfacecolor=color1, markersize=marker_size_1,
-                        label='Origin', lw=0),
-                 Line2D([0], [0], color=color3, marker='o', markerfacecolor=color3, markersize=marker_size_3,
-                        label='Border', lw=0)]
+        legend_mn = [Line2D([0], [0], color=color2, marker='o', markerfacecolor=color2, markersize=marker_size_2,
+                            label='Destination', lw=0),
+                     Line2D([0], [0], color=color1, marker='o', markerfacecolor=color1, markersize=marker_size_1,
+                            label='Origin', lw=0),
+                     Line2D([0], [0], color=color3, marker='o', markerfacecolor=color3, markersize=marker_size_3,
+                            label='Border', lw=0)]
 
     # Plot the reservoirs numbers
     plot_res_id = []
+    if res_bp_filled:
+        color_r = txt_color
+    else:
+        color_r = 'k'
+
     for r in range(num_res):
-        xr = reservoirs[r].Centroid[0]["x"]
-        yr = reservoirs[r].Centroid[0]["y"]
-        plot_res_id.append(ax.text(xr, yr, f'$R_{str(r + 1)}$', ha='center', color=txt_color, fontname=font_name,
+        if res_centroid_filled:
+            xr = reservoirs[r].Centroid[0]["x"]
+            yr = reservoirs[r].Centroid[0]["y"]
+        else:
+            bp_x = []
+            bp_y = []
+            for bp in reservoirs[r].BorderPoints:
+                bp_x.append(bp["x"])
+                bp_y.append(bp["y"])
+
+            max_x = max(bp_x)
+            min_x = min(bp_x)
+            max_y = max(bp_y)
+            min_y = min(bp_y)
+
+            xr = (max_x + min_x) / 2
+            yr = (max_y + min_y) / 2
+
+        plot_res_id.append(ax.text(xr, yr, f'$R_{str(r + 1)}$', ha='center', color=color_r, fontname=font_name,
                            fontweight='bold', fontsize=font_size, visible=plot_res_names))
 
     # Plot size
     x_border = 0.1      # increasing factor > 0 for the border spacing along x
     y_border = 0.1      # increasing factor > 0 for the border spacing along y
-    if max(x_links) == min(x_links):
-        dx = max(y_links) - min(y_links)
-    else:
-        dx = max(x_links) - min(x_links)
 
-    if max(y_links) == min(y_links):
-        dy = max(x_links) - min(x_links)
-    else:
-        dy = max(y_links) - min(y_links)
+    if x_links is not None:
+        if max(x_links) == min(x_links):
+            dx = max(y_links) - min(y_links)
+        else:
+            dx = max(x_links) - min(x_links)
 
-    x_min = min(x_links) - x_border * dx
-    x_max = max(x_links) + x_border * dx
-    y_min = min(y_links) - y_border * dy
-    y_max = max(y_links) + y_border * dy
+        if max(y_links) == min(y_links):
+            dy = max(x_links) - min(x_links)
+        else:
+            dy = max(y_links) - min(y_links)
+
+        x_min = min(x_links) - x_border * dx
+        x_max = max(x_links) + x_border * dx
+        y_min = min(y_links) - y_border * dy
+        y_max = max(y_links) + y_border * dy
+
+        ax.axis([x_min, x_max, y_min, y_max])
+    else:
+        dx = 1
 
     # Plot the macro node numbers
     simil_nodes = []
-    for node_i in nodes:
-        node_i_added = False
-        for node_j in nodes:
-            dist = math.sqrt((node_i.Coord[0]["x"] - node_j.Coord[0]["x"]) ** 2
-                              + (node_i.Coord[0]["y"] - node_j.Coord[0]["y"]) ** 2)
-            if dist < 0.01 * dx:
-                simil_nodes.append([node_i, node_j])    # similar nodes if spatially very close
-                node_i_added = True
+    if mn_coord_filled:
+        for node_i in nodes:
+            node_i_added = False
+            for node_j in nodes:
+                dist = math.sqrt(math.fabs((node_i.Coord[0]["x"] - node_j.Coord[0]["x"]) ** 2
+                                 + (node_i.Coord[0]["y"] - node_j.Coord[0]["y"]) ** 2))
+                if dist < 0.01 * dx:
+                    simil_nodes.append([node_i, node_j])    # similar nodes if spatially very close
+                    node_i_added = True
 
-        if not node_i_added:
-            simil_nodes.append([node_i])
+            if not node_i_added:
+                simil_nodes.append([node_i])
 
     plot_mn_id = []
     for pair in simil_nodes:
@@ -877,7 +937,7 @@ def plot_network(ax, reservoirs, nodes, routes, options=None):
                           color='k', ha='left', fontname=font_name, fontsize=font_size/4, visible=plot_mn_names))
 
     # Plot the legends
-    if plot_legend:
+    if plot_legend and mn_coord_filled:
         legend1 = ax.legend(handles=legend_routes, loc='upper right')
         legend2 = ax.legend(handles=legend_mn, loc='lower left')
 
@@ -885,12 +945,16 @@ def plot_network(ax, reservoirs, nodes, routes, options=None):
         plt.gca().add_artist(legend2)
 
     plt.title('Network')
-    ax.axis([x_min, x_max, y_min, y_max])
     ax.axis('off')
 
     rax = plt.axes([0.05, 0.4, 0.1, 0.15])
-    check = widgets.CheckButtons(rax, ('Reservoirs', 'MacroNodes', 'Routes'), (True, True, True))
 
+    if (res_centroid_filled or res_bp_filled) and mn_coord_filled:
+        check = widgets.CheckButtons(rax, ('Reservoirs', 'MacroNodes', 'Routes'), (True, True, True))
+    elif mn_coord_filled and not res_bp_filled and not res_bp_filled:
+        check = widgets.CheckButtons(rax, ('MacroNodes', 'Routes'), (True, True))
+    elif res_centroid_filled or res_bp_filled and not mn_coord_filled:
+        check = widgets.CheckButtons(rax, ['Reservoirs'], [True])
 
     def func(label):
         if label == 'Reservoirs':
