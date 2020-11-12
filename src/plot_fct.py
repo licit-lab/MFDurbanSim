@@ -705,7 +705,7 @@ def plot_network(ax, reservoirs, nodes, routes, options=None):
 
     font_name = 'Arial'
     font_size = 28
-    marker_size = 10
+    marker_size = 8
     color_map_0 = np.array([(51, 51, 255), (0, 204, 51), (204, 0, 0), (204, 153, 0), (153, 0, 102), (51, 153, 153),
                             (204, 102, 204), (204, 204, 102)]) / 255
 
@@ -820,27 +820,37 @@ def plot_network(ax, reservoirs, nodes, routes, options=None):
     legend_mn = []
 
     if plot_mn_color:
-        color1 = color_map_0[-1, :]
-        color2 = color_map_0[-2, :]
-        color3 = color_map_0[-3, :]
+        color_entry = color_map_0[-5, :]
+        color_ext_entry = color_map_0[-1, :]
+        color_exit = color_map_0[-4, :]
+        color_ext_exit = color_map_0[-2, :]
+        color_border = color_map_0[-3, :]
     else:
-        color1 = default_color
-        color2 = default_color
-        color3 = default_color
+        color_entry = default_color
+        color_ext_entry = default_color
+        color_exit = default_color
+        color_ext_exit = default_color
+        color_border = default_color
 
     marker_size_1 = marker_size
     marker_size_2 = 1.25 * marker_size
     marker_size_3 = 0.75 * marker_size
 
     entry_nodes_list = []
+    ext_entry_nodes_list = []
     exit_nodes_list = []
+    ext_exit_nodes_list = []
     border_nodes_list = []
 
     for mn in nodes:
-        if mn.Type == 'origin' or mn.Type == 'externalentry':
+        if mn.Type == 'origin':
             entry_nodes_list.append(mn)
-        elif mn.Type == 'destination' or mn.Type == 'externalexit':
+        elif mn.Type == 'externalentry':
+            ext_entry_nodes_list.append(mn)
+        elif mn.Type == 'destination':
             exit_nodes_list.append(mn)
+        elif mn.Type == 'externalexit':
+            ext_exit_nodes_list.append(mn)
         else:
             border_nodes_list.append(mn)
 
@@ -848,20 +858,35 @@ def plot_network(ax, reservoirs, nodes, routes, options=None):
         node_plot = []
         for node in exit_nodes_list:
             node_plot.append(ax.plot(node.Coord[0]["x"], node.Coord[0]["y"], 'o',
-                             color=color2, markerfacecolor=color2, markersize=marker_size_2))
+                             color=color_exit, markerfacecolor=color_exit, markersize=marker_size_2))
+        for node in ext_exit_nodes_list:
+            node_plot.append(ax.plot(node.Coord[0]["x"], node.Coord[0]["y"], 'o',
+                             color=color_ext_exit, markerfacecolor=color_ext_exit, markersize=marker_size_2))
         for node in entry_nodes_list:
             node_plot.append(ax.plot(node.Coord[0]["x"], node.Coord[0]["y"], 'o',
-                             color=color1, markerfacecolor=color1, markersize=marker_size_1))
+                             color=color_entry, markerfacecolor=color_entry, markersize=marker_size_1))
+        for node in ext_entry_nodes_list:
+            node_plot.append(ax.plot(node.Coord[0]["x"], node.Coord[0]["y"], 'o',
+                             color=color_ext_entry, markerfacecolor=color_ext_entry, markersize=marker_size_1))
         for node in border_nodes_list:
             node_plot.append(ax.plot(node.Coord[0]["x"], node.Coord[0]["y"], 'o',
-                             color=color3, markerfacecolor=color3, markersize=marker_size_3))
+                             color=color_border, markerfacecolor=color_border, markersize=marker_size_3))
 
-        legend_mn = [Line2D([0], [0], color=color2, marker='o', markerfacecolor=color2, markersize=marker_size_2,
-                            label='Destination', lw=0),
-                     Line2D([0], [0], color=color1, marker='o', markerfacecolor=color1, markersize=marker_size_1,
-                            label='Origin', lw=0),
-                     Line2D([0], [0], color=color3, marker='o', markerfacecolor=color3, markersize=marker_size_3,
-                            label='Border', lw=0)]
+        if len(exit_nodes_list) > 0:
+            legend_mn.append(Line2D([0], [0], color=color_exit, marker='o', markerfacecolor=color_exit,
+                             markersize=marker_size_2, label='Destination', lw=0))
+        if len(ext_exit_nodes_list) > 0:
+            legend_mn.append(Line2D([0], [0], color=color_ext_exit, marker='o', markerfacecolor=color_ext_exit,
+                             markersize=marker_size_2, label='External Exit', lw=0))
+        if len(entry_nodes_list) > 0:
+            legend_mn.append(Line2D([0], [0], color=color_entry, marker='o', markerfacecolor=color_entry,
+                             markersize=marker_size_1, label='Origin', lw=0))
+        if len(ext_entry_nodes_list) > 0:
+            legend_mn.append(Line2D([0], [0], color=color_ext_entry, marker='o', markerfacecolor=color_ext_entry,
+                             markersize=marker_size_1, label='External Entry', lw=0))
+        if len(border_nodes_list) > 0:
+            legend_mn.append(Line2D([0], [0], color=color_border, marker='o', markerfacecolor=color_border,
+                             markersize=marker_size_3, label='Border', lw=0))
 
     # Plot the reservoirs numbers
     plot_res_id = []
