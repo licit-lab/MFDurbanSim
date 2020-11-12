@@ -1232,7 +1232,7 @@
         },
         {
             "ID": "R_1036575099",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -1257,7 +1257,7 @@
         },
         {
             "ID": "R_1036575100",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -1282,7 +1282,7 @@
         },
         {
             "ID": "R_1036575101",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -1307,7 +1307,7 @@
         },
         {
             "ID": "R_1036575102",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -1332,7 +1332,7 @@
         },
         {
             "ID": "R_1036575738",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res6",
             "Capacity": [
                 {
@@ -1363,7 +1363,7 @@
         },
         {
             "ID": "R_1036575739",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res6",
             "Capacity": [
                 {
@@ -1394,7 +1394,7 @@
         },
         {
             "ID": "R_1036575740",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res6",
             "Capacity": [
                 {
@@ -1421,7 +1421,7 @@
         },
         {
             "ID": "R_1036575741",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res6",
             "Capacity": [
                 {
@@ -1448,7 +1448,7 @@
         },
         {
             "ID": "R_1059777019",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -1473,7 +1473,7 @@
         },
         {
             "ID": "R_1059819047",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -1498,7 +1498,7 @@
         },
         {
             "ID": "R_1059819048",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -1523,7 +1523,7 @@
         },
         {
             "ID": "R_1070389112",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res7",
             "Capacity": [
                 {
@@ -1550,7 +1550,7 @@
         },
         {
             "ID": "R_1070389114",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res4",
             "Capacity": [
                 {
@@ -1577,7 +1577,7 @@
         },
         {
             "ID": "R_1073570202",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -1600,8 +1600,11 @@
         },
         {
             "ID": "R_543473912",
-            "Type": "origin",
-            "ResID": "Res[2, 3]",
+            "Type": "border",
+            "ResID": [
+                "Res2",
+                "Res3"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -1627,7 +1630,7 @@
         },
         {
             "ID": "R_543473913",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -1652,7 +1655,7 @@
         },
         {
             "ID": "R_545417362",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -1681,7 +1684,7 @@
         },
         {
             "ID": "R_545420580",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -1708,7 +1711,7 @@
         },
         {
             "ID": "R_571491228",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -1735,7 +1738,7 @@
         },
         {
             "ID": "R_571491235",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -1762,7 +1765,7 @@
         },
         {
             "ID": "R_571502385",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -1785,7 +1788,7 @@
         },
         {
             "ID": "R_762997798",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -1808,7 +1811,7 @@
         },
         {
             "ID": "R_762997799",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res4",
             "Capacity": [
                 {
@@ -1835,7 +1838,7 @@
         },
         {
             "ID": "R_763011125",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -1862,7 +1865,7 @@
         },
         {
             "ID": "R_800075466",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -1885,7 +1888,7 @@
         },
         {
             "ID": "R_801878750",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res4",
             "Capacity": [
                 {
@@ -1908,7 +1911,7 @@
         },
         {
             "ID": "R_801878905",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -1935,7 +1938,7 @@
         },
         {
             "ID": "R_801878906",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -1962,7 +1965,7 @@
         },
         {
             "ID": "R_801878912",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res6",
             "Capacity": [
                 {
@@ -1985,7 +1988,7 @@
         },
         {
             "ID": "R_801878914",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res3",
             "Capacity": [
                 {
@@ -2008,7 +2011,7 @@
         },
         {
             "ID": "R_805334025",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -2031,7 +2034,7 @@
         },
         {
             "ID": "R_805337330",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -2058,7 +2061,7 @@
         },
         {
             "ID": "R_822520638",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -2083,7 +2086,7 @@
         },
         {
             "ID": "R_822520639",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -2108,7 +2111,7 @@
         },
         {
             "ID": "R_822520640",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -2133,7 +2136,7 @@
         },
         {
             "ID": "R_825015102",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -2156,7 +2159,7 @@
         },
         {
             "ID": "R_825016738",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -2181,7 +2184,7 @@
         },
         {
             "ID": "R_825235204",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res4",
             "Capacity": [
                 {
@@ -2204,7 +2207,7 @@
         },
         {
             "ID": "R_82607309",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res4",
             "Capacity": [
                 {
@@ -2227,7 +2230,7 @@
         },
         {
             "ID": "R_82607325",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res4",
             "Capacity": [
                 {
@@ -2250,7 +2253,7 @@
         },
         {
             "ID": "R_82607331",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res4",
             "Capacity": [
                 {
@@ -2275,7 +2278,7 @@
         },
         {
             "ID": "R_82607333",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res4",
             "Capacity": [
                 {
@@ -2300,7 +2303,7 @@
         },
         {
             "ID": "R_82607392",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res4",
             "Capacity": [
                 {
@@ -2327,7 +2330,7 @@
         },
         {
             "ID": "R_82607395",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res4",
             "Capacity": [
                 {
@@ -2352,7 +2355,7 @@
         },
         {
             "ID": "R_82607396",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res4",
             "Capacity": [
                 {
@@ -2375,7 +2378,7 @@
         },
         {
             "ID": "R_82607397",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res4",
             "Capacity": [
                 {
@@ -2400,7 +2403,7 @@
         },
         {
             "ID": "R_82607399",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res4",
             "Capacity": [
                 {
@@ -2425,7 +2428,7 @@
         },
         {
             "ID": "R_82607402",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -2450,7 +2453,7 @@
         },
         {
             "ID": "R_82607406",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -2475,7 +2478,7 @@
         },
         {
             "ID": "R_82607407",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -2502,7 +2505,7 @@
         },
         {
             "ID": "R_82607408",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -2527,7 +2530,7 @@
         },
         {
             "ID": "R_82607409",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -2556,7 +2559,7 @@
         },
         {
             "ID": "R_82607696",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res4",
             "Capacity": [
                 {
@@ -2581,7 +2584,7 @@
         },
         {
             "ID": "R_82607702",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res4",
             "Capacity": [
                 {
@@ -2606,7 +2609,7 @@
         },
         {
             "ID": "R_82607703",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res4",
             "Capacity": [
                 {
@@ -2633,7 +2636,7 @@
         },
         {
             "ID": "R_82607704",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res4",
             "Capacity": [
                 {
@@ -2660,7 +2663,7 @@
         },
         {
             "ID": "R_82607705",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res4",
             "Capacity": [
                 {
@@ -2687,7 +2690,7 @@
         },
         {
             "ID": "R_82607706",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res4",
             "Capacity": [
                 {
@@ -2714,7 +2717,7 @@
         },
         {
             "ID": "R_82607709",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res4",
             "Capacity": [
                 {
@@ -2741,7 +2744,7 @@
         },
         {
             "ID": "R_82607710",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res4",
             "Capacity": [
                 {
@@ -2768,8 +2771,11 @@
         },
         {
             "ID": "R_82607711",
-            "Type": "origin",
-            "ResID": "Res[4, 6]",
+            "Type": "border",
+            "ResID": [
+                "Res4",
+                "Res6"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -2795,8 +2801,11 @@
         },
         {
             "ID": "R_82607713",
-            "Type": "origin",
-            "ResID": "Res[4, 6]",
+            "Type": "border",
+            "ResID": [
+                "Res4",
+                "Res6"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -2822,7 +2831,7 @@
         },
         {
             "ID": "R_82607729",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res6",
             "Capacity": [
                 {
@@ -2847,7 +2856,7 @@
         },
         {
             "ID": "R_82607730",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res6",
             "Capacity": [
                 {
@@ -2874,7 +2883,7 @@
         },
         {
             "ID": "R_82607732",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res6",
             "Capacity": [
                 {
@@ -2901,8 +2910,11 @@
         },
         {
             "ID": "R_82607735",
-            "Type": "origin",
-            "ResID": "Res[5, 6]",
+            "Type": "border",
+            "ResID": [
+                "Res5",
+                "Res6"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -2932,7 +2944,7 @@
         },
         {
             "ID": "R_82607736",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res6",
             "Capacity": [
                 {
@@ -2959,7 +2971,7 @@
         },
         {
             "ID": "R_82607737",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res6",
             "Capacity": [
                 {
@@ -2986,7 +2998,7 @@
         },
         {
             "ID": "R_82607738",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res6",
             "Capacity": [
                 {
@@ -3013,7 +3025,7 @@
         },
         {
             "ID": "R_82607739",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res6",
             "Capacity": [
                 {
@@ -3040,7 +3052,7 @@
         },
         {
             "ID": "R_82607741",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res6",
             "Capacity": [
                 {
@@ -3065,7 +3077,7 @@
         },
         {
             "ID": "R_82607742",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res6",
             "Capacity": [
                 {
@@ -3090,7 +3102,7 @@
         },
         {
             "ID": "R_82607744",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res4",
             "Capacity": [
                 {
@@ -3117,7 +3129,7 @@
         },
         {
             "ID": "R_82607745",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res4",
             "Capacity": [
                 {
@@ -3144,8 +3156,11 @@
         },
         {
             "ID": "R_82607750",
-            "Type": "origin",
-            "ResID": "Res[4, 5]",
+            "Type": "border",
+            "ResID": [
+                "Res4",
+                "Res5"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -3169,8 +3184,11 @@
         },
         {
             "ID": "R_82607751",
-            "Type": "origin",
-            "ResID": "Res[4, 5]",
+            "Type": "border",
+            "ResID": [
+                "Res4",
+                "Res5"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -3196,7 +3214,7 @@
         },
         {
             "ID": "R_82607757",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -3223,7 +3241,7 @@
         },
         {
             "ID": "R_82607758",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -3250,7 +3268,7 @@
         },
         {
             "ID": "R_82607760",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -3275,7 +3293,7 @@
         },
         {
             "ID": "R_82607764",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -3300,7 +3318,7 @@
         },
         {
             "ID": "R_82607765",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -3327,7 +3345,7 @@
         },
         {
             "ID": "R_82607766",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -3354,7 +3372,7 @@
         },
         {
             "ID": "R_82607767",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res5",
             "Capacity": [
                 {
@@ -3381,7 +3399,7 @@
         },
         {
             "ID": "R_82607768",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res5",
             "Capacity": [
                 {
@@ -3408,7 +3426,7 @@
         },
         {
             "ID": "R_82607769",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res5",
             "Capacity": [
                 {
@@ -3435,7 +3453,7 @@
         },
         {
             "ID": "R_82607770",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res5",
             "Capacity": [
                 {
@@ -3462,7 +3480,7 @@
         },
         {
             "ID": "R_82607771",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res5",
             "Capacity": [
                 {
@@ -3487,7 +3505,7 @@
         },
         {
             "ID": "R_82607772",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res5",
             "Capacity": [
                 {
@@ -3514,7 +3532,7 @@
         },
         {
             "ID": "R_82607774",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res5",
             "Capacity": [
                 {
@@ -3539,7 +3557,7 @@
         },
         {
             "ID": "R_82607780",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res5",
             "Capacity": [
                 {
@@ -3566,7 +3584,7 @@
         },
         {
             "ID": "R_82607782",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res5",
             "Capacity": [
                 {
@@ -3593,7 +3611,7 @@
         },
         {
             "ID": "R_82607789",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -3620,7 +3638,7 @@
         },
         {
             "ID": "R_82607790",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -3645,7 +3663,7 @@
         },
         {
             "ID": "R_82607794",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -3672,7 +3690,7 @@
         },
         {
             "ID": "R_82607795",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -3699,7 +3717,7 @@
         },
         {
             "ID": "R_82607802",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res6",
             "Capacity": [
                 {
@@ -3728,7 +3746,7 @@
         },
         {
             "ID": "R_82607803",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res6",
             "Capacity": [
                 {
@@ -3753,7 +3771,7 @@
         },
         {
             "ID": "R_82607806",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res6",
             "Capacity": [
                 {
@@ -3778,8 +3796,11 @@
         },
         {
             "ID": "R_82607807",
-            "Type": "origin",
-            "ResID": "Res[5, 6]",
+            "Type": "border",
+            "ResID": [
+                "Res5",
+                "Res6"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -3805,7 +3826,7 @@
         },
         {
             "ID": "R_82607812",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res6",
             "Capacity": [
                 {
@@ -3830,7 +3851,7 @@
         },
         {
             "ID": "R_82607814",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res6",
             "Capacity": [
                 {
@@ -3855,7 +3876,7 @@
         },
         {
             "ID": "R_82607815",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res6",
             "Capacity": [
                 {
@@ -3880,7 +3901,7 @@
         },
         {
             "ID": "R_82607816",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res6",
             "Capacity": [
                 {
@@ -3905,7 +3926,7 @@
         },
         {
             "ID": "R_82607817",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res6",
             "Capacity": [
                 {
@@ -3932,7 +3953,7 @@
         },
         {
             "ID": "R_82607868",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res6",
             "Capacity": [
                 {
@@ -3955,7 +3976,7 @@
         },
         {
             "ID": "R_82607872",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res6",
             "Capacity": [
                 {
@@ -3980,7 +4001,7 @@
         },
         {
             "ID": "R_82607878",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res6",
             "Capacity": [
                 {
@@ -4005,7 +4026,7 @@
         },
         {
             "ID": "R_82607879",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res6",
             "Capacity": [
                 {
@@ -4028,7 +4049,7 @@
         },
         {
             "ID": "R_82607882",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -4055,7 +4076,7 @@
         },
         {
             "ID": "R_82607883",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -4082,8 +4103,11 @@
         },
         {
             "ID": "R_82607884",
-            "Type": "origin",
-            "ResID": "Res[7, 8]",
+            "Type": "border",
+            "ResID": [
+                "Res7",
+                "Res8"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -4109,7 +4133,7 @@
         },
         {
             "ID": "R_82607885",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res7",
             "Capacity": [
                 {
@@ -4136,7 +4160,7 @@
         },
         {
             "ID": "R_82607886",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res5",
             "Capacity": [
                 {
@@ -4163,7 +4187,7 @@
         },
         {
             "ID": "R_82607887",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res5",
             "Capacity": [
                 {
@@ -4190,8 +4214,11 @@
         },
         {
             "ID": "R_82607888",
-            "Type": "origin",
-            "ResID": "Res[5, 6]",
+            "Type": "border",
+            "ResID": [
+                "Res5",
+                "Res6"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -4215,7 +4242,7 @@
         },
         {
             "ID": "R_82607889",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res5",
             "Capacity": [
                 {
@@ -4242,8 +4269,11 @@
         },
         {
             "ID": "R_82607890",
-            "Type": "origin",
-            "ResID": "Res[5, 6]",
+            "Type": "border",
+            "ResID": [
+                "Res5",
+                "Res6"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -4269,7 +4299,7 @@
         },
         {
             "ID": "R_82607891",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res5",
             "Capacity": [
                 {
@@ -4296,7 +4326,7 @@
         },
         {
             "ID": "R_82607893",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -4325,7 +4355,7 @@
         },
         {
             "ID": "R_82607894",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -4352,7 +4382,7 @@
         },
         {
             "ID": "R_82607895",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res5",
             "Capacity": [
                 {
@@ -4375,7 +4405,7 @@
         },
         {
             "ID": "R_82607896",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res5",
             "Capacity": [
                 {
@@ -4398,7 +4428,7 @@
         },
         {
             "ID": "R_82607898",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -4421,7 +4451,7 @@
         },
         {
             "ID": "R_82607900",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -4446,7 +4476,7 @@
         },
         {
             "ID": "R_82607902",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -4475,7 +4505,7 @@
         },
         {
             "ID": "R_82607911",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res7",
             "Capacity": [
                 {
@@ -4502,7 +4532,7 @@
         },
         {
             "ID": "R_82607912",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res7",
             "Capacity": [
                 {
@@ -4527,7 +4557,7 @@
         },
         {
             "ID": "R_82607915",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -4552,8 +4582,11 @@
         },
         {
             "ID": "R_82607920",
-            "Type": "origin",
-            "ResID": "Res[2, 3]",
+            "Type": "border",
+            "ResID": [
+                "Res2",
+                "Res3"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -4577,7 +4610,7 @@
         },
         {
             "ID": "R_82607923",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -4604,8 +4637,11 @@
         },
         {
             "ID": "R_82607924",
-            "Type": "origin",
-            "ResID": "Res[2, 3]",
+            "Type": "border",
+            "ResID": [
+                "Res2",
+                "Res3"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -4629,7 +4665,7 @@
         },
         {
             "ID": "R_82607926",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res3",
             "Capacity": [
                 {
@@ -4654,7 +4690,7 @@
         },
         {
             "ID": "R_82607929",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res3",
             "Capacity": [
                 {
@@ -4679,7 +4715,7 @@
         },
         {
             "ID": "R_82607930",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res3",
             "Capacity": [
                 {
@@ -4706,7 +4742,7 @@
         },
         {
             "ID": "R_82607931",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res3",
             "Capacity": [
                 {
@@ -4733,7 +4769,7 @@
         },
         {
             "ID": "R_82611805",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -4760,7 +4796,7 @@
         },
         {
             "ID": "R_82611806",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -4787,7 +4823,7 @@
         },
         {
             "ID": "R_82611807",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -4814,7 +4850,7 @@
         },
         {
             "ID": "R_82611808",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -4841,7 +4877,7 @@
         },
         {
             "ID": "R_82611810",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res7",
             "Capacity": [
                 {
@@ -4868,7 +4904,7 @@
         },
         {
             "ID": "R_82611814",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -4899,8 +4935,11 @@
         },
         {
             "ID": "R_82611815",
-            "Type": "origin",
-            "ResID": "Res[7, 8]",
+            "Type": "border",
+            "ResID": [
+                "Res7",
+                "Res8"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -4926,7 +4965,7 @@
         },
         {
             "ID": "R_82611822",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -4953,7 +4992,7 @@
         },
         {
             "ID": "R_82611866",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -4980,7 +5019,7 @@
         },
         {
             "ID": "R_82611867",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -5007,7 +5046,7 @@
         },
         {
             "ID": "R_82611869",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -5032,7 +5071,7 @@
         },
         {
             "ID": "R_82611870",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -5059,7 +5098,7 @@
         },
         {
             "ID": "R_82611871",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -5082,7 +5121,7 @@
         },
         {
             "ID": "R_82611878",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -5107,7 +5146,7 @@
         },
         {
             "ID": "R_82611882",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -5130,7 +5169,7 @@
         },
         {
             "ID": "R_82611883",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -5155,7 +5194,7 @@
         },
         {
             "ID": "R_82611890",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res7",
             "Capacity": [
                 {
@@ -5182,7 +5221,7 @@
         },
         {
             "ID": "R_82611891",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res7",
             "Capacity": [
                 {
@@ -5207,7 +5246,7 @@
         },
         {
             "ID": "R_82611892",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res7",
             "Capacity": [
                 {
@@ -5236,7 +5275,7 @@
         },
         {
             "ID": "R_82611893",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res7",
             "Capacity": [
                 {
@@ -5263,7 +5302,7 @@
         },
         {
             "ID": "R_82611894",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res7",
             "Capacity": [
                 {
@@ -5288,7 +5327,7 @@
         },
         {
             "ID": "R_82611895",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res7",
             "Capacity": [
                 {
@@ -5317,7 +5356,7 @@
         },
         {
             "ID": "R_82611896",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res7",
             "Capacity": [
                 {
@@ -5344,7 +5383,7 @@
         },
         {
             "ID": "R_82611897",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res7",
             "Capacity": [
                 {
@@ -5371,7 +5410,7 @@
         },
         {
             "ID": "R_82611899",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res7",
             "Capacity": [
                 {
@@ -5398,7 +5437,7 @@
         },
         {
             "ID": "R_82611900",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res3",
             "Capacity": [
                 {
@@ -5423,7 +5462,7 @@
         },
         {
             "ID": "R_82611903",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res3",
             "Capacity": [
                 {
@@ -5450,7 +5489,7 @@
         },
         {
             "ID": "R_82611904",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res3",
             "Capacity": [
                 {
@@ -5477,7 +5516,7 @@
         },
         {
             "ID": "R_82611905",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res3",
             "Capacity": [
                 {
@@ -5504,7 +5543,7 @@
         },
         {
             "ID": "R_82611906",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res7",
             "Capacity": [
                 {
@@ -5531,7 +5570,7 @@
         },
         {
             "ID": "R_82611907",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res7",
             "Capacity": [
                 {
@@ -5558,7 +5597,7 @@
         },
         {
             "ID": "R_82611908",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res7",
             "Capacity": [
                 {
@@ -5585,7 +5624,7 @@
         },
         {
             "ID": "R_82611910",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res7",
             "Capacity": [
                 {
@@ -5610,7 +5649,7 @@
         },
         {
             "ID": "R_82611915",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res7",
             "Capacity": [
                 {
@@ -5637,7 +5676,7 @@
         },
         {
             "ID": "R_82611916",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res7",
             "Capacity": [
                 {
@@ -5664,7 +5703,7 @@
         },
         {
             "ID": "R_82611917",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res7",
             "Capacity": [
                 {
@@ -5691,7 +5730,7 @@
         },
         {
             "ID": "R_82611918",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res7",
             "Capacity": [
                 {
@@ -5718,7 +5757,7 @@
         },
         {
             "ID": "R_82611919",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res7",
             "Capacity": [
                 {
@@ -5745,7 +5784,7 @@
         },
         {
             "ID": "R_82611921",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res7",
             "Capacity": [
                 {
@@ -5772,8 +5811,11 @@
         },
         {
             "ID": "R_82611922",
-            "Type": "origin",
-            "ResID": "Res[3, 7]",
+            "Type": "border",
+            "ResID": [
+                "Res3",
+                "Res7"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -5797,7 +5839,7 @@
         },
         {
             "ID": "R_82611925",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res7",
             "Capacity": [
                 {
@@ -5824,7 +5866,7 @@
         },
         {
             "ID": "R_82611928",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res3",
             "Capacity": [
                 {
@@ -5851,7 +5893,7 @@
         },
         {
             "ID": "R_82611929",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res3",
             "Capacity": [
                 {
@@ -5876,7 +5918,7 @@
         },
         {
             "ID": "R_82611966",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -5899,7 +5941,7 @@
         },
         {
             "ID": "R_82611981",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -5922,7 +5964,7 @@
         },
         {
             "ID": "R_82611986",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -5947,7 +5989,7 @@
         },
         {
             "ID": "R_82611988",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -5974,7 +6016,7 @@
         },
         {
             "ID": "R_82611989",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -6001,7 +6043,7 @@
         },
         {
             "ID": "R_82611992",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -6026,7 +6068,7 @@
         },
         {
             "ID": "R_82611994",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -6051,7 +6093,7 @@
         },
         {
             "ID": "R_82611995",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -6076,7 +6118,7 @@
         },
         {
             "ID": "R_82611996",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -6103,7 +6145,7 @@
         },
         {
             "ID": "R_82612055",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -6126,7 +6168,7 @@
         },
         {
             "ID": "R_82612057",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -6149,7 +6191,7 @@
         },
         {
             "ID": "R_82612058",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -6172,7 +6214,7 @@
         },
         {
             "ID": "R_82612059",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -6195,7 +6237,7 @@
         },
         {
             "ID": "R_82612060",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res7",
             "Capacity": [
                 {
@@ -6220,7 +6262,7 @@
         },
         {
             "ID": "R_82612061",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res7",
             "Capacity": [
                 {
@@ -6247,8 +6289,11 @@
         },
         {
             "ID": "R_82612064",
-            "Type": "origin",
-            "ResID": "Res[7, 8]",
+            "Type": "border",
+            "ResID": [
+                "Res7",
+                "Res8"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -6272,7 +6317,7 @@
         },
         {
             "ID": "R_82612067",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res7",
             "Capacity": [
                 {
@@ -6297,7 +6342,7 @@
         },
         {
             "ID": "R_82612078",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res7",
             "Capacity": [
                 {
@@ -6322,7 +6367,7 @@
         },
         {
             "ID": "R_82612079",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res7",
             "Capacity": [
                 {
@@ -6345,7 +6390,7 @@
         },
         {
             "ID": "R_82612082",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res3",
             "Capacity": [
                 {
@@ -6370,7 +6415,7 @@
         },
         {
             "ID": "R_82642677",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -6397,7 +6442,7 @@
         },
         {
             "ID": "R_82642737",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -6424,7 +6469,7 @@
         },
         {
             "ID": "R_82642748",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -6449,7 +6494,7 @@
         },
         {
             "ID": "R_82642749",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -6476,7 +6521,7 @@
         },
         {
             "ID": "R_82642755",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -6505,7 +6550,7 @@
         },
         {
             "ID": "R_82642759",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -6534,7 +6579,7 @@
         },
         {
             "ID": "R_82642760",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -6561,7 +6606,7 @@
         },
         {
             "ID": "R_82642761",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -6588,7 +6633,7 @@
         },
         {
             "ID": "R_82642767",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -6617,7 +6662,7 @@
         },
         {
             "ID": "R_82643080",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -6642,7 +6687,7 @@
         },
         {
             "ID": "R_82643083",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -6669,7 +6714,7 @@
         },
         {
             "ID": "R_82643084",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -6694,7 +6739,7 @@
         },
         {
             "ID": "R_82643085",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -6721,7 +6766,7 @@
         },
         {
             "ID": "R_82643088",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -6748,7 +6793,7 @@
         },
         {
             "ID": "R_82643091",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -6777,7 +6822,7 @@
         },
         {
             "ID": "R_82643092",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -6806,7 +6851,7 @@
         },
         {
             "ID": "R_82643094",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -6833,7 +6878,7 @@
         },
         {
             "ID": "R_82643095",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -6860,7 +6905,7 @@
         },
         {
             "ID": "R_82643096",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -6887,7 +6932,7 @@
         },
         {
             "ID": "R_82643102",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -6912,7 +6957,7 @@
         },
         {
             "ID": "R_82643105",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -6937,7 +6982,7 @@
         },
         {
             "ID": "R_82643106",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -6964,7 +7009,7 @@
         },
         {
             "ID": "R_82643107",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -6991,7 +7036,7 @@
         },
         {
             "ID": "R_82643110",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -7018,7 +7063,7 @@
         },
         {
             "ID": "R_82643113",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -7045,7 +7090,7 @@
         },
         {
             "ID": "R_82643114",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -7072,7 +7117,7 @@
         },
         {
             "ID": "R_82643115",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -7099,7 +7144,7 @@
         },
         {
             "ID": "R_82643116",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -7128,7 +7173,7 @@
         },
         {
             "ID": "R_82643117",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -7155,7 +7200,7 @@
         },
         {
             "ID": "R_82643118",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -7182,7 +7227,7 @@
         },
         {
             "ID": "R_82643119",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -7211,7 +7256,7 @@
         },
         {
             "ID": "R_82643122",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -7240,7 +7285,7 @@
         },
         {
             "ID": "R_82643171",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -7265,7 +7310,7 @@
         },
         {
             "ID": "R_82643172",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -7292,7 +7337,7 @@
         },
         {
             "ID": "R_82643175",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -7319,7 +7364,7 @@
         },
         {
             "ID": "R_82643176",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -7344,7 +7389,7 @@
         },
         {
             "ID": "R_82643182",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -7369,7 +7414,7 @@
         },
         {
             "ID": "R_82643183",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -7394,7 +7439,7 @@
         },
         {
             "ID": "R_82643188",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -7419,7 +7464,7 @@
         },
         {
             "ID": "R_82643199",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -7446,7 +7491,7 @@
         },
         {
             "ID": "R_82643205",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res3",
             "Capacity": [
                 {
@@ -7473,8 +7518,11 @@
         },
         {
             "ID": "R_82643206",
-            "Type": "origin",
-            "ResID": "Res[1, 3]",
+            "Type": "border",
+            "ResID": [
+                "Res1",
+                "Res3"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -7498,7 +7546,7 @@
         },
         {
             "ID": "R_82643208",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res3",
             "Capacity": [
                 {
@@ -7525,7 +7573,7 @@
         },
         {
             "ID": "R_82647117",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res3",
             "Capacity": [
                 {
@@ -7552,7 +7600,7 @@
         },
         {
             "ID": "R_82647119",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res3",
             "Capacity": [
                 {
@@ -7577,7 +7625,7 @@
         },
         {
             "ID": "R_82647120",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res3",
             "Capacity": [
                 {
@@ -7604,7 +7652,7 @@
         },
         {
             "ID": "R_82647122",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res3",
             "Capacity": [
                 {
@@ -7631,7 +7679,7 @@
         },
         {
             "ID": "R_82647127",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res3",
             "Capacity": [
                 {
@@ -7656,7 +7704,7 @@
         },
         {
             "ID": "R_82647128",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res3",
             "Capacity": [
                 {
@@ -7681,7 +7729,7 @@
         },
         {
             "ID": "R_82647131",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res3",
             "Capacity": [
                 {
@@ -7710,7 +7758,7 @@
         },
         {
             "ID": "R_82647143",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res3",
             "Capacity": [
                 {
@@ -7737,7 +7785,7 @@
         },
         {
             "ID": "R_82647144",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res3",
             "Capacity": [
                 {
@@ -7762,7 +7810,7 @@
         },
         {
             "ID": "R_826830365",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -7785,7 +7833,7 @@
         },
         {
             "ID": "R_826832991",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res5",
             "Capacity": [
                 {
@@ -7808,7 +7856,7 @@
         },
         {
             "ID": "R_826832992",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res5",
             "Capacity": [
                 {
@@ -7831,7 +7879,7 @@
         },
         {
             "ID": "R_826832993",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res7",
             "Capacity": [
                 {
@@ -7854,7 +7902,7 @@
         },
         {
             "ID": "R_826834769",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res3",
             "Capacity": [
                 {
@@ -7877,7 +7925,7 @@
         },
         {
             "ID": "R_826990616",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -7900,7 +7948,7 @@
         },
         {
             "ID": "R_826990618",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res4",
             "Capacity": [
                 {
@@ -7923,7 +7971,7 @@
         },
         {
             "ID": "R_827086026",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res4",
             "Capacity": [
                 {
@@ -7946,7 +7994,7 @@
         },
         {
             "ID": "R_837172286",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res6",
             "Capacity": [
                 {
@@ -7969,7 +8017,7 @@
         },
         {
             "ID": "R_837203248",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res3",
             "Capacity": [
                 {
@@ -7992,7 +8040,7 @@
         },
         {
             "ID": "R_837203250",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res3",
             "Capacity": [
                 {
@@ -8015,7 +8063,7 @@
         },
         {
             "ID": "R_837203251",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res3",
             "Capacity": [
                 {
@@ -8042,7 +8090,7 @@
         },
         {
             "ID": "R_848756307",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res6",
             "Capacity": [
                 {
@@ -8065,7 +8113,7 @@
         },
         {
             "ID": "R_863377255",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res4",
             "Capacity": [
                 {
@@ -8092,7 +8140,7 @@
         },
         {
             "ID": "R_863377256",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res4",
             "Capacity": [
                 {
@@ -8115,7 +8163,7 @@
         },
         {
             "ID": "R_874514672",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -8140,7 +8188,7 @@
         },
         {
             "ID": "R_874514673",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -8165,7 +8213,7 @@
         },
         {
             "ID": "R_880777924",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res4",
             "Capacity": [
                 {
@@ -8188,7 +8236,7 @@
         },
         {
             "ID": "R_880777925",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res4",
             "Capacity": [
                 {
@@ -8211,7 +8259,7 @@
         },
         {
             "ID": "R_880777929",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -8234,7 +8282,7 @@
         },
         {
             "ID": "R_880778194",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res5",
             "Capacity": [
                 {
@@ -8257,7 +8305,7 @@
         },
         {
             "ID": "R_880778196",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res5",
             "Capacity": [
                 {
@@ -8280,7 +8328,7 @@
         },
         {
             "ID": "R_880778726",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -8303,7 +8351,7 @@
         },
         {
             "ID": "R_880781470",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -8326,7 +8374,7 @@
         },
         {
             "ID": "R_880785382",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res7",
             "Capacity": [
                 {
@@ -8349,7 +8397,7 @@
         },
         {
             "ID": "R_880785383",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res7",
             "Capacity": [
                 {
@@ -8372,7 +8420,7 @@
         },
         {
             "ID": "R_880786285",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res7",
             "Capacity": [
                 {
@@ -8395,7 +8443,7 @@
         },
         {
             "ID": "R_880788445",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -8418,7 +8466,7 @@
         },
         {
             "ID": "R_880789713",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -8441,7 +8489,7 @@
         },
         {
             "ID": "R_880789714",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -8464,7 +8512,7 @@
         },
         {
             "ID": "R_880789715",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res4",
             "Capacity": [
                 {
@@ -8487,7 +8535,7 @@
         },
         {
             "ID": "R_881141943",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -8510,7 +8558,7 @@
         },
         {
             "ID": "R_881142144",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res7",
             "Capacity": [
                 {
@@ -8533,7 +8581,7 @@
         },
         {
             "ID": "R_881143745",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res6",
             "Capacity": [
                 {
@@ -8556,7 +8604,7 @@
         },
         {
             "ID": "R_881145004",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res3",
             "Capacity": [
                 {
@@ -8579,7 +8627,7 @@
         },
         {
             "ID": "R_881145663",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res3",
             "Capacity": [
                 {
@@ -8602,7 +8650,7 @@
         },
         {
             "ID": "R_881149992",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res3",
             "Capacity": [
                 {
@@ -8625,7 +8673,7 @@
         },
         {
             "ID": "R_881241335",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -8652,7 +8700,7 @@
         },
         {
             "ID": "R_882220003",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -8675,7 +8723,7 @@
         },
         {
             "ID": "R_939996575",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -8702,8 +8750,11 @@
         },
         {
             "ID": "R_965155941",
-            "Type": "origin",
-            "ResID": "Res[1, 2]",
+            "Type": "border",
+            "ResID": [
+                "Res1",
+                "Res2"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -8725,7 +8776,7 @@
         },
         {
             "ID": "R_965343241",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res3",
             "Capacity": [
                 {
@@ -8752,7 +8803,7 @@
         },
         {
             "ID": "R_965626155",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -8775,8 +8826,11 @@
         },
         {
             "ID": "753612596",
-            "Type": "origin",
-            "ResID": "Res[7, 8]",
+            "Type": "border",
+            "ResID": [
+                "Res7",
+                "Res8"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -8806,8 +8860,11 @@
         },
         {
             "ID": "C_1035662212",
-            "Type": "origin",
-            "ResID": "Res[6, 8]",
+            "Type": "border",
+            "ResID": [
+                "Res6",
+                "Res8"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -8835,8 +8892,11 @@
         },
         {
             "ID": "C_543463578",
-            "Type": "origin",
-            "ResID": "Res[5, 7]",
+            "Type": "border",
+            "ResID": [
+                "Res5",
+                "Res7"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -8864,8 +8924,11 @@
         },
         {
             "ID": "C_543463580",
-            "Type": "origin",
-            "ResID": "Res[5, 7]",
+            "Type": "border",
+            "ResID": [
+                "Res5",
+                "Res7"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -8897,8 +8960,11 @@
         },
         {
             "ID": "C_543473910",
-            "Type": "origin",
-            "ResID": "Res[2, 3]",
+            "Type": "border",
+            "ResID": [
+                "Res2",
+                "Res3"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -8928,7 +8994,7 @@
         },
         {
             "ID": "C_545420584",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -8951,8 +9017,11 @@
         },
         {
             "ID": "C_702719926",
-            "Type": "origin",
-            "ResID": "Res[7, 8]",
+            "Type": "border",
+            "ResID": [
+                "Res7",
+                "Res8"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -8980,7 +9049,7 @@
         },
         {
             "ID": "C_82607314",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res4",
             "Capacity": [
                 {
@@ -9011,7 +9080,7 @@
         },
         {
             "ID": "C_82607326",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res4",
             "Capacity": [
                 {
@@ -9040,7 +9109,7 @@
         },
         {
             "ID": "C_82607334",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res4",
             "Capacity": [
                 {
@@ -9065,8 +9134,11 @@
         },
         {
             "ID": "C_82607398",
-            "Type": "origin",
-            "ResID": "Res[2, 4]",
+            "Type": "border",
+            "ResID": [
+                "Res2",
+                "Res4"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -9092,7 +9164,7 @@
         },
         {
             "ID": "C_82607401",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -9117,7 +9189,7 @@
         },
         {
             "ID": "C_82607697",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res4",
             "Capacity": [
                 {
@@ -9142,7 +9214,7 @@
         },
         {
             "ID": "C_82607701",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res4",
             "Capacity": [
                 {
@@ -9169,8 +9241,11 @@
         },
         {
             "ID": "C_82607712",
-            "Type": "origin",
-            "ResID": "Res[4, 6]",
+            "Type": "border",
+            "ResID": [
+                "Res4",
+                "Res6"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -9196,8 +9271,11 @@
         },
         {
             "ID": "C_82607715",
-            "Type": "origin",
-            "ResID": "Res[4, 5]",
+            "Type": "border",
+            "ResID": [
+                "Res4",
+                "Res5"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -9223,8 +9301,11 @@
         },
         {
             "ID": "C_82607719",
-            "Type": "origin",
-            "ResID": "Res[4, 6]",
+            "Type": "border",
+            "ResID": [
+                "Res4",
+                "Res6"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -9250,7 +9331,7 @@
         },
         {
             "ID": "C_82607726",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res6",
             "Capacity": [
                 {
@@ -9279,7 +9360,7 @@
         },
         {
             "ID": "C_82607728",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res6",
             "Capacity": [
                 {
@@ -9306,7 +9387,7 @@
         },
         {
             "ID": "C_82607731",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res6",
             "Capacity": [
                 {
@@ -9337,7 +9418,7 @@
         },
         {
             "ID": "C_82607740",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res6",
             "Capacity": [
                 {
@@ -9364,8 +9445,11 @@
         },
         {
             "ID": "C_82607748",
-            "Type": "origin",
-            "ResID": "Res[2, 4]",
+            "Type": "border",
+            "ResID": [
+                "Res2",
+                "Res4"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -9393,7 +9477,7 @@
         },
         {
             "ID": "C_82607749",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res4",
             "Capacity": [
                 {
@@ -9420,8 +9504,11 @@
         },
         {
             "ID": "C_82607752",
-            "Type": "origin",
-            "ResID": "Res[4, 5]",
+            "Type": "border",
+            "ResID": [
+                "Res4",
+                "Res5"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -9447,8 +9534,12 @@
         },
         {
             "ID": "C_82607755",
-            "Type": "origin",
-            "ResID": "Res[2, 4, 5]",
+            "Type": "border",
+            "ResID": [
+                "Res2",
+                "Res4",
+                "Res5"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -9482,7 +9573,7 @@
         },
         {
             "ID": "C_82607756",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -9509,7 +9600,7 @@
         },
         {
             "ID": "C_82607759",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -9536,7 +9627,7 @@
         },
         {
             "ID": "C_82607761",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -9561,7 +9652,7 @@
         },
         {
             "ID": "C_82607762",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -9588,7 +9679,7 @@
         },
         {
             "ID": "C_82607763",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -9615,7 +9706,7 @@
         },
         {
             "ID": "C_82607773",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res5",
             "Capacity": [
                 {
@@ -9642,8 +9733,11 @@
         },
         {
             "ID": "C_82607775",
-            "Type": "origin",
-            "ResID": "Res[2, 5]",
+            "Type": "border",
+            "ResID": [
+                "Res2",
+                "Res5"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -9677,8 +9771,11 @@
         },
         {
             "ID": "C_82607781",
-            "Type": "origin",
-            "ResID": "Res[5, 6]",
+            "Type": "border",
+            "ResID": [
+                "Res5",
+                "Res6"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -9704,7 +9801,7 @@
         },
         {
             "ID": "C_82607783",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res5",
             "Capacity": [
                 {
@@ -9731,7 +9828,7 @@
         },
         {
             "ID": "C_82607784",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res5",
             "Capacity": [
                 {
@@ -9758,8 +9855,11 @@
         },
         {
             "ID": "C_82607785",
-            "Type": "origin",
-            "ResID": "Res[2, 5]",
+            "Type": "border",
+            "ResID": [
+                "Res2",
+                "Res5"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -9789,8 +9889,11 @@
         },
         {
             "ID": "C_82607786",
-            "Type": "origin",
-            "ResID": "Res[2, 5]",
+            "Type": "border",
+            "ResID": [
+                "Res2",
+                "Res5"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -9824,7 +9927,7 @@
         },
         {
             "ID": "C_82607787",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -9851,7 +9954,7 @@
         },
         {
             "ID": "C_82607788",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -9878,7 +9981,7 @@
         },
         {
             "ID": "C_82607793",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -9905,7 +10008,7 @@
         },
         {
             "ID": "C_82607799",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res6",
             "Capacity": [
                 {
@@ -9932,7 +10035,7 @@
         },
         {
             "ID": "C_82607805",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res6",
             "Capacity": [
                 {
@@ -9959,7 +10062,7 @@
         },
         {
             "ID": "C_82607820",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res6",
             "Capacity": [
                 {
@@ -9986,8 +10089,11 @@
         },
         {
             "ID": "C_82607864",
-            "Type": "origin",
-            "ResID": "Res[6, 8]",
+            "Type": "border",
+            "ResID": [
+                "Res6",
+                "Res8"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -10013,7 +10119,7 @@
         },
         {
             "ID": "C_82607866",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -10042,8 +10148,11 @@
         },
         {
             "ID": "C_82607875",
-            "Type": "origin",
-            "ResID": "Res[6, 8]",
+            "Type": "border",
+            "ResID": [
+                "Res6",
+                "Res8"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -10071,8 +10180,11 @@
         },
         {
             "ID": "C_82607876",
-            "Type": "origin",
-            "ResID": "Res[6, 7]",
+            "Type": "border",
+            "ResID": [
+                "Res6",
+                "Res7"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -10106,7 +10218,7 @@
         },
         {
             "ID": "C_82607892",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res5",
             "Capacity": [
                 {
@@ -10133,8 +10245,11 @@
         },
         {
             "ID": "C_82607897",
-            "Type": "origin",
-            "ResID": "Res[2, 5]",
+            "Type": "border",
+            "ResID": [
+                "Res2",
+                "Res5"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -10160,7 +10275,7 @@
         },
         {
             "ID": "C_82607901",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -10187,8 +10302,11 @@
         },
         {
             "ID": "C_82607903",
-            "Type": "origin",
-            "ResID": "Res[2, 3]",
+            "Type": "border",
+            "ResID": [
+                "Res2",
+                "Res3"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -10222,8 +10340,12 @@
         },
         {
             "ID": "C_82607905",
-            "Type": "origin",
-            "ResID": "Res[5, 6, 7]",
+            "Type": "border",
+            "ResID": [
+                "Res5",
+                "Res6",
+                "Res7"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -10257,8 +10379,11 @@
         },
         {
             "ID": "C_82607910",
-            "Type": "origin",
-            "ResID": "Res[5, 7]",
+            "Type": "border",
+            "ResID": [
+                "Res5",
+                "Res7"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -10288,8 +10413,12 @@
         },
         {
             "ID": "C_82607914",
-            "Type": "origin",
-            "ResID": "Res[2, 3, 5]",
+            "Type": "border",
+            "ResID": [
+                "Res2",
+                "Res3",
+                "Res5"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -10315,7 +10444,7 @@
         },
         {
             "ID": "C_82607917",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -10342,8 +10471,11 @@
         },
         {
             "ID": "C_82607927",
-            "Type": "origin",
-            "ResID": "Res[3, 7]",
+            "Type": "border",
+            "ResID": [
+                "Res3",
+                "Res7"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -10369,7 +10501,7 @@
         },
         {
             "ID": "C_82607928",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res3",
             "Capacity": [
                 {
@@ -10396,7 +10528,7 @@
         },
         {
             "ID": "C_82611799",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -10421,8 +10553,11 @@
         },
         {
             "ID": "C_82611809",
-            "Type": "origin",
-            "ResID": "Res[7, 8]",
+            "Type": "border",
+            "ResID": [
+                "Res7",
+                "Res8"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -10448,7 +10583,7 @@
         },
         {
             "ID": "C_82611820",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -10475,7 +10610,7 @@
         },
         {
             "ID": "C_82611886",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -10502,7 +10637,7 @@
         },
         {
             "ID": "C_82611887",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -10535,7 +10670,7 @@
         },
         {
             "ID": "C_82611889",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res7",
             "Capacity": [
                 {
@@ -10562,7 +10697,7 @@
         },
         {
             "ID": "C_82611898",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res7",
             "Capacity": [
                 {
@@ -10589,8 +10724,11 @@
         },
         {
             "ID": "C_82611901",
-            "Type": "origin",
-            "ResID": "Res[3, 7]",
+            "Type": "border",
+            "ResID": [
+                "Res3",
+                "Res7"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -10616,7 +10754,7 @@
         },
         {
             "ID": "C_82611902",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res3",
             "Capacity": [
                 {
@@ -10643,8 +10781,11 @@
         },
         {
             "ID": "C_82611914",
-            "Type": "origin",
-            "ResID": "Res[7, 8]",
+            "Type": "border",
+            "ResID": [
+                "Res7",
+                "Res8"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -10674,8 +10815,11 @@
         },
         {
             "ID": "C_82611920",
-            "Type": "origin",
-            "ResID": "Res[3, 7]",
+            "Type": "border",
+            "ResID": [
+                "Res3",
+                "Res7"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -10701,7 +10845,7 @@
         },
         {
             "ID": "C_82611923",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res3",
             "Capacity": [
                 {
@@ -10728,7 +10872,7 @@
         },
         {
             "ID": "C_82611924",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res3",
             "Capacity": [
                 {
@@ -10755,8 +10899,11 @@
         },
         {
             "ID": "C_82611927",
-            "Type": "origin",
-            "ResID": "Res[3, 7]",
+            "Type": "border",
+            "ResID": [
+                "Res3",
+                "Res7"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -10786,7 +10933,7 @@
         },
         {
             "ID": "C_82611972",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -10821,7 +10968,7 @@
         },
         {
             "ID": "C_82611980",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -10846,7 +10993,7 @@
         },
         {
             "ID": "C_82611990",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -10873,7 +11020,7 @@
         },
         {
             "ID": "C_82611991",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res8",
             "Capacity": [
                 {
@@ -10912,7 +11059,7 @@
         },
         {
             "ID": "C_82612063",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res7",
             "Capacity": [
                 {
@@ -10939,8 +11086,11 @@
         },
         {
             "ID": "C_82612080",
-            "Type": "origin",
-            "ResID": "Res[3, 7]",
+            "Type": "border",
+            "ResID": [
+                "Res3",
+                "Res7"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -10966,8 +11116,11 @@
         },
         {
             "ID": "C_82642756",
-            "Type": "origin",
-            "ResID": "Res[1, 2]",
+            "Type": "border",
+            "ResID": [
+                "Res1",
+                "Res2"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -10997,7 +11150,7 @@
         },
         {
             "ID": "C_82642765",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -11028,8 +11181,11 @@
         },
         {
             "ID": "C_82643082",
-            "Type": "origin",
-            "ResID": "Res[1, 2]",
+            "Type": "border",
+            "ResID": [
+                "Res1",
+                "Res2"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -11059,8 +11215,11 @@
         },
         {
             "ID": "C_82643087",
-            "Type": "origin",
-            "ResID": "Res[1, 2]",
+            "Type": "border",
+            "ResID": [
+                "Res1",
+                "Res2"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -11090,7 +11249,7 @@
         },
         {
             "ID": "C_82643090",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -11123,7 +11282,7 @@
         },
         {
             "ID": "C_82643101",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -11152,8 +11311,11 @@
         },
         {
             "ID": "C_82643104",
-            "Type": "origin",
-            "ResID": "Res[1, 2]",
+            "Type": "border",
+            "ResID": [
+                "Res1",
+                "Res2"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -11183,8 +11345,11 @@
         },
         {
             "ID": "C_82643109",
-            "Type": "origin",
-            "ResID": "Res[1, 2]",
+            "Type": "border",
+            "ResID": [
+                "Res1",
+                "Res2"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -11214,8 +11379,11 @@
         },
         {
             "ID": "C_82643112",
-            "Type": "origin",
-            "ResID": "Res[1, 2]",
+            "Type": "border",
+            "ResID": [
+                "Res1",
+                "Res2"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -11245,7 +11413,7 @@
         },
         {
             "ID": "C_82643130",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -11276,8 +11444,11 @@
         },
         {
             "ID": "C_82643174",
-            "Type": "origin",
-            "ResID": "Res[1, 2]",
+            "Type": "border",
+            "ResID": [
+                "Res1",
+                "Res2"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -11307,8 +11478,11 @@
         },
         {
             "ID": "C_82643181",
-            "Type": "origin",
-            "ResID": "Res[1, 2]",
+            "Type": "border",
+            "ResID": [
+                "Res1",
+                "Res2"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -11338,8 +11512,11 @@
         },
         {
             "ID": "C_82643185",
-            "Type": "origin",
-            "ResID": "Res[1, 2]",
+            "Type": "border",
+            "ResID": [
+                "Res1",
+                "Res2"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -11369,7 +11546,7 @@
         },
         {
             "ID": "C_82643189",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -11396,7 +11573,7 @@
         },
         {
             "ID": "C_82643193",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -11427,7 +11604,7 @@
         },
         {
             "ID": "C_82643207",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res3",
             "Capacity": [
                 {
@@ -11454,8 +11631,11 @@
         },
         {
             "ID": "C_82643210",
-            "Type": "origin",
-            "ResID": "Res[1, 3]",
+            "Type": "border",
+            "ResID": [
+                "Res1",
+                "Res3"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -11481,7 +11661,7 @@
         },
         {
             "ID": "C_82647124",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res3",
             "Capacity": [
                 {
@@ -11512,7 +11692,7 @@
         },
         {
             "ID": "C_82647145",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res3",
             "Capacity": [
                 {
@@ -11541,8 +11721,11 @@
         },
         {
             "ID": "C_826894171",
-            "Type": "origin",
-            "ResID": "Res[1, 2]",
+            "Type": "border",
+            "ResID": [
+                "Res1",
+                "Res2"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -11574,7 +11757,7 @@
         },
         {
             "ID": "C_863377254",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res1",
             "Capacity": [
                 {
@@ -11597,7 +11780,7 @@
         },
         {
             "ID": "C_863383091",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res2",
             "Capacity": [
                 {
@@ -11624,7 +11807,7 @@
         },
         {
             "ID": "C_880786284",
-            "Type": "origin",
+            "Type": "border",
             "ResID": "Res7",
             "Capacity": [
                 {
@@ -11955,8 +12138,5 @@
                 }
             ]
         }
-    ],
-    "ROUTES": [
-       
     ]
 }
