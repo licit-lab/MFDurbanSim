@@ -91,21 +91,30 @@ class Reservoir(Element):
         if 'BorderPoints' in loadNetwork["RESERVOIRS"][i]:
             self.BorderPoints = loadNetwork["RESERVOIRS"][i]["BorderPoints"]
 
-    def get_entry_supply_from_accumulation(self, accumulation, mode):
-        entry_supply = 0
-        return entry_supply
-    
-    def get_production_from_accumulation(self, accumulation, mode):
+
+    def get_production_from_accumulation(self, n, mode):
+        
+        # nj = param(1); % jam accumulation (max. accumulation) [veh]
+        # nc = param(2); % critical accumulation [veh]
+        # Pc = param(3); % critical production (max. production) [veh.m/s]
+        
+        # P = (0 <= n).*(n <= nc).* (Pc./nc.^2.*n.*(2*nc - n)) + ...
+        #     (nc < n).*(n < nj).*  (Pc./(nj - nc).^2.*(nj - n).*(nj + n - 2*nc));
                 
         MFDset = [tag for tag in self.MFDsetting if tag['mode'] == mode][0]
         
-        if accumulation >= MFDset['MaxAcc']:
-            return 0.
+        production = (0<=n)*(n<=MFDset['CritAcc'])*(MFDset['MaxProd']/(MFDset['CritAcc']**2)*n*(2*MFDset['CritAcc']-n)) + \
+                    (MFDset['CritAcc']<n)*(n<MFDset['MaxAcc'])*(MFDset['MaxProd']/(MFDset['MaxAcc']-MFDset['CritAcc'])**2*(MFDset['MaxAcc']-n)*(MFDset['MaxAcc']+n-2*MFDset['CritAcc']))
         
-        a = MFDset['MaxProd'] / (MFDset['CritAcc']*(MFDset['CritAcc']-MFDset['MaxAcc']))
-        b = -a * MFDset['MaxAcc']
-        c = 0
-        return ( (a*accumulation**2) + (b*accumulation) + c)
+        # if accumulation>= MFDset['MaxAcc'] or accumulation<=0.:
+        #     return 0.
+        
+        # a = MFDset['MaxProd'] / (MFDset['CritAcc']*(MFDset['CritAcc']-MFDset['MaxAcc']))
+        # b = -a * MFDset['MaxAcc']
+        # c = 0
+        # return ( (a*accumulation**2) + (b*accumulation) + c)
+    
+        return production
     
     def get_speed_from_accumulation(self, accumulation, mode):
         MFDset = [tag for tag in self.MFDsetting if tag['mode']==mode][0]
@@ -119,4 +128,26 @@ class Reservoir(Element):
     def get_MFD_setting(self, data, mode):
         MFDset = [tag for tag in self.MFDsetting if tag['mode']==mode][0]
         return MFDset[data]
+        
+    def get_entry_supply_from_accumulation(self, accumulation, mode):
+        
+        MFDset = [tag for tag in self.MFDsetting if tag['mode'] == mode][0]
+        a1 = 0.8
+        a2 = 1
+        b = 1
+        param=[ MFDset['MaxAcc'], MFDset['CritAcc'], MFDset['MaxProd'], a1*MFDset['CritAcc'], a2*MFDset['CritAcc'], b*MFDset['MaxProd'] ]
+        
+        entry_supply =  (accumulation <= param[3]) * param[5] + \
+                        (param[3]< accumulation)*(accumulation<=param[4]) * \
+                        (param[5]+(accumulation-param[3])/(param[4]-param[3])*(self.get_production_from_accumulation(a2*MFDset['CritAcc'], mode)-param[5])) + \
+                        (param[4]< accumulation)*self.get_production_from_accumulation(accumulation, mode)
+            
+        
+        # % Entry supply function
+        # % param = [nj nc Pc a1*nc a2*nc b*Pc], with 0 < a1 < 1 < a2, and 1 < b
+        # Entryfct = @(n,param) (n <= param(4)).*param(6) + ...
+        # (param(4) < n).*(n <= param(5)).*(param(6)+(n-param(4))./(param(5)-param(4)).*(MFDfct(param(5),param(1:3))-param(6))) + ...
+        # (param(5) < n).*MFDfct(n,param(1:3));
+        
+        return entry_supply
         
