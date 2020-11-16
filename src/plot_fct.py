@@ -476,14 +476,14 @@ def plot_res_ball_acc_per_route(t, reservoirs, res_output, routes, simul_time, r
         plt.legend(hf, str_legend, bbox_to_anchor=(1.05, 1), loc='center right', borderaxespad=0., fontsize=font_size)
 
 
-def plot_res_net_speed(fig, ax, t, reservoirs, res_output, simul_time, speed_range):
+def plot_res_net_speed(ax, t, reservoirs, speed_range):
     # Plot the state of reservoirs at time t(mean speed), with links and/or shape borders
     #
     # INPUTS
+    # ---- ax: axes of the figure
     # ---- t: scalar, time[s]
     # ---- reservoirs: reservoirs structure
-    # ---- simul_time: vector, simulation time[s]
-    # ---- speed_range: vector[V_min V_max], speed range[m / s] to define the colormap
+    # ---- speed_range: vector[V_min V_max], speed range[m/s] to define the colormap
 
     num_res = len(reservoirs)
 
@@ -618,14 +618,11 @@ def plot_res_net_speed(fig, ax, t, reservoirs, res_output, simul_time, speed_ran
             list_ms_txt[r] = ax.text(x, y, txt, ha='center', color=txt_color, fontname=font_name,
                                      fontweight='bold', fontsize=font_size)
 
-
         plt.draw()
 
     slider_time.on_changed(update_time)
 
     plt.show()
-
-
 
 
 def plot_res_route_dem(reservoirs, routes, nodes, demand, demand_type, plot_charact):
