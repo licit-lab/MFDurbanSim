@@ -2,6 +2,7 @@ import pandas
 
 from main_objects import Reservoir
 
+
 def get_macronode(macronodes, macronode_id):
     
     for mn in macronodes:
@@ -10,20 +11,20 @@ def get_macronode(macronodes, macronode_id):
         
     return None
 
-class MacroNode:
 
+class MacroNode:
     macronode_types_list = ("externalentry", "border", "origin", "destination", "externalexit")
 
     def __init__(self):
-        #Input
-        self.ID = ""                #ID of the macronode
-        self.Type = ""              #Type of node (5 types: externalentry, externalexit, origin, destination, border)
-        self.ResID = []             #ID of the reservoir(s) where the node belongs
+        # Input
+        self.ID = ""                # ID of the macronode
+        self.Type = ""              # Type of node (5 types: externalentry, externalexit, origin, destination, border)
+        self.ResID = []             # ID of the reservoir(s) where the node belongs
         self.Capacities = pandas.DataFrame()            # Capacities (may be dynamic)
-        self.Coord = []             #Abscissa and ordinate of the node
+        self.Coord = None             # Abscissa and ordinate of the node
 
-    def load_input(self, loadNetwork, i, reservoirs):
-        network = loadNetwork["MACRONODES"][i]
+    def load_input(self, load_network, i, reservoirs):
+        network = load_network["MACRONODES"][i]
 
         self.ID = network["ID"]
 
@@ -48,6 +49,3 @@ class MacroNode:
         if self.Capacities.size == 0:
             return float('inf')   
         return self.Capacities.loc[self.Capacities['Time']<=time].tail(1).Data[0]
-    
-    
-    
