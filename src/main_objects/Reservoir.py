@@ -118,10 +118,10 @@ class Reservoir(Element):
     
     def get_speed_from_accumulation(self, accumulation, mode):
         MFDset = [tag for tag in self.MFDsetting if tag['mode']==mode][0]
-        production = self.get_production_from_accumulation(accumulation,mode)
         
-        if production>0:
-            return accumulation / production
+        if accumulation>0:
+            production = self.get_production_from_accumulation(accumulation,mode)
+            return production / accumulation
         
         return MFDset['FreeflowSpeed']
          
