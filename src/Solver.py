@@ -232,6 +232,10 @@ def AccBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
                     rs.Data[indtime+1]['Acc'] = rs.Data[indtime+1]['AccCircu']+rs.Data[indtime+1]['AccQueue']
                     
                     reservoir.Data[indtime+1]['Acc'] += rs.Data[indtime+1]['Acc']
+                    
+                # Mean speed reservoir update
+                reservoir.Data[indtime+1]['MeanSpeed']=reservoir.get_speed_from_accumulation(rs.Data[indtime+1]['Acc'],'VL')
+                
 
 def TripBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
     
