@@ -95,6 +95,9 @@ def AccBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
         for reservoir in Reservoirs:
 
             print("Reservoir : ", reservoir.ID)
+            
+            # Mean speed update
+            reservoir.Data[indtime]['MeanSpeed']=reservoir.get_speed_from_accumulation(reservoir.Data[indtime]['Acc'],'VL')
           
             # Production modification (todo for queue dyn model)
             reservoir.Data[indtime]['Production'] = reservoir.get_production_from_accumulation(reservoir.Data[indtime]['Acc'], 'VL')
@@ -217,9 +220,13 @@ def AccBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
                 else:
                     rs.Data[indtime]['Inflow']=rs.PreviousRouteSection.Data[indtime]['Outflow']
                     
-            if t+Simulation.TimeStep < Simulation.Duration:
-                init_time_step(t+Simulation.TimeStep, Reservoirs, Routes)
-                        
+                    
+        if t+Simulation.TimeStep < Simulation.Duration:
+            
+            init_time_step(t+Simulation.TimeStep, Reservoirs, Routes)
+            
+            for reservoir in Reservoirs:
+                
                 # External queue update : TO DO
                 for rs in reservoir.RouteSections:
                     rs.Data[indtime+1]['AccQueue'] = 0
@@ -231,12 +238,11 @@ def AccBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
                     
                     rs.Data[indtime+1]['Acc'] = rs.Data[indtime+1]['AccCircu']+rs.Data[indtime+1]['AccQueue']
                     
+                    reservoir.Data[indtime]['Inflow'] += rs.Data[indtime]['Inflow']
+                    reservoir.Data[indtime]['Outflow'] += rs.Data[indtime]['Outflow']
+                    
                     reservoir.Data[indtime+1]['Acc'] += rs.Data[indtime+1]['Acc']
                     
-                # Mean speed reservoir update
-                reservoir.Data[indtime+1]['MeanSpeed']=reservoir.get_speed_from_accumulation(rs.Data[indtime+1]['Acc'],'VL')
-                
-
 def TripBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
     
     vehicles=[]
