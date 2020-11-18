@@ -112,11 +112,6 @@ else:
 
 
 # --- Initialize variables --- #
-
-# for r in reservoirs:
-#     r.init_fct_param(0.8, 1, 1, len(simulation_settings.Modes))
-#     if DEBUG == 1:
-#         print(r.EntryfctParam)
     
 IO_functions.init_variables(reservoirs, routes, macronodes)
 
@@ -129,12 +124,7 @@ elif simulation_settings.Solver == "TripBased":
 
 # --- Outputs --- #
 file_output = os.path.join(path, "Output.json")
-IO_functions.save_output(file_output, simulation_settings, reservoirs, routes)
-
-# Reservoir config and states
-simu_time = list(range(0, simulation_settings.Duration, simulation_settings.TimeStep))
-speed_range = [3, 14]
-t0 = 10
+#IO_functions.save_output(file_output, simulation_settings, reservoirs, routes)
 
 with open(file_output, "r") as file:
     Output = json.load(file)
@@ -142,12 +132,21 @@ with open(file_output, "r") as file:
 ResOutput = Output["RESERVOIRS"]
 RoutesOutput = Output["ROUTES"]
 
+# Reservoir config and states
+simu_time = list(range(0, simulation_settings.Duration, simulation_settings.TimeStep))
+speed_range = [3, 14]
+t0 = 0
+
 options = {'legend': True, 'res_names': True, 'mn_names': True, 'res_color': True, 'routes_color': True,
            'mn_color': True}
 
-# Plot macro nodes with route paths
+# Plot network
 fig, ax = plot_fct.plt.subplots()
 plot_fct.plot_network(ax, reservoirs, macronodes, routes, options)
+
+# Plot reservoir state (mean speed) at t, real network
+fig, ax = plot_fct.plt.subplots()
+plot_fct.plot_res_net_speed(ax, t0, reservoirs, speed_range)
 
 if PLOT == 1:
     # Plot reservoir schematic representation (borders and adjacent connections)

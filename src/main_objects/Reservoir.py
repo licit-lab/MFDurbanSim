@@ -2,7 +2,7 @@ import copy
 from main_objects.Element import Element
 
 
-def get_reservoir(reservoirs,reservoir_id):
+def get_reservoir(reservoirs, reservoir_id):
     
     for r in reservoirs:
         if r.ID == reservoir_id:
@@ -39,57 +39,57 @@ class Reservoir(Element):
         
         Element.__init__(self, DataKeys)
         
-        #Input
+        # Input
         self.ID = ""                        #ID of the reservoir
         
         self.MFDsetting = []                # Setting of the MFD by mode (mode, free flow speed, max production, max accumulation)
       
-        self.Centroid = []                  #Abscissa and ordinate of reservoir center (plotting purpose)
-        self.BorderPoints = []              #List of abscissa and ordinates of the N points delimiting the reservoir (plotting purpose)
+        self.Centroid = None                # Abscissa and ordinate of reservoir center (plotting purpose)
+        self.BorderPoints = None            # List of abscissa and ordinates of the N points delimiting the reservoir (plotting purpose)
 
-        #Both solvers
-        self.MFDfctParam = []               #Parameters of the MFD function
-        self.EntryfctParam = []             #Parameters of the entry supply function
-        self.MacroNodes = []                #List of the MacroNodes in the reservoir
-        self.AdjacentResID = []             #List of adjacent reservoirs
+        # Both solvers
+        self.MFDfctParam = []               # Parameters of the MFD function
+        self.EntryfctParam = []             # Parameters of the entry supply function
+        self.MacroNodes = []                # List of the MacroNodes in the reservoir
+        self.AdjacentResID = []             # List of adjacent reservoirs
         
-        self.RouteSections = []              #List of all "per route" data
+        self.RouteSections = []             # List of all "per route" data
 
-        # Usefull variables
+        # Useful variables
         self.NumberOfExtRouteSection = 1    # route section number whose origin of the section is an external entry
         
-        #Acc-based solver
+        # Acc-based solver
         # to keep ?
-        self.NumWaitingVeh = []             #Number of vehicles waiting to enter the reservoir when reservoir is the begining of the route
+        self.NumWaitingVeh = []             # Number of vehicles waiting to enter the reservoir when reservoir is the begining of the route
 
-        #Trip-based solver
+        # Trip-based solver
         self.t_in = -1
         self.t_out = -1
         
         # to keep 
         self.MFDpts = []                    #
         self.EntryFctpts = []               #
-        self.VehList = []                   #List of vehicles in the reservoir
+        self.VehList = []                   # List of vehicles in the reservoir
 
-    def load_input(self, loadNetwork, i):               
-        self.ID = loadNetwork["RESERVOIRS"][i]["ID"]
+    def load_input(self, load_network, i):
+        self.ID = load_network["RESERVOIRS"][i]["ID"]
         
         MFDs = {}
         
-        for m in loadNetwork["RESERVOIRS"][i]["FreeflowSpeed"]:
+        for m in load_network["RESERVOIRS"][i]["FreeflowSpeed"]:
             MFDs['mode'] = m['mode']
             MFDs['FreeflowSpeed'] = m['value']
-            MFDs['MaxProd'] = [tag for tag in loadNetwork["RESERVOIRS"][i]["MaxProd"] if tag['mode']=='VL'][0]['value']
-            MFDs['MaxAcc'] = [tag for tag in loadNetwork["RESERVOIRS"][i]["MaxAcc"] if tag['mode']=='VL'][0]['value']
-            MFDs['CritAcc'] = [tag for tag in loadNetwork["RESERVOIRS"][i]["CritAcc"] if tag['mode']=='VL'][0]['value']
+            MFDs['MaxProd'] = [tag for tag in load_network["RESERVOIRS"][i]["MaxProd"] if tag['mode']=='VL'][0]['value']
+            MFDs['MaxAcc'] = [tag for tag in load_network["RESERVOIRS"][i]["MaxAcc"] if tag['mode']=='VL'][0]['value']
+            MFDs['CritAcc'] = [tag for tag in load_network["RESERVOIRS"][i]["CritAcc"] if tag['mode']=='VL'][0]['value']
            
         self.MFDsetting.append(MFDs)
         
-        if 'Centroid' in loadNetwork["RESERVOIRS"][i]:
-            self.Centroid = loadNetwork["RESERVOIRS"][i]["Centroid"]
+        if 'Centroid' in load_network["RESERVOIRS"][i]:
+            self.Centroid = load_network["RESERVOIRS"][i]["Centroid"]
             
-        if 'BorderPoints' in loadNetwork["RESERVOIRS"][i]:
-            self.BorderPoints = loadNetwork["RESERVOIRS"][i]["BorderPoints"]
+        if 'BorderPoints' in load_network["RESERVOIRS"][i]:
+            self.BorderPoints = load_network["RESERVOIRS"][i]["BorderPoints"]
 
 
     def get_production_from_accumulation(self, n, mode):
@@ -124,7 +124,8 @@ class Reservoir(Element):
             return production / accumulation
         
         return MFDset['FreeflowSpeed']
-         
+
+
     def get_MFD_setting(self, data, mode):
         MFDset = [tag for tag in self.MFDsetting if tag['mode']==mode][0]
         return MFDset[data]
@@ -150,4 +151,3 @@ class Reservoir(Element):
         # (param(5) < n).*MFDfct(n,param(1:3));
         
         return entry_supply
-        
