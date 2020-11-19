@@ -56,7 +56,7 @@ class Reservoir(Element):
         self.RouteSections = []             # List of all "per route" data
 
         # Useful variables
-        self.NumberOfExtRouteSection = 1    # route section number whose origin of the section is an external entry
+        self.NumberOfExtRouteSection = 0    # route section number whose origin of the section is an external entry
         
         # Acc-based solver
         # to keep ?
@@ -133,9 +133,14 @@ class Reservoir(Element):
     def get_entry_supply_from_accumulation(self, accumulation, mode):
         
         MFDset = [tag for tag in self.MFDsetting if tag['mode'] == mode][0]
-        a1 = 0.8
-        a2 = 1
-        b = 1
+        # a1 = 0.8
+        # a2 = 1
+        # b = 1
+        
+        a1=0.5
+        a2=1.5
+        b = 1.4
+        
         param=[ MFDset['MaxAcc'], MFDset['CritAcc'], MFDset['MaxProd'], a1*MFDset['CritAcc'], a2*MFDset['CritAcc'], b*MFDset['MaxProd'] ]
         
         entry_supply =  (accumulation <= param[3]) * param[5] + \

@@ -48,4 +48,4 @@ class MacroNode:
     def get_capacity(self, time):
         if self.Capacities.size == 0:
             return float('inf')   
-        return self.Capacities.loc[self.Capacities['Time']<=time].tail(1).Data[0]
+        return float(self.Capacities.loc[self.Capacities['Time']<=time].tail(1).Data)

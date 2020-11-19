@@ -24,6 +24,7 @@ class RouteSection(Element):
                       "AccCircu",                 # partial accumulation (veh)
                       "AccQueue",                 # partial queuing accumulation (veh)
                       "NoutCircu",
+                      "NumWaitingVeh",
                       
                       # Trip based model
                       "EntryDemandTime",   # input data ?
@@ -78,3 +79,8 @@ class RouteSection(Element):
         self.TripLength = tripLength              # trip length portion (m)
         self.PreviousRouteSection = 0               # previous route section of the path (RouteSection)
 
+    def get_previous_routesection(self):
+        if self.Route.RouteSections.index(self)>0:
+            return self.Route.RouteSections[self.Route.RouteSections.index(self)-1]
+        else:
+            return 0

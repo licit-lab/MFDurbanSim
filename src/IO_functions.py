@@ -166,7 +166,7 @@ def init_variables(reservoirs, routes, macronodes):
             route.RouteSections.append(rs)
             
             if entry_node.Type == 'externalentry':
-                reservoir.NumberOfExtRouteSection += reservoir.NumberOfExtRouteSection
+                reservoir.NumberOfExtRouteSection += 1
                 
             previous_route_section = rs
             ind = ind + 1
@@ -199,7 +199,8 @@ def save_output(outputfile, simulation, reservoirs, routes, vehicle=None):
         reservoir_data = []
         #reservoir_data.append({"Data": []})
         for data in res.Data:
-            reservoir_data.append({"Time": data["Time"], "Acc": data["Acc"], "MeanSpeed": data["MeanSpeed"]})
+            reservoir_data.append({"Time": data["Time"], "Acc": data["Acc"], "MeanSpeed": data["MeanSpeed"], 'ProductionSupply' : data['ProductionSupply'],
+                                   'AvgTripLength':data['AvgTripLength']})
         
         routes_data = []
         j = 0
@@ -207,11 +208,13 @@ def save_output(outputfile, simulation, reservoirs, routes, vehicle=None):
             routes_data.append({"RouteID": rs.Route.ID, "Data": []})
 
             for data in rs.Data:
-                routes_data[j]["Data"].append({"Time": data["Time"], "Acc": data["Acc"], "AccCircu": data["AccCircu"],
-                                               "AccQueue": data["AccQueue"], "Inflow": data["Inflow"],
+                routes_data[j]["Data"].append({"Time": data["Time"], "Acc": data["Acc"], 'LocalInflowSupply':data['LocalInflowSupply'], 'InflowSupply':data['InflowSupply'],
+                                               "AccCircu": data["AccCircu"],
+                                               "AccQueue": data["AccQueue"], "InflowDemand": data["InflowDemand"], "Inflow": data["Inflow"],
                                                "Outflow": data["Outflow"], "OutflowDemand": data["OutflowDemand"],
                                                "Nin": data["Nin"], "Nout": data["Nout"],
-                                               "NoutCircu": data["NoutCircu"]})
+                                               "NoutCircu": data["NoutCircu"],
+                                               "NumWaitingVeh": data['NumWaitingVeh']})
 
             j += 1
 
