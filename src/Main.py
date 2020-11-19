@@ -110,13 +110,10 @@ elif simulation_settings.DemandType == "micro":
 else:
     print("Demand Type error")
 
-
 # --- Initialize variables --- #
-    
 IO_functions.init_variables(reservoirs, routes, macronodes)
 
 # --- Algorithms --- #
-
 if simulation_settings.Solver == "AccBased":
     Solver.AccBased(simulation_settings, reservoirs, routes, macronodes, GlobalDemand)
 elif simulation_settings.Solver == "TripBased":
@@ -124,7 +121,7 @@ elif simulation_settings.Solver == "TripBased":
 
 # --- Outputs --- #
 file_output = os.path.join(path, "Output.json")
-#IO_functions.save_output(file_output, simulation_settings, reservoirs, routes)
+IO_functions.save_output(file_output, simulation_settings, reservoirs, routes)
 
 with open(file_output, "r") as file:
     Output = json.load(file)
@@ -144,39 +141,43 @@ options = {'legend': True, 'res_names': True, 'mn_names': True, 'res_color': Tru
 fig, ax = plot_fct.plt.subplots()
 plot_fct.plot_network(ax, reservoirs, macronodes, routes, options)
 
-# Plot reservoir state (mean speed) at t, real network
-fig, ax = plot_fct.plt.subplots()
-plot_fct.plot_res_net_speed(ax, t0, reservoirs, speed_range)
+# Plot reservoir state (mean speed) at each t, real network
+fig2, ax2 = plot_fct.plt.subplots()
+plot_fct.plot_res_net_speed(ax2, t0, reservoirs, speed_range, simu_time, ResOutput)
+
+# Plot Acc, MeanSpeed in function of Time per reservoir
+fig3, ax3 = plot_fct.plt.subplots()
+plot_fct.plot_graph(ResOutput, 'Acc')
+
+fig4, ax4 = plot_fct.plt.subplots()
+plot_fct.plot_graph(ResOutput, 'MeanSpeed')
+
+plot_fct.plt.show()
 
 if PLOT == 1:
     # Plot reservoir schematic representation (borders and adjacent connections)
-    plot_fct.plt.figure
+    fig1 = plot_fct.plt.figure
     plot_fct.plot_res_ball_config(reservoirs, 1, 0.5, [1.5, 1.5])
     plot_fct.plt.show()
 
     # Plot reservoir state (total accumulation) at t, schematic representation
-    plot_fct.plt.figure
+    fig2 = plot_fct.plt.figure
     plot_fct.plot_res_ball_acc(t0, reservoirs, ResOutput, simu_time, 0.5, [1.5, 1.5])
     plot_fct.plt.show()
 
     # Plot reservoir state (accumulation per route) at t, schematic representation
-    plot_fct.plt.figure
+    fig3 = plot_fct.plt.figure
     plot_fct.plot_res_ball_acc_per_route(t0, reservoirs, ResOutput, routes, simu_time, 0.5, [1.5, 1.5])
     plot_fct.plt.show()
 
-    # Plot reservoir state (mean speed) at t, real network
-    plot_fct.plt.figure
-    plot_fct.plot_res_net_speed(t0, reservoirs, ResOutput, simu_time, speed_range)
-    plot_fct.plt.show()
-
     # Plot reservoir total number or demand of routes
-    plot_fct.plt.figure
+    fig4 = plot_fct.plt.figure
     plot_fct.plot_res_route_dem(reservoirs, routes, macronodes, GlobalDemand, simulation_settings.DemandType, 'demand')
     plot_fct.plt.show()
 
 
 if DYNAMIC_PLOT == 1:
-    plot_fct.plt.figure
+    fig5 = plot_fct.plt.figure
     for t in range(0, simulation_settings.Duration, simulation_settings.TimeStep):
         plot_fct.plt.clf()
         # Plot reservoir state (total accumulation) at t, schematic representation
@@ -185,20 +186,11 @@ if DYNAMIC_PLOT == 1:
         plot_fct.plt.pause(0.5)
     plot_fct.plt.show()
 
-    plot_fct.plt.figure
+    fig6 = plot_fct.plt.figure
     for t in range(0, simulation_settings.Duration, simulation_settings.TimeStep):
         plot_fct.plt.clf()
         # Plot reservoir state (accumulation per route) at t, schematic representation
         plot_fct.plot_res_ball_acc_per_route(t, reservoirs, ResOutput, routes, simu_time, 0.5, [1.5, 1.5])
-        plot_fct.plt.draw()
-        plot_fct.plt.pause(0.5)
-    plot_fct.plt.show()
-
-    plot_fct.plt.figure
-    for t in range(0, simulation_settings.Duration, simulation_settings.TimeStep):
-        plot_fct.plt.clf()
-        # Plot reservoir state (mean speed) at t, real network
-        plot_fct.plot_res_net_speed(t, reservoirs, ResOutput, simu_time, speed_range)
         plot_fct.plt.draw()
         plot_fct.plt.pause(0.5)
     plot_fct.plt.show()

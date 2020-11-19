@@ -476,155 +476,6 @@ def plot_res_ball_acc_per_route(t, reservoirs, res_output, routes, simul_time, r
         plt.legend(hf, str_legend, bbox_to_anchor=(1.05, 1), loc='center right', borderaxespad=0., fontsize=font_size)
 
 
-def plot_res_net_speed(ax, t, reservoirs, speed_range):
-    # Plot the state of reservoirs at time t(mean speed), with links and/or shape borders
-    #
-    # INPUTS
-    # ---- ax: axes of the figure
-    # ---- t: scalar, time[s]
-    # ---- reservoirs: reservoirs structure
-    # ---- speed_range: vector[V_min V_max], speed range[m/s] to define the colormap
-
-    num_res = len(reservoirs)
-
-    # Choice of a colormap
-    nb_color = 20
-    rd_yl_gn = cm.get_cmap('RdYlGn', nb_color)
-
-    # Plot colorbar
-    v_max = speed_range[1] * 3.6
-    c_bar = plt.colorbar(cm.ScalarMappable(norm=colors.Normalize(0, v_max), cmap=rd_yl_gn))
-    c_bar.ax.set_ylabel('Speed [km/h]', rotation=-90, va="bottom")
-
-    # Plot title
-    t_label = f"Mean speed at t = {t} s"
-    title = plt.title(t_label)
-
-    # Slider
-    ax_time = plt.axes([0.1, 0.05, 0.6, 0.03])
-    slider_time = widgets.Slider(ax_time, 'Time', 0, 10, valinit=t, valstep=1)
-
-    txt_color = [0.1, 0.1, 0]
-    font_name = 'Arial'
-    font_size = 16
-    line_width = 1
-
-    x_links = []
-    y_links = []
-
-    # Plot reservoirs
-    list_res_fill = []
-    list_res_cont = []
-    list_ms_txt = []
-    for r in range(num_res):
-        mean_speed = reservoirs[r].Data[t]["MeanSpeed"]
-        speed_ratio = (mean_speed - speed_range[0]) / (speed_range[1] - speed_range[0])
-        ind_color = min([max([math.floor(speed_ratio * nb_color), 1]), nb_color])
-        color_i = rd_yl_gn(ind_color)
-
-        if DEBUG:
-            print(f'mean speed : {mean_speed}')
-            print(f'speed ratio : {speed_ratio}')
-            print(f'ind color : {ind_color}')
-
-        if reservoirs[r].BorderPoints is not None:
-            x_res_bp = []
-            y_res_bp = []
-            for bp in reservoirs[r].BorderPoints:
-                x_res_bp.append(bp["x"])
-                y_res_bp.append(bp["y"])
-
-                x_links.append(bp["x"])
-                y_links.append(bp["y"])
-
-            list_res_fill.append(ax.fill(x_res_bp, y_res_bp, color=color_i, ec='none', alpha=0.3))
-            list_res_cont.append(ax.plot(x_res_bp, y_res_bp, '-', color=color_i, linewidth=line_width))
-
-            # Plot mean speed
-            if reservoirs[r].Centroid is not None:
-                xr = reservoirs[r].Centroid[0]["x"]
-                yr = reservoirs[r].Centroid[0]["y"]
-            else:
-                bp_x = []
-                bp_y = []
-                for bp in reservoirs[r].BorderPoints:
-                    bp_x.append(bp["x"])
-                    bp_y.append(bp["y"])
-
-                max_x = max(bp_x)
-                min_x = min(bp_x)
-                max_y = max(bp_y)
-                min_y = min(bp_y)
-
-                xr = (max_x + min_x) / 2
-                yr = (max_y + min_y) / 2
-
-            mean_speed_kmh = round(mean_speed * 3.6)
-            list_ms_txt.append(ax.text(xr, yr, f'$R_{str(r + 1)}$ \n {mean_speed_kmh} km/h', ha='center',
-                                       color=txt_color, fontname=font_name, fontweight='bold', fontsize=font_size))
-
-    # Plot size
-    x_border = 0.1  # increasing factor > 0 for the border spacing along x
-    y_border = 0.1  # increasing factor > 0 for the border spacing along x
-    if max(x_links) == min(x_links):
-        dx = max(y_links) - min(y_links)
-    else:
-        dx = max(x_links) - min(x_links)
-
-    if max(y_links) == min(y_links):
-        dy = max(x_links) - min(x_links)
-    else:
-        dy = max(y_links) - min(y_links)
-
-    x_min = min(x_links) - x_border * dx
-    x_max = max(x_links) + x_border * dx
-    y_min = min(y_links) - y_border * dy
-    y_max = max(y_links) + y_border * dy
-
-    ax.axis([x_min, x_max, y_min, y_max])
-    ax.axis('off')
-
-
-    def update_time(val):
-        new_time = int(slider_time.val)
-
-        title.set_text(f"Mean speed at t = {new_time} s")
-
-        for r in range(len(list_res_fill)):
-            # Previous draw invisible
-            list_res_fill[r][0].set_visible(False)
-            list_res_cont[r][0].set_visible(False)
-            list_ms_txt[r].set_visible(False)
-
-            # New color
-            ms = reservoirs[r].Data[new_time]["MeanSpeed"]
-            sr = (ms - speed_range[0]) / (speed_range[1] - speed_range[0])
-            i_color = min([max([math.floor(sr * nb_color), 1]), nb_color])
-            c_i = rd_yl_gn(i_color)
-
-            # New reservoir polygons
-            x = [element[0] for element in list_res_fill[r][0].xy]
-            y = [element[1] for element in list_res_fill[r][0].xy]
-
-            list_res_fill[r] = ax.fill(x, y, color=c_i, ec='none', alpha=0.3)
-            list_res_cont[r] = ax.plot(x, y, '-', color=c_i, linewidth=line_width)
-
-            # New mean speed text
-            x, y = list_ms_txt[r].get_position()
-
-            ms_kmh = round(ms * 3.6)
-            txt = f'$R_{str(r + 1)}$ \n {ms_kmh} km/h'
-
-            list_ms_txt[r] = ax.text(x, y, txt, ha='center', color=txt_color, fontname=font_name,
-                                     fontweight='bold', fontsize=font_size)
-
-        plt.draw()
-
-    slider_time.on_changed(update_time)
-
-    plt.show()
-
-
 def plot_res_route_dem(reservoirs, routes, nodes, demand, demand_type, plot_charact):
     # Plot the number or demand of a given route list crossing the reservoirs
     # INPUTS
@@ -740,6 +591,168 @@ def plot_res_route_dem(reservoirs, routes, nodes, demand, demand_type, plot_char
 
     plt.axis([x_min, x_max, y_min, y_max])
     plt.axis('off')
+
+
+def plot_res_net_speed(ax, t, reservoirs, speed_range, simul_time, res_output):
+    # Plot the state of reservoirs at time t(mean speed), with links and/or shape borders
+    #
+    # INPUTS
+    # ---- ax: axes of the figure
+    # ---- t: scalar, time[s]
+    # ---- reservoirs: reservoirs structure
+    # ---- speed_range: vector[V_min V_max], speed range[m/s] to define the colormap
+
+    num_res = len(reservoirs)
+
+    # Index of the current time
+    time_step = simul_time[1] - simul_time[0]
+    time_id = 0
+    for i in range(len(simul_time)):
+        if t == simul_time[i] or abs(t - simul_time[i]) <= time_step / 2:
+            time_id = i
+
+    # Choice of a colormap
+    nb_color = 20
+    rd_yl_gn = cm.get_cmap('RdYlGn', nb_color)
+
+    # Plot colorbar
+    v_max = speed_range[1] * 3.6
+    c_bar = plt.colorbar(cm.ScalarMappable(norm=colors.Normalize(0, v_max), cmap=rd_yl_gn))
+    c_bar.ax.set_ylabel('Speed [km/h]', rotation=-90, va="bottom")
+
+    # Plot title
+    t_label = f"Mean speed at t = {t} s"
+    title = plt.title(t_label)
+
+    # Slider
+    ax_time = plt.axes([0.1, 0.05, 0.6, 0.03])
+    slider_time = widgets.Slider(ax_time, 'Time', simul_time[0], simul_time[-1], valinit=t, valstep=10)
+
+    txt_color = [0.1, 0.1, 0]
+    font_name = 'Arial'
+    font_size = 16
+    line_width = 1
+
+    x_links = []
+    y_links = []
+
+    # Plot reservoirs
+    list_res_fill = []
+    list_res_cont = []
+    list_ms_txt = []
+    for r in range(num_res):
+        mean_speed = res_output[r]['ReservoirData'][time_id]["MeanSpeed"]
+        speed_ratio = (mean_speed - speed_range[0]) / (speed_range[1] - speed_range[0])
+        ind_color = min([max([math.floor(speed_ratio * nb_color), 1]), nb_color])
+        color_i = rd_yl_gn(ind_color)
+
+        if DEBUG:
+            print(f'mean speed : {mean_speed}')
+            print(f'speed ratio : {speed_ratio}')
+            print(f'ind color : {ind_color}')
+
+        if reservoirs[r].BorderPoints is not None:
+            x_res_bp = []
+            y_res_bp = []
+            for bp in reservoirs[r].BorderPoints:
+                x_res_bp.append(bp["x"])
+                y_res_bp.append(bp["y"])
+
+                x_links.append(bp["x"])
+                y_links.append(bp["y"])
+
+            list_res_fill.append(ax.fill(x_res_bp, y_res_bp, color=color_i, ec='none', alpha=0.3))
+            list_res_cont.append(ax.plot(x_res_bp, y_res_bp, '-', color=color_i, linewidth=line_width))
+
+            # Plot mean speed
+            if reservoirs[r].Centroid is not None:
+                xr = reservoirs[r].Centroid[0]["x"]
+                yr = reservoirs[r].Centroid[0]["y"]
+            else:
+                bp_x = []
+                bp_y = []
+                for bp in reservoirs[r].BorderPoints:
+                    bp_x.append(bp["x"])
+                    bp_y.append(bp["y"])
+
+                max_x = max(bp_x)
+                min_x = min(bp_x)
+                max_y = max(bp_y)
+                min_y = min(bp_y)
+
+                xr = (max_x + min_x) / 2
+                yr = (max_y + min_y) / 2
+
+            mean_speed_kmh = round(mean_speed * 3.6)
+            list_ms_txt.append(ax.text(xr, yr, f'$R_{str(r + 1)}$ \n {mean_speed_kmh} km/h', ha='center',
+                                       color=txt_color, fontname=font_name, fontweight='bold', fontsize=font_size))
+
+    # Plot size
+    x_border = 0.1  # increasing factor > 0 for the border spacing along x
+    y_border = 0.1  # increasing factor > 0 for the border spacing along x
+    if max(x_links) == min(x_links):
+        dx = max(y_links) - min(y_links)
+    else:
+        dx = max(x_links) - min(x_links)
+
+    if max(y_links) == min(y_links):
+        dy = max(x_links) - min(x_links)
+    else:
+        dy = max(y_links) - min(y_links)
+
+    x_min = min(x_links) - x_border * dx
+    x_max = max(x_links) + x_border * dx
+    y_min = min(y_links) - y_border * dy
+    y_max = max(y_links) + y_border * dy
+
+    ax.axis([x_min, x_max, y_min, y_max])
+    ax.axis('off')
+
+
+    def update_time(val):
+        new_time = int(slider_time.val)
+
+        # Index of the current time
+        new_time_id = 0
+        for i in range(len(simul_time)):
+            if new_time == simul_time[i] or abs(new_time - simul_time[i]) <= time_step / 2:
+                new_time_id = i
+
+        title.set_text(f"Mean speed at t = {new_time} s")
+
+        for r in range(len(list_res_fill)):
+            # Previous draw invisible
+            list_res_fill[r][0].set_visible(False)
+            list_res_cont[r][0].set_visible(False)
+            list_ms_txt[r].set_visible(False)
+
+            # New color
+            ms = res_output[r]['ReservoirData'][new_time_id]["MeanSpeed"]
+            sr = (ms - speed_range[0]) / (speed_range[1] - speed_range[0])
+            i_color = min([max([math.floor(sr * nb_color), 1]), nb_color])
+            c_i = rd_yl_gn(i_color)
+
+            # New reservoir polygons
+            x = [element[0] for element in list_res_fill[r][0].xy]
+            y = [element[1] for element in list_res_fill[r][0].xy]
+
+            list_res_fill[r] = ax.fill(x, y, color=c_i, ec='none', alpha=0.3)
+            list_res_cont[r] = ax.plot(x, y, '-', color=c_i, linewidth=line_width)
+
+            # New mean speed text
+            x, y = list_ms_txt[r].get_position()
+
+            ms_kmh = round(ms * 3.6)
+            txt = f'$R_{str(r + 1)}$ \n {ms_kmh} km/h'
+
+            list_ms_txt[r] = ax.text(x, y, txt, ha='center', color=txt_color, fontname=font_name,
+                                     fontweight='bold', fontsize=font_size)
+
+        plt.draw()
+
+    slider_time.on_changed(update_time)
+
+    plt.show()
 
 
 def plot_network(ax, reservoirs, nodes, routes, options=None):
@@ -1087,3 +1100,58 @@ def plot_network(ax, reservoirs, nodes, routes, options=None):
     check.on_clicked(func)
 
     plt.show()
+
+
+def plot_graph(reservoirs, y_label):
+    # Plot the graph for each reservoir of y_label in function of x_label
+    # INPUTS
+    # ---- reservoirs           : reservoirs structure output
+    # ---- y_label              : label of y axe (Acc, Inflow, Outflow, Demand, Speed ...)
+
+    num_res = len(reservoirs)
+    x_label = 'Time'
+
+    color_map_0 = np.array([(51, 51, 255), (0, 204, 51), (204, 0, 0), (204, 153, 0), (153, 0, 102), (51, 153, 153),
+                            (204, 102, 204), (204, 204, 102)]) / 255
+
+    while num_res > len(color_map_0):
+        color_map_0 = np.concatenate((color_map_0, color_map_0))
+
+    if num_res > 2:
+        num_line = 2
+        num_col = num_res / num_line
+    else:
+        num_col = num_res
+        num_line = 1
+
+    i = num_line * 100 + num_col * 10 + 1
+
+    ind_color = 0
+
+    for res in reservoirs:
+        fig = plt.subplot(i)
+        color_r = color_map_0[ind_color]
+
+        data_res = []
+        time_res = []
+        data_max = 0
+        for data in res['ReservoirData']:
+            data_res.append(data[y_label])
+            time_res.append(data[x_label])
+            if data[y_label] > data_max:
+                data_max = data[y_label]
+
+        if data_max == 0:
+            data_max = 1
+
+        fig.plot(time_res, data_res, color=color_r)
+        plt.axis([0, time_res[-1], 0, data_max])
+        plt.xlabel(x_label)
+        plt.ylabel(y_label)
+        plt.title(res['ID'])
+
+        i += 1
+        ind_color += 1
+
+    plt.suptitle(f'{y_label} = f({x_label})')
+

@@ -4,15 +4,12 @@ import random
 
 with open("Network.json", "r") as file:
     Network = json.load(file)
-file.close()
 
 with open("Configuration.json", "r") as file:
     Configuration = json.load(file)
-file.close()
 
 with open("Demand.json", "r") as file:
     Demand = json.load(file)
-file.close()
 
 numRes = len(Network["RESERVOIRS"])
 numRoutes = len(Network["ROUTES"])
@@ -21,30 +18,39 @@ numNodes = len(Network["MACRONODES"])
 timeStep = Configuration["SIMULATION"][0]["TimeStep"]
 timeStop = Configuration["SIMULATION"][0]["Duration"]
 
-## SIMULATION
+# -- SIMULATION -- #
 simulation = {"Date": datetime.now().isocalendar(), "Version": "1.1"}
 
-## RESERVOIRS
+# -- RESERVOIRS --#
 reservoirs = []
 
-for r in range(numRes):
+for res in Network["RESERVOIRS"]:
     reservoir_data = []
 
     for t in range(0, timeStop + timeStep, timeStep):
-        reservoir_data.append({"Time": t, "MeanSpeed": random.randrange(0, 50), "AvgTripLength": random.randrange(0, 1000), "Acc": random.randrange(0, 100), "Inflow": random.randint(0, 50), "Outflow": random.randint(0, 50), "Nin": random.randint(0, 500), "Nout": random.randint(0, 500)})
+        reservoir_data.append({"Time": t, "MeanSpeed": random.randrange(0, 50),
+                               "AvgTripLength": random.randrange(0, 1000), "Acc": random.randrange(0, 100),
+                               "Inflow": random.randint(0, 50), "Outflow": random.randint(0, 50),
+                               "Nin": random.randint(0, 500), "Nout": random.randint(0, 500)})
 
     data_per_route = []
-    for iroute in range(numRoutes):
+    for route in Network["ROUTES"]:
         data = []
-        for res in range(len(Network["ROUTES"][iroute]["ResPath"])):
-            if Network["ROUTES"][iroute]["ResPath"][res]["ID"] == Network["RESERVOIRS"][r]["ID"]:
+        for res_path in range(len(route["ResPath"])):
+            if route["ResPath"][res_path]["ID"] == res["ID"]:
                 for t in range(0, timeStop + timeStep, timeStep):
-                    data.append({"Time": t, "Acc": random.randrange(0, 50), "AccCircu": random.randrange(0, 50), "AccQueue": random.randrange(0, 50), "Inflow": random.randint(0, 25), "Outflow": random.randint(0, 25), "OutflowCircu": random.randint(0, 25), "Nin": random.randint(0, 250), "Nout": random.randint(0, 250), "NoutCircu": random.randint(0, 250)})
-                data_per_route.append({"IDRoute": Network["ROUTES"][iroute]["ID"], "Data":data})
+                    data.append({"Time": t, "Acc": random.randrange(0, 50), "AccCircu": random.randrange(0, 50),
+                                 "AccQueue": random.randrange(0, 50), "Inflow": random.randint(0, 25),
+                                 "Outflow": random.randint(0, 25), "OutflowCircu": random.randint(0, 25),
+                                 "Nin": random.randint(0, 250), "Nout": random.randint(0, 250),
+                                 "NoutCircu": random.randint(0, 250)})
 
-    reservoirs.append({"ID": Network["RESERVOIRS"][r]["ID"], "ReservoirData": reservoir_data, "DataPerRoute": data_per_route})
+                data_per_route.append({"IDRoute": route["ID"], "Data": data})
 
-## ROUTES
+    reservoirs.append({"ID": res["ID"], "ReservoirData": reservoir_data,
+                       "DataPerRoute": data_per_route})
+
+# -- ROUTES --#
 routes = []
 
 for r in range(numRoutes):
