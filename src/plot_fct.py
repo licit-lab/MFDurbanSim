@@ -3,6 +3,7 @@ import matplotlib.widgets as widgets
 import matplotlib.colors as colors
 from matplotlib import cm
 from matplotlib.lines import Line2D
+import matplotlib.animation as animation
 
 import math
 import numpy as np
@@ -593,7 +594,7 @@ def plot_res_route_dem(reservoirs, routes, nodes, demand, demand_type, plot_char
     plt.axis('off')
 
 
-def plot_res_net_speed(ax, t, reservoirs, speed_range, simul_time, res_output):
+def plot_res_net_speed(fig, ax, t, reservoirs, speed_range, simul_time, res_output):
     # Plot the state of reservoirs at time t(mean speed), with links and/or shape borders
     #
     # INPUTS
@@ -603,6 +604,20 @@ def plot_res_net_speed(ax, t, reservoirs, speed_range, simul_time, res_output):
     # ---- speed_range: vector[V_min V_max], speed range[m/s] to define the colormap
 
     num_res = len(reservoirs)
+
+    # Verify plot information
+    res_bp_filled = True
+    res_centroid_filled = True
+    for r in reservoirs:
+        if r.BorderPoints is None:
+            res_bp_filled = False
+        if r.Centroid is None:
+            res_centroid_filled = False
+
+    if not res_bp_filled:
+        print("WARNING: Border Points are missing in reservoirs.")
+    if not res_centroid_filled:
+        print("WARNING: Centroid coordinates are missing.")
 
     # Index of the current time
     time_step = simul_time[1] - simul_time[0]
@@ -651,7 +666,7 @@ def plot_res_net_speed(ax, t, reservoirs, speed_range, simul_time, res_output):
             print(f'speed ratio : {speed_ratio}')
             print(f'ind color : {ind_color}')
 
-        if reservoirs[r].BorderPoints is not None:
+        if res_bp_filled:
             x_res_bp = []
             y_res_bp = []
             for bp in reservoirs[r].BorderPoints:
@@ -665,7 +680,7 @@ def plot_res_net_speed(ax, t, reservoirs, speed_range, simul_time, res_output):
             list_res_cont.append(ax.plot(x_res_bp, y_res_bp, '-', color=color_i, linewidth=line_width))
 
             # Plot mean speed
-            if reservoirs[r].Centroid is not None:
+            if res_centroid_filled:
                 xr = reservoirs[r].Centroid[0]["x"]
                 yr = reservoirs[r].Centroid[0]["y"]
             else:
@@ -1102,11 +1117,12 @@ def plot_network(ax, reservoirs, nodes, routes, options=None):
     plt.show()
 
 
-def plot_graph(reservoirs, y_label):
-    # Plot the graph for each reservoir of y_label in function of x_label
+def plot_graph_per_res(reservoirs, res_output, y_label1, y_label2=None):
+    # Plot the graph for each reservoir of y_label1 (and y_label2 when defined) in function of x_label
     # INPUTS
     # ---- reservoirs           : reservoirs structure output
-    # ---- y_label              : label of y axe (Acc, Inflow, Outflow, Demand, Speed ...)
+    # ---- y_label1             : label of y axe (Acc, Inflow, Outflow, Demand, Speed ...)
+    # ---- y_label2             : label of another set of data to plot on the same graph (Inflow and Outflow)
 
     num_res = len(reservoirs)
     x_label = 'Time'
@@ -1128,30 +1144,64 @@ def plot_graph(reservoirs, y_label):
 
     ind_color = 0
 
-    for res in reservoirs:
+    for r in range(num_res):
         fig = plt.subplot(i)
         color_r = color_map_0[ind_color]
 
-        data_res = []
+        data1_res = []
+        data2_res = []
         time_res = []
-        data_max = 0
-        for data in res['ReservoirData']:
-            data_res.append(data[y_label])
+
+        for data in res_output[r]['ReservoirData']:
             time_res.append(data[x_label])
-            if data[y_label] > data_max:
-                data_max = data[y_label]
+            data1_res.append(data[y_label1])
+            if y_label2 is not None:
+                data2_res.append(data[y_label2])
 
-        if data_max == 0:
-            data_max = 1
+        data1_max = max(data1_res)
+        if data1_max == 0:
+            data1_max = 1
 
-        fig.plot(time_res, data_res, color=color_r)
-        plt.axis([0, time_res[-1], 0, data_max])
+        data2_max = 0
+        if y_label2 is not None:
+            data2_max = max(data2_res)
+            if data2_max == 0:
+                data2_max = 1
+
+        fig.plot(time_res, data1_res, color=color_r, ls='-', label=y_label1)
+        if y_label2 is not None:
+            fig.plot(time_res, data2_res, color=color_r, ls='--', label=y_label2)
+
+        # If plotting accumulation, display critical and maximum acceleration
+        if y_label1 == 'Acc' or y_label2 == 'Acc':
+            max_acc = reservoirs[r].get_MFD_setting('MaxAcc', 'VL')
+            crit_acc = reservoirs[r].get_MFD_setting('CritAcc', 'VL')
+            fig.axhline(y=max_acc, color="k", ls="--")
+            fig.axhline(y=crit_acc, color='k', ls=':')
+            plt.yticks([crit_acc, max_acc], ['CritAcc', 'MaxAcc'])
+
+            if y_label1 == 'Acc':
+                data1_max = max_acc + max_acc / 10
+            else:
+                data2_max = max_acc + max_acc / 10
+
+        plt.axis([0, time_res[-1], 0, max(data1_max, data2_max)])
         plt.xlabel(x_label)
-        plt.ylabel(y_label)
-        plt.title(res['ID'])
+        plt.ylabel(y_label1)
+        plt.title(reservoirs[r].ID)
+
+        legend = plt.legend(loc='upper right')
+        plt.gca().add_artist(legend)
 
         i += 1
         ind_color += 1
 
-    plt.suptitle(f'{y_label} = f({x_label})')
+    if y_label2 is not None:
+        suptitle_label = f'{y_label1}, {y_label2} = f({x_label})'
+    else:
+        suptitle_label = f'{y_label1} = f({x_label})'
+    plt.suptitle(suptitle_label)
+
+
+
 
