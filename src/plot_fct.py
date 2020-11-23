@@ -1145,7 +1145,7 @@ def plot_graph_per_res(reservoirs, res_output, y_label1, y_label2=None):
     ind_color = 0
 
     for r in range(num_res):
-        fig = plt.subplot(i)
+        ax = plt.subplot(i)
         color_r = color_map_0[ind_color]
 
         data1_res = []
@@ -1158,39 +1158,55 @@ def plot_graph_per_res(reservoirs, res_output, y_label1, y_label2=None):
             if y_label2 is not None:
                 data2_res.append(data[y_label2])
 
-        data1_max = max(data1_res)
+        data1_max = max(data1_res) + 1
         if data1_max == 0:
             data1_max = 1
 
         data2_max = 0
         if y_label2 is not None:
-            data2_max = max(data2_res)
+            data2_max = max(data2_res) + 1
             if data2_max == 0:
                 data2_max = 1
 
-        fig.plot(time_res, data1_res, color=color_r, ls='-', label=y_label1)
+        ax.set_ylabel(y_label1)
+        p1, = ax.plot(time_res, data1_res, color=color_r, ls='-', label=y_label1)
+        p1 = [p1]
+
+        p2 = None
         if y_label2 is not None:
-            fig.plot(time_res, data2_res, color=color_r, ls='--', label=y_label2)
+            if (y_label1 == 'Inflow' and y_label2 == 'Outflow') or (y_label1 == 'Outflow' and y_label2 == 'Inflow'):
+                ax.set_ylabel(f'{y_label1}, {y_label2}')
+                p, = ax.plot(time_res, data2_res, color=color_r, ls='--', label=y_label2)
+                p1.append(p)
+            else:
+                ax2 = ax.twinx()  # instantiate a second axes that shares the same x-axis
+                ax2.set_ylabel(y_label2)
+                p2, = ax2.plot(time_res, data2_res, color=color_r, ls='--', label=y_label2)
+                p2 = [p2]
 
         # If plotting accumulation, display critical and maximum acceleration
         if y_label1 == 'Acc' or y_label2 == 'Acc':
             max_acc = reservoirs[r].get_MFD_setting('MaxAcc', 'VL')
             crit_acc = reservoirs[r].get_MFD_setting('CritAcc', 'VL')
-            fig.axhline(y=max_acc, color="k", ls="--")
-            fig.axhline(y=crit_acc, color='k', ls=':')
-            plt.yticks([crit_acc, max_acc], ['CritAcc', 'MaxAcc'])
 
             if y_label1 == 'Acc':
+                p1.append(ax.axhline(y=max_acc, color="k", ls="--", label='MaxAcc'))
+                p1.append(ax.axhline(y=crit_acc, color='k', ls=':', label='CritAcc'))
                 data1_max = max_acc + max_acc / 10
             else:
+                p2.append(ax2.axhline(y=max_acc, color="k", ls="--"))
+                p2.append(ax2.axhline(y=crit_acc, color='k', ls=':'))
                 data2_max = max_acc + max_acc / 10
 
         plt.axis([0, time_res[-1], 0, max(data1_max, data2_max)])
         plt.xlabel(x_label)
-        plt.ylabel(y_label1)
         plt.title(reservoirs[r].ID)
 
-        legend = plt.legend(loc='upper right')
+        if p2 is not None:
+            lines = p1 + p2
+        else:
+            lines = p1
+        legend = plt.legend(lines, [l.get_label() for l in lines], loc='upper right')
         plt.gca().add_artist(legend)
 
         i += 1

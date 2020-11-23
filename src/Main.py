@@ -114,14 +114,14 @@ else:
 IO_functions.init_variables(reservoirs, routes, macronodes)
 
 # --- Algorithms --- #
-'''if simulation_settings.Solver == "AccBased":
+if simulation_settings.Solver == "AccBased":
     Solver.AccBased(simulation_settings, reservoirs, routes, macronodes, GlobalDemand)
 elif simulation_settings.Solver == "TripBased":
-    Solver.TripBased(simulation_settings, reservoirs, routes, macronodes, GlobalDemand)'''
+    Solver.TripBased(simulation_settings, reservoirs, routes, macronodes, GlobalDemand)
 
 # --- Outputs --- #
 file_output = os.path.join(path, "Output.json")
-#IO_functions.save_output(file_output, simulation_settings, reservoirs, routes)
+IO_functions.save_output(file_output, simulation_settings, reservoirs, routes)
 
 with open(file_output, "r") as file:
     Output = json.load(file)
@@ -153,9 +153,12 @@ if PLOT == 1:
     fig4, ax4 = plot_fct.plt.subplots()
     plot_fct.plot_graph_per_res(reservoirs, ResOutput, 'MeanSpeed')
 
+    fig5, ax5 = plot_fct.plt.subplots()
+    plot_fct.plot_graph_per_res(reservoirs, ResOutput, 'Inflow', 'Outflow')
+
     plot_fct.plt.show()
 
-
+'''
     # Plot reservoir schematic representation (borders and adjacent connections)
     fig1 = plot_fct.plt.figure
     plot_fct.plot_res_ball_config(reservoirs, 1, 0.5, [1.5, 1.5])
@@ -174,7 +177,7 @@ if PLOT == 1:
     # Plot reservoir total number or demand of routes
     fig4 = plot_fct.plt.figure
     plot_fct.plot_res_route_dem(reservoirs, routes, macronodes, GlobalDemand, simulation_settings.DemandType, 'demand')
-    plot_fct.plt.show()
+    plot_fct.plt.show()'''
 
 
 if DYNAMIC_PLOT == 1:
@@ -195,4 +198,3 @@ if DYNAMIC_PLOT == 1:
         plot_fct.plt.draw()
         plot_fct.plt.pause(0.5)
     plot_fct.plt.show()
-    
