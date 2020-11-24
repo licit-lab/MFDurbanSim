@@ -27,7 +27,8 @@ class Reservoir(Element):
                             "Outflow", 
                             "Nin", 
                             "Nout",
-                            "MeanSpeed"
+                            "MeanSpeed",
+                            "Demand"
                             
                             # Trip based model
                             #"PossibleNextEntryTime"

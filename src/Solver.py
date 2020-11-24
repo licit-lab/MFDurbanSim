@@ -79,42 +79,42 @@ def MergeTime(t_in_demands,trip_lengths, last_entries_times, mergecoeffs,capacit
     
     return t_in_supplies
     
+# Accumulation-based solver
 def AccBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
 
-# Init variables
+    # Init variables
     indtime = -1
     init_time_step(0., Reservoirs, Routes)
 
-# Time loop
+    # Time loop
     for t in range(0, Simulation.Duration, Simulation.TimeStep):
 
         indtime=indtime+1
         print("Time step :" , t)
         
-        # First reservoir loop (outflow demand, production supply and average trip length updates)
+        # First reservoir loop (mean speed, outflow demand, production supply and average trip length updates)
         for reservoir in Reservoirs:
 
             # Mean speed update
             reservoir.Data[indtime]['MeanSpeed']=reservoir.get_speed_from_accumulation(reservoir.Data[indtime]['Acc'],'VL')
           
-            # Production modification (todo for queue dyn model)
+            # Production update (TO DO for queue dyn model)
             reservoir.Data[indtime]['Production'] = reservoir.get_production_from_accumulation(reservoir.Data[indtime]['Acc'], 'VL')
          
-            # Outflow demand update
-            for rs in reservoir.RouteSections:
-                
-                if reservoir.Data[indtime]['Acc']>0:
-                    outflowdemand=rs.Data[indtime]['Acc']/reservoir.Data[indtime]['Acc']*reservoir.Data[indtime]['Production']/rs.TripLength
-                else:
-                  outflowdemand=0.
-
-                if Simulation.DivergeModel=='maxdem':
-                     if reservoir.Data[indtime]['Acc'] < reservoir.get_MFD_setting('CritAcc','VL'):
-                         rs.Data[indtime]['OutflowDemand']=outflowdemand
-                     else:
-                         rs.Data[indtime]['OutflowDemand'] = rs.Data[indtime]['Acc']/reservoir.Data[indtime]['Acc']*reservoir.get_MFD_setting('MaxProd','VL')/rs.TripLength
-                 
-             # Entry production supply update
+            # Outflow demand per route update 
+            # TO DO for other models
+            if Simulation.DivergeModel=='maxdem':
+                for rs in reservoir.RouteSections:
+                    
+                    if reservoir.Data[indtime]['Acc']>0:
+                        if reservoir.Data[indtime]['Acc'] < reservoir.get_MFD_setting('CritAcc','VL') and reservoir.Data[indtime]['Acc']>0:
+                            rs.Data[indtime]['OutflowDemand'] = (rs.Data[indtime]['Acc']/reservoir.Data[indtime]['Acc'])*reservoir.Data[indtime]['Production']/rs.TripLength
+                        else:
+                            rs.Data[indtime]['OutflowDemand'] = (rs.Data[indtime]['Acc']/reservoir.Data[indtime]['Acc'])*reservoir.get_MFD_setting('MaxProd','VL')/rs.TripLength
+                    else:
+                         rs.Data[indtime]['OutflowDemand']=0.
+                         
+            # Entry production supply update
             tmp = 0
             for rs in reservoir.RouteSections:
                 if rs.EntryNode.Type == 'origin':
@@ -137,18 +137,28 @@ def AccBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
                         sumtriplength += rs.TripLength
                 reservoir.Data[indtime]['AvgTripLength']=sumtriplength/len(reservoir.RouteSections)
                 
-        # Second reservoir loop (inflow demand, merging coefficients, border inflow supply and reservoir inflow supply updates)
+        # Second reservoir loop (demand, inflow demand, merging coefficients, border inflow supply and reservoir inflow supply updates)
         for reservoir in Reservoirs:
+            
+            # Demand update
+            reservoirdemand = 0
+            for rs in reservoir.RouteSections:
+                if rs.EntryNode.Type == 'origin' or 'externalentry':
+                    rs.Data[indtime]['Demand'] = Demand.get_partial_demand(GlobalDemand, rs, t)
+                    reservoirdemand += rs.Data[indtime]['Demand']
+                    
+            reservoir.Data[indtime]['Demand']=reservoirdemand
+            
             # Inflow demand updates
             for rs in reservoir.RouteSections:
                 if rs.EntryNode.Type == 'origin':
-                    rs.Data[indtime]['InflowDemand'] = Demand.get_partial_demand(GlobalDemand, rs, t)
+                    rs.Data[indtime]['InflowDemand'] = rs.Data[indtime]['Demand']
                         
                 if rs.EntryNode.Type =='externalentry':
                     if rs.Data[indtime]['NumWaitingVeh'] > 0:
                         rs.Data[indtime]['InflowDemand'] = rs.EntryNode.get_capacity(t)
                     else:
-                        rs.Data[indtime]['InflowDemand'] = Demand.get_partial_demand(GlobalDemand, rs, t)
+                        rs.Data[indtime]['InflowDemand'] = rs.Data[indtime]['Demand']
                         
                 if rs.EntryNode.Type =='border':
                     rs.Data[indtime]['InflowDemand'] = rs.get_previous_routesection().Data[indtime]['OutflowDemand']
@@ -224,8 +234,6 @@ def AccBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
             # effective inflow update
             for rs in reservoir.RouteSections:
                 
-                flowdem = Demand.get_partial_demand(GlobalDemand, rs, t)
-                
                 if rs.EntryNode.Type == 'externalentry':
                     
                     rs.Data[indtime]['Inflow']=rs.Data[indtime]['InflowSupply']
@@ -234,7 +242,7 @@ def AccBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
                         rs.Data[indtime]['NumWaitingVeh']+= Simulation.TimeStep*(flowdem - rs.Data[indtime]['InflowSupply'])        
                         
                 elif rs.EntryNode.Type == 'origin':
-                    rs.Data[indtime]['Inflow']=flowdem
+                    rs.Data[indtime]['Inflow']=rs.Data[indtime]['Demand']
                 else:
                     rs.Data[indtime]['Inflow']=rs.PreviousRouteSection.Data[indtime]['Outflow']
                     
