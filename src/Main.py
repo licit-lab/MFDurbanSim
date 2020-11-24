@@ -8,6 +8,7 @@ import Solver
 import plot_fct
 
 DEBUG = 0
+RUN_ALGO = True
 PLOT = 0
 DYNAMIC_PLOT = 0
 
@@ -114,14 +115,16 @@ else:
 IO_functions.init_variables(reservoirs, routes, macronodes)
 
 # --- Algorithms --- #
-if simulation_settings.Solver == "AccBased":
-    Solver.AccBased(simulation_settings, reservoirs, routes, macronodes, GlobalDemand)
-elif simulation_settings.Solver == "TripBased":
-    Solver.TripBased(simulation_settings, reservoirs, routes, macronodes, GlobalDemand)
+if RUN_ALGO:
+    if simulation_settings.Solver == "AccBased":
+        Solver.AccBased(simulation_settings, reservoirs, routes, macronodes, GlobalDemand)
+    elif simulation_settings.Solver == "TripBased":
+        Solver.TripBased(simulation_settings, reservoirs, routes, macronodes, GlobalDemand)
 
 # --- Outputs --- #
 file_output = os.path.join(path, "Output.json")
-IO_functions.save_output(file_output, simulation_settings, reservoirs, routes)
+if RUN_ALGO:
+    IO_functions.save_output(file_output, simulation_settings, reservoirs, routes)
 
 with open(file_output, "r") as file:
     Output = json.load(file)
@@ -135,7 +138,11 @@ speed_range = [3, 14]
 t0 = 0
 
 options = {'legend': True, 'res_names': True, 'mn_names': True, 'res_color': True, 'routes_color': True,
-           'mn_color': True}
+           'mn_color': True, 'nb_col_max': 2}
+
+fig, ax = plot_fct.plt.subplots()
+plot_fct.plot_graph_per_res_per_route(reservoirs, ResOutput, 'Acc', routes, options)
+plot_fct.plt.show()
 
 if PLOT == 1:
     # Plot network
@@ -146,17 +153,22 @@ if PLOT == 1:
     fig2, ax2 = plot_fct.plt.subplots()
     plot_fct.plot_res_net_speed(fig2, ax2, t0, reservoirs, speed_range, simu_time, ResOutput)
 
-    # Plot Acc, MeanSpeed in function of Time per reservoir
+    # Plot Acc, MeanSpeed, Inflow, Outflow in function of Time per reservoir
     fig3, ax3 = plot_fct.plt.subplots()
-    plot_fct.plot_graph_per_res(reservoirs, ResOutput, 'Acc')
+    plot_fct.plot_graph_per_res(reservoirs, ResOutput, 'Acc', options)
 
     fig4, ax4 = plot_fct.plt.subplots()
-    plot_fct.plot_graph_per_res(reservoirs, ResOutput, 'MeanSpeed')
+    plot_fct.plot_graph_per_res(reservoirs, ResOutput, 'MeanSpeed', options)
 
     fig5, ax5 = plot_fct.plt.subplots()
-    plot_fct.plot_graph_per_res(reservoirs, ResOutput, 'Inflow', 'Outflow')
+    plot_fct.plot_graph_per_res(reservoirs, ResOutput, 'Inflow', 'Outflow', options)
 
+    # Plot Acc in function of Time per reservoir per route
+    fig6, ax6 = plot_fct.plt.subplots()
+    plot_fct.plot_graph_per_res_per_route(reservoirs, ResOutput, 'Acc', routes, options)
+    
     plot_fct.plt.show()
+
 
 '''
     # Plot reservoir schematic representation (borders and adjacent connections)
