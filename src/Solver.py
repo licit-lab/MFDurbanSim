@@ -238,8 +238,8 @@ def AccBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
                     
                     rs.Data[indtime]['Inflow']=rs.Data[indtime]['InflowSupply']
                     
-                    if  flowdem > rs.Data[indtime]['InflowSupply'] or rs.Data[indtime]['NumWaitingVeh']>0:
-                        rs.Data[indtime]['NumWaitingVeh']+= Simulation.TimeStep*(flowdem - rs.Data[indtime]['InflowSupply'])        
+                    if  rs.Data[indtime]['Demand'] > rs.Data[indtime]['InflowSupply'] or rs.Data[indtime]['NumWaitingVeh']>0:
+                        rs.Data[indtime]['NumWaitingVeh']+= Simulation.TimeStep*(rs.Data[indtime]['Demand'] - rs.Data[indtime]['InflowSupply'])        
                         
                 elif rs.EntryNode.Type == 'origin':
                     rs.Data[indtime]['Inflow']=rs.Data[indtime]['Demand']
