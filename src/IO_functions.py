@@ -1,6 +1,7 @@
 import json
 from main_objects import RouteSection
 
+
 def verify_reservoir_input(reservoir, list_res_id):
     # Verify reservoir id is unique
     if reservoir.ID not in list_res_id:
@@ -186,7 +187,7 @@ def init_variables(reservoirs, routes, macronodes):
         route.OldTT = temp_tt
 
 
-def save_output(outputfile, simulation, reservoirs, routes, vehicle=None):
+def save_output(output_file, simulation, reservoirs, routes, vehicle=None):
     # --- SIMULATION ---#
     if vehicle is None:
         vehicle = []
@@ -195,12 +196,11 @@ def save_output(outputfile, simulation, reservoirs, routes, vehicle=None):
     # --- RESERVOIR ---#
     reservoirs_out = []
     for res in reservoirs:
-        
         reservoir_data = []
-        #reservoir_data.append({"Data": []})
         for data in res.Data:
             reservoir_data.append({"Time": data["Time"], "Acc": data["Acc"], "MeanSpeed": data["MeanSpeed"], 'ProductionSupply' : data['ProductionSupply'],
-                                   'AvgTripLength':data['AvgTripLength'], 'Demand':data['Demand']})
+                                   'AvgTripLength':data['AvgTripLength'], 
+                                   'Inflow': data['Inflow'], 'Outflow': data['Outflow'], 'Demand':data['Demand']})
         
         routes_data = []
         j = 0
@@ -242,7 +242,7 @@ def save_output(outputfile, simulation, reservoirs, routes, vehicle=None):
                   "VEHICLES": vehicle_out}
 
     else:
-        output = {"SIMULATION":simulation_out, "RESERVOIRS":reservoirs_out, "ROUTES":routes_out}
+        output = {"SIMULATION": simulation_out, "RESERVOIRS": reservoirs_out, "ROUTES": routes_out}
 
-    with open(outputfile, "w") as of:
-        json.dump(output, of, indent = 4)
+    with open(output_file, "w") as of:
+        json.dump(output, of, indent=4)
