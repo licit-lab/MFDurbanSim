@@ -1117,7 +1117,7 @@ def plot_network(ax, reservoirs, nodes, routes, options=None):
     plt.show()
 
 
-def plot_graph_per_res(reservoirs, res_output, y_label1, y_label2=None):
+def plot_graph_per_res(reservoirs, res_output, y_label1, y_label2=None, options=None):
     # Plot the graph for each reservoir of y_label1 (and y_label2 when defined) in function of x_label
     # INPUTS
     # ---- reservoirs           : reservoirs structure output
@@ -1127,25 +1127,38 @@ def plot_graph_per_res(reservoirs, res_output, y_label1, y_label2=None):
     num_res = len(reservoirs)
     x_label = 'Time'
 
+    # Options
+    if options is not None:
+        nb_col_max = options['nb_col_max']
+    else:
+        nb_col_max = 5
+
+    # Color map
     color_map_0 = np.array([(51, 51, 255), (0, 204, 51), (204, 0, 0), (204, 153, 0), (153, 0, 102), (51, 153, 153),
                             (204, 102, 204), (204, 204, 102)]) / 255
 
     while num_res > len(color_map_0):
         color_map_0 = np.concatenate((color_map_0, color_map_0))
 
-    if num_res > 2:
-        num_line = 2
-        num_col = num_res / num_line
+    # Display subplots
+    if num_res > nb_col_max:
+        num_line = int(num_res / nb_col_max)
+        if num_res % nb_col_max != 0:
+            num_line += 1
+        num_col = nb_col_max
     else:
         num_col = num_res
         num_line = 1
 
-    i = num_line * 100 + num_col * 10 + 1
-
+    i = 0
+    j = 0
     ind_color = 0
 
     for r in range(num_res):
-        ax = plt.subplot(i)
+        i %= num_line
+        j %= num_col
+
+        ax = plt.subplot2grid((num_line, num_col), (i, j))
         color_r = color_map_0[ind_color]
 
         data1_res = []
@@ -1209,15 +1222,107 @@ def plot_graph_per_res(reservoirs, res_output, y_label1, y_label2=None):
         legend = plt.legend(lines, [l.get_label() for l in lines], loc='upper right')
         plt.gca().add_artist(legend)
 
-        i += 1
+        j += 1
+        if j >= num_col:
+            i += 1
+
         ind_color += 1
 
     if y_label2 is not None:
-        suptitle_label = f'{y_label1}, {y_label2} = f({x_label})'
+        sup_title_label = f'{y_label1}, {y_label2} = f({x_label})'
     else:
-        suptitle_label = f'{y_label1} = f({x_label})'
-    plt.suptitle(suptitle_label)
+        sup_title_label = f'{y_label1} = f({x_label})'
+    plt.suptitle(sup_title_label)
 
 
+def plot_graph_per_res_per_route(reservoirs, res_output, y_label, routes, options=None):
+    # Plot the graphes per route for each reservoir of y_label in function of x_label
+    # INPUTS
+    # ---- reservoirs           : reservoirs structure output
+    # ---- y_label              : label of y axe (Acc, Inflow, Outflow, Demand, Speed ...)
 
+    num_res = len(reservoirs)
+    num_routes = len(routes)
+    x_label = 'Time'
 
+    # Options
+    if options is not None:
+        nb_col_max = options['nb_col_max']
+    else:
+        nb_col_max = 5
+
+    # Color map
+    color_map_0 = np.array([(51, 51, 255), (0, 204, 51), (204, 0, 0), (204, 153, 0), (153, 0, 102), (51, 153, 153),
+                            (204, 102, 204), (204, 204, 102)]) / 255
+
+    while num_routes > len(color_map_0):
+        color_map_0 = np.concatenate((color_map_0, color_map_0))
+
+    # Display subplots
+    if num_res > nb_col_max:
+        num_line = int(num_res / nb_col_max)
+        if num_res % nb_col_max != 0:
+            num_line += 1
+        num_col = nb_col_max
+    else:
+        num_col = num_res
+        num_line = 1
+
+    ind_routes = {}
+    for i in range(num_routes):
+        ind_routes[routes[i].ID] = i
+
+    i = 0
+    j = 0
+    for r in range(num_res):
+        i %= num_line
+        j %= num_col
+
+        ax = plt.subplot2grid((num_line, num_col), (i, j))
+
+        data_max = []
+        time_res = []
+
+        for data in res_output[r]['ReservoirData']:
+            time_res.append(data[x_label])
+
+        p1 = []
+        for route in res_output[r]['DataPerRoute']:
+            # Define color
+            color_r = color_map_0[ind_routes[route['RouteID']]]
+
+            data_route = []
+            for data in route['Data']:
+                data_route.append(data[y_label])
+
+            data_max.append(max(data_route) + 1)
+
+            ax.set_ylabel(y_label)
+            p, = ax.plot(time_res, data_route, color=color_r, ls='-', label=route['RouteID'])
+            p1.append(p)
+
+        # If plotting accumulation, display critical and maximum acceleration
+        if y_label == 'Acc':
+            p2 = []
+            max_acc = reservoirs[r].get_MFD_setting('MaxAcc', 'VL')
+            crit_acc = reservoirs[r].get_MFD_setting('CritAcc', 'VL')
+
+            p2.append(ax.axhline(y=max_acc, color="k", ls="--", label='MaxAcc'))
+            p2.append(ax.axhline(y=crit_acc, color='k', ls=':', label='CritAcc'))
+            data_max = [max_acc + max_acc / 10]
+
+        plt.axis([0, time_res[-1], 0, max(data_max)])
+        plt.xlabel(x_label)
+        plt.title(reservoirs[r].ID)
+
+        legend1 = plt.legend(handles=p1, loc='upper right')
+        legend2 = plt.legend(handles=p2, loc='center right')
+        plt.gca().add_artist(legend1)
+        plt.gca().add_artist(legend2)
+
+        j += 1
+        if j >= num_col:
+            i += 1
+
+    sup_title_label = f'{y_label} = f({x_label})'
+    plt.suptitle(sup_title_label)
