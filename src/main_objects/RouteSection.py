@@ -79,9 +79,17 @@ class RouteSection(Element):
         self.ExitNode = macronodeOut
         self.TripLength = tripLength              # trip length portion (m)
         self.PreviousRouteSection = 0               # previous route section of the path (RouteSection)
+        self.NextRouteSection = 0               # next route section of the path (RouteSection)
+        
 
     def get_previous_routesection(self):
         if self.Route.RouteSections.index(self)>0:
             return self.Route.RouteSections[self.Route.RouteSections.index(self)-1]
+        else:
+            return 0
+        
+    def get_next_routesection(self):
+        if self.Route.RouteSections.index(self)<len(self.Route.RouteSections):
+            return self.Route.RouteSections[self.Route.RouteSections.index(self)+1]
         else:
             return 0

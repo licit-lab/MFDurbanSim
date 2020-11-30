@@ -215,7 +215,8 @@ def save_output(output_file, simulation, reservoirs, routes, vehicle=None):
                                                "Nin": data["Nin"], "Nout": data["Nout"],
                                                "NoutCircu": data["NoutCircu"],
                                                "NumWaitingVeh": data['NumWaitingVeh'],
-                                               'Demand':data['Demand']})
+                                               'Demand':data['Demand'],
+                                               'MergeCoefficient':data['MergeCoeff']})
 
             j += 1
 
