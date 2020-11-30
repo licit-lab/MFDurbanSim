@@ -1311,14 +1311,16 @@ def plot_graph_per_res_per_route(reservoirs, res_output, y_label, routes, option
             p2.append(ax.axhline(y=crit_acc, color='k', ls=':', label='CritAcc'))
             data_max = [max_acc + max_acc / 10]
 
+            legend2 = plt.legend(handles=p2, loc='center right')
+            plt.gca().add_artist(legend2)
+
         plt.axis([0, time_res[-1], 0, max(data_max)])
         plt.xlabel(x_label)
         plt.title(reservoirs[r].ID)
 
         legend1 = plt.legend(handles=p1, loc='upper right')
-        legend2 = plt.legend(handles=p2, loc='center right')
         plt.gca().add_artist(legend1)
-        plt.gca().add_artist(legend2)
+
 
         j += 1
         if j >= num_col:
