@@ -10,7 +10,8 @@ class RouteSection(Element):
                      "InflowDemand",             # partial inflow demand (veh/s)
                      
                      # Accumulation based model
-                      "MergeCoeff",              # partial merge coefficient (only for internal route section - not for an origin route section )
+                      "MacroNodeMergeCoeff",              # partial merge coefficient (only for internal route section - not for an origin route section ?? )
+                      "ReservoirMergeCoeff",              # partial merge coefficient (only for internal route section - not for an origin route section ?? )
                       "ExitCoeff",
                       "Acc",                     # partial accumulation (veh)
                       "Inflow", 

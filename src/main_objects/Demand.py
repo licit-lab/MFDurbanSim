@@ -28,7 +28,7 @@ class FlowDemand:
         return float(self.Demands.loc[self.Demands['Time']<=time].tail(1)['Data'].iloc[0])
     
     def get_assignmentcoefficient(self, route_id, time):
-        data = self.RouteAssignments.loc[self.RouteAssignments['Time']<=1].tail(1)['Data'].iloc[0]
+        data = self.RouteAssignments.loc[self.RouteAssignments['Time']<=time].tail(1)['Data'].iloc[0]
         for d in range(len(data)):
             if data[d]['ID'] == route_id:
                 return data[d]['Coeff']
