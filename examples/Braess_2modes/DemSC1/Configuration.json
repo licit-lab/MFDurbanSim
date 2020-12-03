@@ -4,7 +4,7 @@
             "DemandType": "FlowDemand",
             "DivergeModel": "maxdem",
             "Duration": 5000,
-            "MFDType": "parabolic",
+            "MFDType": "3dmfd",
             "MergeModel": "demprorata",
             "Modes": [
                 {
