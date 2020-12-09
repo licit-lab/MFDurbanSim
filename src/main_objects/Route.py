@@ -2,6 +2,7 @@ import pandas
 from main_objects import MacroNode, Reservoir
 from main_objects.Element import Element
 
+
 def get_route(routes, route_id):
     for r in routes:
         if r.ID == route_id:
@@ -9,31 +10,32 @@ def get_route(routes, route_id):
         
     return None
 
+
 class Route(Element):
     def __init__(self):
         # Input
-        self.ID = ""                        #ID of the route
-        self.Mode = ""                      #Mode of the route
-        self.CrossedReservoirs = []         #List of the successive reservoirs of the route
-        self.RouteSections = []             #List of the successive route sections
-        self.TripLengths = []               #List of the successive trip lengths of the route 
+        self.ID = ""                        # ID of the route
+        self.Mode = ""                      # Mode of the route
+        self.CrossedReservoirs = []         # List of the successive reservoirs of the route
+        self.RouteSections = []             # List of the successive route sections
+        self.TripLengths = []               # List of the successive trip lengths of the route
         
-        self.NodePath = []                  #List of the successive macroscopic nodes of the route
+        self.NodePath = []                  # List of the successive macroscopic nodes of the route
         
         self.Demand = pandas.DataFrame()    # Demand 
         
         # Both Solvers
-        self.ResOriginID = ""               #Origin reservoir
-        self.ResDestinationID = ""          #Destination reservoir
-        self.OriginMacroNode = 0            #Origin macro-node
-        self.DestMacroNode = 0              #Destination macro-node
-        self.Length = 0                     #Total length in the successive reservoirs
-        self.TotalTime = 0                  #Route free-flow travel time
+        self.ResOriginID = ""               # Origin reservoir
+        self.ResDestinationID = ""          # Destination reservoir
+        self.OriginMacroNode = 0            # Origin macro-node
+        self.DestMacroNode = 0              # Destination macro-node
+        self.Length = 0                     # Total length in the successive reservoirs
+        self.TotalTime = 0                  # Route free-flow travel time
         self.FreeFlowTravelTime = []        #
-        self.OldTT = 0                      #?
-        self.TravelTime = []                #Route experienced travel time at each time step
+        self.OldTT = 0                      # ?
+        self.TravelTime = []                # Route experienced travel time at each time step
 
-        self.NVehicles = 0                  #Number of vehicles created during simulation to travel on the route
+        self.NVehicles = 0                  # Number of vehicles created during simulation to travel on the route
 
         # Trip-based solver
         self.EntryTimes = []                #
@@ -44,9 +46,11 @@ class Route(Element):
         self.TravelTime2 = []               #
         
         # Dynamic variables
-        DataKeys = ["Time",
-                    "TravelTime"
-                   ]
+        data_keys = ["Time",
+                     "TravelTime"]
+
+        Element.__init__(self, data_keys)
+
 
     def load_input(self, load_network, i, reservoirs, macronodes):
         load_route = load_network["ROUTES"][i]
@@ -84,6 +88,7 @@ class Route(Element):
             self.DestMacroNode = self.NodePath[-1]
         
         self.Length = sum(self.TripLengths)
-        
+
+
     def get_demand(self, time):
         return self.Demand.loc[:time].tail(1)

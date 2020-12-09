@@ -6,11 +6,18 @@ Configuration:
 	- Simulation defined
 Network: 
 	- Reservoirs defined
-	- Macronodes partly defined (borders missing, because need AdjRes not defined yet)
-	- Routes undefined
+	- Macronodes defined
+	- Routes defined
 Demand:
 	- Demand undefined 
 
 SC2
 
-Undefined
+Configuration:
+	- Simulation defined
+Network: 
+	- Reservoirs defined
+	- Macronodes defined
+	- Routes defined
+Demand:
+	- Demand undefined 
