@@ -9,12 +9,15 @@ import plot_fct
 
 DEBUG = 0
 RUN_ALGO = True
-PLOT = 1
+PLOT_NETWORK = False
+PLOT_MS = False
+PLOT_GRAPH_PER_RES = True
+PLOT_GRAPH_PER_RES_PER_ROUTE = False
 DYNAMIC_PLOT = 0
 
 (head, tail) = os.path.split(os.getcwd())
 root = os.path.normpath(os.path.join(head, "examples"))
-folder = 'Braess/DemSC1/'
+folder = 'Braess_2modes/DemSC1/'
 
 path = os.path.normpath(os.path.join(root, folder))
 
@@ -140,24 +143,17 @@ t0 = 0
 options = {'legend': True, 'res_names': True, 'mn_names': True, 'res_color': True, 'routes_color': True,
            'mn_color': True, 'nb_col_max': 2}
 
-fig6, ax6 = plot_fct.plt.subplots()
-plot_fct.plot_graph_per_res(reservoirs, res_output, 'Demand', options=options)
-
-fig8, ax8 = plot_fct.plt.subplots()
-plot_fct.plot_graph_per_res_per_route(reservoirs, res_output, 'Demand', routes, options=options)
-
-plot_fct.plt.show()
-
-
-if PLOT == 1:
+if PLOT_NETWORK:
     # Plot network
     fig, ax = plot_fct.plt.subplots()
     plot_fct.plot_network(ax, reservoirs, macronodes, routes, options=options)
 
+if PLOT_MS:
     # Plot reservoir state (mean speed) at each t, real network
     fig2, ax2 = plot_fct.plt.subplots()
     plot_fct.plot_res_net_speed(fig2, ax2, t0, reservoirs, speed_range, simu_time, res_output)
 
+if PLOT_GRAPH_PER_RES:
     # Plot Acc, MeanSpeed, Inflow, Outflow in function of Time per reservoir
     fig3, ax3 = plot_fct.plt.subplots()
     plot_fct.plot_graph_per_res(reservoirs, res_output, 'Acc', options=options)
@@ -171,6 +167,9 @@ if PLOT == 1:
     fig6, ax6 = plot_fct.plt.subplots()
     plot_fct.plot_graph_per_res(reservoirs, res_output, 'Demand', options=options)
 
+    plot_fct.plt.show()
+
+if PLOT_GRAPH_PER_RES_PER_ROUTE:
     # Plot Acc in function of Time per reservoir per route
     fig7, ax7 = plot_fct.plt.subplots()
     plot_fct.plot_graph_per_res_per_route(reservoirs, res_output, 'Acc', routes, options=options)
