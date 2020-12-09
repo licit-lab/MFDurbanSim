@@ -9,7 +9,7 @@ import plot_fct
 
 DEBUG = 0
 RUN_ALGO = True
-PLOT = 0
+PLOT = 1
 DYNAMIC_PLOT = 0
 
 (head, tail) = os.path.split(os.getcwd())

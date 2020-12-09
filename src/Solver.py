@@ -131,7 +131,8 @@ def AccBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
             # Entry production supply update
             tmp = 0
             for rs in reservoir.RouteSections:
-                if rs.EntryNode.Type == 'origin' or rs.EntryNode.Type=='externalentry':
+                #if rs.EntryNode.Type == 'origin' or rs.EntryNode.Type=='externalentry':
+                if rs.EntryNode.Type == 'origin':
                     tmp = tmp + rs.TripLength * Demand.get_partial_demand(GlobalDemand, rs, t)
 
             reservoir.Data[indtime]['ProductionSupply']=reservoir.get_entry_supply_from_accumulation(reservoir.Data[indtime]['Acc'],'VL')-tmp
@@ -139,7 +140,7 @@ def AccBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
             # Average trip length update
             tmp = 0
             for rs in reservoir.RouteSections:
-                if rs.EntryNode.Type == 'externalentry' or rs.EntryNode.Type == 'origin' or rs.EntryNode.Type == 'border':
+                if rs.EntryNode.Type == 'externalentry' or rs.EntryNode.Type == 'border':
                     tmp=tmp+rs.Data[indtime]['Acc']/rs.TripLength
                 
             if tmp>0:
@@ -147,7 +148,7 @@ def AccBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
             else:
                 sumtriplength = 0
                 for rs in reservoir.RouteSections:
-                    if rs.EntryNode.Type=='externalentry' or rs.EntryNode.Type == 'origin' or rs.EntryNode.Type=='border':  
+                    if rs.EntryNode.Type=='externalentry' or rs.EntryNode.Type=='border':  
                         sumtriplength += rs.TripLength
                 if len(reservoir.RouteSections)>0:
                     reservoir.Data[indtime]['AvgTripLength']=sumtriplength/len(reservoir.RouteSections)
