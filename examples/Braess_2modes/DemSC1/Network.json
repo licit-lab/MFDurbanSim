@@ -34,6 +34,9 @@
                     "value": 49.6278
                 }
             ],
+            "ParamBusOnCar": -0.3,
+            "ParamCarOnBus": 0.2,
+            "ParamBusOnBus": 0.2,
             "Centroid": [
                 {
                     "x": 0,
@@ -97,6 +100,9 @@
                     "value": 49.5868
                 }
             ],
+            "ParamBusOnCar": -0.3,
+            "ParamCarOnBus": 0.2,
+            "ParamBusOnBus": 0.2,
             "Centroid": [
                 {
                     "x": 2,
@@ -160,6 +166,9 @@
                     "value": 49.5868
                 }
             ],
+            "ParamBusOnCar": -0.3,
+            "ParamCarOnBus": 0.2,
+            "ParamBusOnBus": 0.2,
             "Centroid": [
                 {
                     "x": 2,
@@ -223,6 +232,9 @@
                     "value": 49.6278
                 }
             ],
+            "ParamBusOnCar": -0.3,
+            "ParamCarOnBus": 0.2,
+            "ParamBusOnBus": 0.2,
             "Centroid": [
                 {
                     "x": 4,

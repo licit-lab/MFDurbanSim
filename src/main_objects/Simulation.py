@@ -3,7 +3,7 @@ import os
 from datetime import date, time, datetime
 
 class Simulation:
-    mfd_type_list = ("parabolic")
+    mfd_type_list = ("parabolic", "3dmfd")
     modes_list = ("VL", "BUS")
     demand_type_list = ("DiscreteDemand", "FlowDemand")
     solvers_list = ("AccBased", "TripBased")

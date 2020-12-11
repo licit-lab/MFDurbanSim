@@ -11,7 +11,7 @@ DEBUG = 0
 RUN_ALGO = True
 PLOT_NETWORK = False
 PLOT_MS = False
-PLOT_GRAPH_PER_RES = True
+PLOT_GRAPH_PER_RES = False
 PLOT_GRAPH_PER_RES_PER_ROUTE = False
 DYNAMIC_PLOT = 0
 
@@ -44,7 +44,7 @@ numRes = len(loadNetwork["RESERVOIRS"])
 list_res_id = []
 for i in range(numRes):
     res = Reservoir.Reservoir()
-    res.load_input(loadNetwork, i)
+    res.load_input(loadNetwork, i, simulation_settings.MFDType)
 
     if IO_functions.verify_reservoir_input(res, list_res_id):
         reservoirs.append(res)
