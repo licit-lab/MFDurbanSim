@@ -166,9 +166,23 @@
                     "value": 49.5868
                 }
             ],
-            "ParamBusOnCar": -0.3,
-            "ParamCarOnBus": 0.2,
-            "ParamBusOnBus": 0.2,
+            "MarginalEffect_Mode1onMode2": [
+                {
+                    "mode1": "BUS",
+                    "mode2": "VL",
+                    "value": -0.3
+                },
+                {
+                    "mode1": "VL",
+                    "mode2": "BUS",
+                    "value": 0.2
+                },
+                {
+                    "mode1": "BUS",
+                    "mode2": "BUS",
+                    "value": 0.2
+                }
+            ],
             "Centroid": [
                 {
                     "x": 2,

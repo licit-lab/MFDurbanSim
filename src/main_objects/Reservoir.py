@@ -86,10 +86,18 @@ class Reservoir(Element):
         if 'BorderPoints' in load_res:
             self.BorderPoints = load_res["BorderPoints"]
 
-        if mfd_type == '3dmfd':
-            if 'ParamBusOnCar' in load_res and 'ParamCarOnBus' in load_res and 'ParamBusOnBus' in load_res:
-                i_vl = 0
-                i_bus = 0
+        if mfd_type == '3d_parabolic':
+            if 'MarginalEffect_Mode1onMode2' in load_res:
+                me_bus_car, me_car_bus, me_bus_bus = 0
+                for me in load_res['MarginalEffect_Mode1onMode2']:
+                    if me['mode1'] == 'BUS' and me['mode2'] == 'VL':
+                        me_bus_car = me['value']
+                    elif me['mode1'] == 'VL' and me['mode2'] == 'BUS':
+                        me_car_bus = me['value']
+                    elif me['mode1'] == 'BUS' and me['mode2'] == 'BUS':
+                        me_bus_bus = me['value']
+
+                i_vl, i_bus = 0
                 for i in range(len(self.MFDsetting)):
                     if self.MFDsetting[i]['mode'] == 'VL':
                         i_vl = i
@@ -103,14 +111,13 @@ class Reservoir(Element):
                 # Marginal effect of cars on car speed
                 eff_cc = - self.MFDsetting[i_vl]['MaxProd'] / self.MFDsetting[i_vl]['CritAcc'] ** 2
                 # Marginal effect of buses on car speed
-                eff_bc = load_res['ParamBusOnCar']
+                eff_bc = me_bus_car
                 # Marginal effect of cars on bus speed
-                eff_cb = load_res['ParamCarOnBus'] * eff_cc
+                eff_cb = me_car_bus * eff_cc
                 # Marginal effect of buses on bus speed
-                eff_bb = load_res['ParamBusOnBus'] * eff_bc
+                eff_bb = me_bus_bus * eff_bc
 
                 self.MFDfctParam = [ffs_car, ffs_bus, eff_cc, eff_bc, eff_cb, eff_bb]
-                self.MFDsetting[i_bus]['CritAcc'] = - ffs_car / (eff_bc + eff_cb)
 
 
     def get_production_from_accumulation(self, n, mode):
