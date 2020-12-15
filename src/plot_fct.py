@@ -808,13 +808,14 @@ def plot_network(ax, reservoirs, nodes, routes, options=None):
     txt_color = [1, 1, 1]
 
     # Lines
-    line_0 = np.array(['', '-', '--', ':', '-.'])
+    line_0 = np.array(['-', '--', ':', '-.'])
 
     while num_res > len(color_map_0):
         color_map_0 = np.concatenate((color_map_0, color_map_0))
 
     while num_routes > len(line_0):
         line_0 = np.concatenate((line_0, line_0))
+        color_map_0 = np.concatenate((color_map_0, color_map_0))
 
     # Verify plot information
     res_bp_filled = True
@@ -900,13 +901,13 @@ def plot_network(ax, reservoirs, nodes, routes, options=None):
 
             for j in range(len(list_x) - 1):
                 route_plot.append(ax.annotate("",
-                                  xy=(list_x[j], list_y[j]), xycoords='data',
-                                  xytext=(list_x[j+1], list_y[j+1]), textcoords='data',
-                                  arrowprops=dict(arrowstyle="<-", color=color_i,
-                                                  shrinkA=5, shrinkB=5,
-                                                  patchA=None, patchB=None,
-                                                  connectionstyle='arc3,rad=-0.3',
-                                                  linestyle=line_style_i)))
+                                              xy=(list_x[j], list_y[j]), xycoords='data',
+                                              xytext=(list_x[j+1], list_y[j+1]), textcoords='data',
+                                              arrowprops=dict(arrowstyle="<-", color=color_i,
+                                                              shrinkA=5, shrinkB=5,
+                                                              patchA=None, patchB=None,
+                                                              connectionstyle='arc3,rad=-0.3',
+                                                              linestyle=line_style_i)))
 
             i += 1
 
@@ -1219,7 +1220,7 @@ def plot_graph_per_res(reservoirs, res_output, y_label1, y_label2=None, options=
             lines = p1 + p2
         else:
             lines = p1
-        legend = plt.legend(lines, [l.get_label() for l in lines], loc='upper right')
+        legend = plt.legend(lines, [line.get_label() for line in lines], loc='upper right')
         plt.gca().add_artist(legend)
 
         j += 1
