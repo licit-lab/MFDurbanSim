@@ -15,7 +15,7 @@ for mn in NodeMatlab:
     if mn["Type"] == "border":
         res_id = [f'Res{mn["ResID"][0]}', f'Res{mn["ResID"][1]}']
     else:
-        res_id = f'Res{mn["ResID"]}'
+        res_id = [f'Res{mn["ResID"]}']
 
     str_node_tmp = {"ID": "MacroNode" + str(i),
                     "Type": mn["Type"],
