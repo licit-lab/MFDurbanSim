@@ -500,7 +500,9 @@
         {
             "ID": "MacroNode1",
             "Type": "origin",
-            "ResID": "Res1",
+            "ResID": [
+                "Res1"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -517,7 +519,9 @@
         {
             "ID": "MacroNode2",
             "Type": "destination",
-            "ResID": "Res1",
+            "ResID": [
+                "Res1"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -534,7 +538,9 @@
         {
             "ID": "MacroNode3",
             "Type": "externalentry",
-            "ResID": "Res1",
+            "ResID": [
+                "Res1"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -551,7 +557,9 @@
         {
             "ID": "MacroNode4",
             "Type": "externalexit",
-            "ResID": "Res1",
+            "ResID": [
+                "Res1"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -568,7 +576,9 @@
         {
             "ID": "MacroNode5",
             "Type": "externalentry",
-            "ResID": "Res1",
+            "ResID": [
+                "Res1"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -585,7 +595,9 @@
         {
             "ID": "MacroNode6",
             "Type": "externalexit",
-            "ResID": "Res1",
+            "ResID": [
+                "Res1"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -602,7 +614,9 @@
         {
             "ID": "MacroNode7",
             "Type": "origin",
-            "ResID": "Res2",
+            "ResID": [
+                "Res2"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -619,7 +633,9 @@
         {
             "ID": "MacroNode8",
             "Type": "destination",
-            "ResID": "Res2",
+            "ResID": [
+                "Res2"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -636,7 +652,9 @@
         {
             "ID": "MacroNode9",
             "Type": "externalentry",
-            "ResID": "Res2",
+            "ResID": [
+                "Res2"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -653,7 +671,9 @@
         {
             "ID": "MacroNode10",
             "Type": "externalexit",
-            "ResID": "Res2",
+            "ResID": [
+                "Res2"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -670,7 +690,9 @@
         {
             "ID": "MacroNode11",
             "Type": "origin",
-            "ResID": "Res3",
+            "ResID": [
+                "Res3"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -687,7 +709,9 @@
         {
             "ID": "MacroNode12",
             "Type": "destination",
-            "ResID": "Res3",
+            "ResID": [
+                "Res3"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -704,7 +728,9 @@
         {
             "ID": "MacroNode13",
             "Type": "externalentry",
-            "ResID": "Res3",
+            "ResID": [
+                "Res3"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -721,7 +747,9 @@
         {
             "ID": "MacroNode14",
             "Type": "externalexit",
-            "ResID": "Res3",
+            "ResID": [
+                "Res3"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -738,7 +766,9 @@
         {
             "ID": "MacroNode15",
             "Type": "externalentry",
-            "ResID": "Res3",
+            "ResID": [
+                "Res3"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -755,7 +785,9 @@
         {
             "ID": "MacroNode16",
             "Type": "externalexit",
-            "ResID": "Res3",
+            "ResID": [
+                "Res3"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -772,7 +804,9 @@
         {
             "ID": "MacroNode17",
             "Type": "origin",
-            "ResID": "Res4",
+            "ResID": [
+                "Res4"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -789,7 +823,9 @@
         {
             "ID": "MacroNode18",
             "Type": "destination",
-            "ResID": "Res4",
+            "ResID": [
+                "Res4"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -806,7 +842,9 @@
         {
             "ID": "MacroNode19",
             "Type": "externalentry",
-            "ResID": "Res4",
+            "ResID": [
+                "Res4"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -823,7 +861,9 @@
         {
             "ID": "MacroNode20",
             "Type": "externalexit",
-            "ResID": "Res4",
+            "ResID": [
+                "Res4"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -840,7 +880,9 @@
         {
             "ID": "MacroNode21",
             "Type": "origin",
-            "ResID": "Res5",
+            "ResID": [
+                "Res5"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -857,7 +899,9 @@
         {
             "ID": "MacroNode22",
             "Type": "destination",
-            "ResID": "Res5",
+            "ResID": [
+                "Res5"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -874,7 +918,9 @@
         {
             "ID": "MacroNode23",
             "Type": "origin",
-            "ResID": "Res6",
+            "ResID": [
+                "Res6"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -891,7 +937,9 @@
         {
             "ID": "MacroNode24",
             "Type": "destination",
-            "ResID": "Res6",
+            "ResID": [
+                "Res6"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -908,7 +956,9 @@
         {
             "ID": "MacroNode25",
             "Type": "externalentry",
-            "ResID": "Res6",
+            "ResID": [
+                "Res6"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -925,7 +975,9 @@
         {
             "ID": "MacroNode26",
             "Type": "externalexit",
-            "ResID": "Res6",
+            "ResID": [
+                "Res6"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -942,7 +994,9 @@
         {
             "ID": "MacroNode27",
             "Type": "origin",
-            "ResID": "Res7",
+            "ResID": [
+                "Res7"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -959,7 +1013,9 @@
         {
             "ID": "MacroNode28",
             "Type": "destination",
-            "ResID": "Res7",
+            "ResID": [
+                "Res7"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -976,7 +1032,9 @@
         {
             "ID": "MacroNode29",
             "Type": "externalentry",
-            "ResID": "Res7",
+            "ResID": [
+                "Res7"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -993,7 +1051,9 @@
         {
             "ID": "MacroNode30",
             "Type": "externalexit",
-            "ResID": "Res7",
+            "ResID": [
+                "Res7"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -1010,7 +1070,9 @@
         {
             "ID": "MacroNode31",
             "Type": "externalentry",
-            "ResID": "Res7",
+            "ResID": [
+                "Res7"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -1027,7 +1089,9 @@
         {
             "ID": "MacroNode32",
             "Type": "externalexit",
-            "ResID": "Res7",
+            "ResID": [
+                "Res7"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -1044,7 +1108,9 @@
         {
             "ID": "MacroNode33",
             "Type": "origin",
-            "ResID": "Res8",
+            "ResID": [
+                "Res8"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -1061,7 +1127,9 @@
         {
             "ID": "MacroNode34",
             "Type": "destination",
-            "ResID": "Res8",
+            "ResID": [
+                "Res8"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -1078,7 +1146,9 @@
         {
             "ID": "MacroNode35",
             "Type": "externalentry",
-            "ResID": "Res8",
+            "ResID": [
+                "Res8"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -1095,7 +1165,9 @@
         {
             "ID": "MacroNode36",
             "Type": "externalexit",
-            "ResID": "Res8",
+            "ResID": [
+                "Res8"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -1112,7 +1184,9 @@
         {
             "ID": "MacroNode37",
             "Type": "origin",
-            "ResID": "Res9",
+            "ResID": [
+                "Res9"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -1129,7 +1203,9 @@
         {
             "ID": "MacroNode38",
             "Type": "destination",
-            "ResID": "Res9",
+            "ResID": [
+                "Res9"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -1146,7 +1222,9 @@
         {
             "ID": "MacroNode39",
             "Type": "externalentry",
-            "ResID": "Res9",
+            "ResID": [
+                "Res9"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -1163,7 +1241,9 @@
         {
             "ID": "MacroNode40",
             "Type": "externalexit",
-            "ResID": "Res9",
+            "ResID": [
+                "Res9"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -1180,7 +1260,9 @@
         {
             "ID": "MacroNode41",
             "Type": "externalentry",
-            "ResID": "Res9",
+            "ResID": [
+                "Res9"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
@@ -1197,7 +1279,9 @@
         {
             "ID": "MacroNode42",
             "Type": "externalexit",
-            "ResID": "Res9",
+            "ResID": [
+                "Res9"
+            ],
             "Capacity": [
                 {
                     "Time": 0,
