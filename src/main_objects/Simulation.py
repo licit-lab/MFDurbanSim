@@ -4,7 +4,7 @@ from datetime import date, time, datetime
 
 class Simulation:
     mfd_type_list = ("parabolic", "3d_parabolic")
-    modes_list = ("VL", "BUS")
+    #modes_list = ("VL", "BUS")
     demand_type_list = ("DiscreteDemand", "FlowDemand")
     solvers_list = ("AccBased", "TripBased")
     merge_models_list = ("demprorata", "endogenous", "equiproba", "demandfifo")
@@ -73,10 +73,11 @@ class Simulation:
             print("MFD type unknown, please change the input file entry MFDType.")
 
         for modes in simu["Modes"]:
-            if modes["ID"] in self.modes_list:
-                self.Modes = simu["Modes"]
-            else:
-                print("Mode unknown, please change the input file entry Modes.")
+            self.Modes.append(modes['ID'])
+            #if modes["ID"] in self.modes_list:
+            #self.Modes = simu["Modes"]
+        #     else:
+        #         print("Mode unknown, please change the input file entry Modes.")
 
         if simu["DemandType"] in self.demand_type_list:
             self.DemandType = simu["DemandType"]

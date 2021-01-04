@@ -1,6 +1,6 @@
 import pandas
 from main_objects import MacroNode, Reservoir
-from main_objects.Element import Element
+from main_objects.FlowElement import FlowElement
 
 
 def get_route(routes, route_id):
@@ -11,7 +11,7 @@ def get_route(routes, route_id):
     return None
 
 
-class Route(Element):
+class Route(FlowElement):
     def __init__(self):
         # Input
         self.ID = ""                        # ID of the route
@@ -46,10 +46,10 @@ class Route(Element):
         self.TravelTime2 = []               #
         
         # Dynamic variables
-        data_keys = ["Time",
+        self.data_keys = [
                      "TravelTime"]
 
-        Element.__init__(self, data_keys)
+        
 
 
     def load_input(self, load_network, i, reservoirs, macronodes):
@@ -88,6 +88,8 @@ class Route(Element):
             self.DestMacroNode = self.NodePath[-1]
         
         self.Length = sum(self.TripLengths)
+        
+        FlowElement.__init__(self, self.data_keys,[self.Mode])
 
 
     def get_demand(self, time):

@@ -1,4 +1,4 @@
-from main_objects.Element import Element
+from main_objects.FlowElement import FlowElement
 
 
 def get_reservoir(reservoirs, reservoir_id):
@@ -9,10 +9,10 @@ def get_reservoir(reservoirs, reservoir_id):
     return None
 
 
-class Reservoir(Element):
-    def __init__(self):
-        data_keys = ["Time",
-                            
+class Reservoir(FlowElement):
+    
+    def __init__(self, modes):
+        data_keys = [   
                      # Accumulation based model
                      "InternalProd",
                      "MeanSpeed",
@@ -33,13 +33,13 @@ class Reservoir(Element):
 
                      ]
         
-        Element.__init__(self, data_keys)
+        FlowElement.__init__(self, data_keys, modes)
         
         # Input
         self.ID = ""                        # ID of the reservoir
         
         self.MFDsetting = []                # MFD setting by mode (mode, free flow speed, max prod, max acc)
-
+        
         # Plotting purpose
         self.Centroid = None                # Coordinates of reservoir center
         self.BorderPoints = None            # List of coordinates of the points delimiting the reservoir
@@ -69,10 +69,22 @@ class Reservoir(Element):
         self.EntryFctpts = []               #
         self.VehList = []                   # List of vehicles in the reservoir
 
-    def load_input(self, load_network, i, mfd_type=None):
-        load_res = load_network["RESERVOIRS"][i]
+    # Loading from input data
+    def load_input(self, load_network, item, mfd_type=None):
+        
+        load_res = load_network["RESERVOIRS"][item]
+        
+        # ID
         self.ID = load_res["ID"]
+        
+        # Geographic coordinates
+        if 'Centroid' in load_res:
+            self.Centroid = load_res["Centroid"]
+            
+        if 'BorderPoints' in load_res:
+            self.BorderPoints = load_res["BorderPoints"]
 
+        # MFD setting
         for m in load_res["FreeflowSpeed"]:
             mfd_set = {'mode': m['mode'], 'FreeflowSpeed': m['value'],
                        'MaxProd': [tag for tag in load_res["MaxProd"] if tag['mode'] == 'VL'][0]['value'],
@@ -80,12 +92,6 @@ class Reservoir(Element):
                        'CritAcc': [tag for tag in load_res["CritAcc"] if tag['mode'] == m['mode']][0]['value']}
             self.MFDsetting.append(mfd_set)
         
-        if 'Centroid' in load_res:
-            self.Centroid = load_res["Centroid"]
-            
-        if 'BorderPoints' in load_res:
-            self.BorderPoints = load_res["BorderPoints"]
-
         if mfd_type == '3d_parabolic':
             if 'MarginalEffect_Mode1onMode2' in load_res:
                 me_bus_car, me_car_bus, me_bus_bus = 0
@@ -120,27 +126,45 @@ class Reservoir(Element):
                 self.MFDfctParam = [ffs_car, ffs_bus, eff_cc, eff_bc, eff_cb, eff_bb]
 
 
+
     def get_production_from_accumulation(self, n, mode):
+        
         mfd_set = [tag for tag in self.MFDsetting if tag['mode'] == mode][0]
+        
         crit_acc = mfd_set['CritAcc']
         max_prod = mfd_set['MaxProd']
         max_acc = mfd_set['MaxAcc']
-
+        
         production = (0 <= n) * (n <= crit_acc) * (max_prod / (crit_acc ** 2) * n * (2 * crit_acc - n)) + \
-                     (crit_acc < n) * (n < max_acc) * (max_prod / (max_acc - crit_acc) ** 2 * (max_acc - n) *
-                                                       (max_acc + n - 2 * crit_acc))
+                         (crit_acc < n) * (n < max_acc) * (max_prod / (max_acc - crit_acc) ** 2 * (max_acc - n) *
+                                                           (max_acc + n - 2 * crit_acc))
 
         return production
 
+    # n and production are a list of dictionnary (keys: mode)
+    def get_production_from_accumulation(self, n):
+        
+        production=[]
+        # for m in n:
+        #     production.append({'mode': , 'value': 0.})
+         
+        return production 
 
-    def get_speed_from_accumulation(self, accumulation, mode):
-        mfd_set = [tag for tag in self.MFDsetting if tag['mode'] == mode][0]
+    def get_speed_from_accumulation(self, accumulation):
         
-        if accumulation > 0:
-            production = self.get_production_from_accumulation(accumulation, mode)
-            return production / accumulation
+        speed = dict(accumulation.keys())
         
-        return mfd_set['FreeflowSpeed']
+        for mode in accumulation:
+            
+            mfd_set = [tag for tag in self.MFDsetting if tag['mode'] == mode][0]
+        
+            if accumulation[mode] > 0:
+                production = self.get_production_from_accumulation(accumulation[mode], mode)
+                speed[mode] = production / accumulation[mode]
+            else:
+                speed[mode] = mfd_set['FreeflowSpeed']
+        
+        return speed 
 
 
     def get_MFD_setting(self, data, mode):

@@ -17,7 +17,7 @@ DYNAMIC_PLOT = 0
 
 (head, tail) = os.path.split(os.getcwd())
 root = os.path.normpath(os.path.join(head, "examples"))
-folder = 'Braess_2modes/DemSC1/'
+folder = 'Braess/DemSC1/'
 
 path = os.path.normpath(os.path.join(root, folder))
 
@@ -43,7 +43,7 @@ with open(path_network, "r") as file:
 numRes = len(loadNetwork["RESERVOIRS"])
 list_res_id = []
 for i in range(numRes):
-    res = Reservoir.Reservoir()
+    res = Reservoir.Reservoir(simulation_settings.Modes)
     res.load_input(loadNetwork, i, simulation_settings.MFDType)
 
     if IO_functions.verify_reservoir_input(res, list_res_id):

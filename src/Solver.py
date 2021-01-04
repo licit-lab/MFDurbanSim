@@ -103,30 +103,30 @@ def AccBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
         for reservoir in Reservoirs:
 
             # Mean speed update
-            reservoir.Data[indtime]['MeanSpeed']=reservoir.get_speed_from_accumulation(reservoir.Data[indtime]['Acc'],'VL')
+            reservoir.FlowData[indtime]['MeanSpeed']=reservoir.get_speed_from_accumulation(reservoir.FlowData[indtime]['Acc'])
           
             # Production update (TO DO for queue dyn model)
-            reservoir.Data[indtime]['Production'] = reservoir.get_production_from_accumulation(reservoir.Data[indtime]['Acc'], 'VL')
+            reservoir.FlowData[indtime]['Production'] = reservoir.get_production_from_accumulation(reservoir.FlowData[indtime]['Acc'], 'VL')
          
             # Outflow demand per route update 
             # TO DO for other models
             if Simulation.DivergeModel=='maxdem':
                 for rs in reservoir.RouteSections:
                     
-                    if reservoir.Data[indtime]['Acc']>0:
-                        if reservoir.Data[indtime]['Acc'] < reservoir.get_MFD_setting('CritAcc','VL') and reservoir.Data[indtime]['Acc']>0:
-                            rs.Data[indtime]['OutflowDemand'] = (rs.Data[indtime]['Acc']/reservoir.Data[indtime]['Acc'])*reservoir.Data[indtime]['Production']/rs.TripLength
+                    if reservoir.FlowData[indtime]['Acc']>0:
+                        if reservoir.FlowData[indtime]['Acc'] < reservoir.get_MFD_setting('CritAcc','VL') and reservoir.FlowData[indtime]['Acc']>0:
+                            rs.FlowData[indtime]['OutflowDemand'] = (rs.FlowData[indtime]['Acc']/reservoir.FlowData[indtime]['Acc'])*reservoir.FlowData[indtime]['Production']/rs.TripLength
                         else:
-                            rs.Data[indtime]['OutflowDemand'] = (rs.Data[indtime]['Acc']/reservoir.Data[indtime]['Acc'])*reservoir.get_MFD_setting('MaxProd','VL')/rs.TripLength
+                            rs.FlowData[indtime]['OutflowDemand'] = (rs.FlowData[indtime]['Acc']/reservoir.FlowData[indtime]['Acc'])*reservoir.get_MFD_setting('MaxProd','VL')/rs.TripLength
                     else:
-                         rs.Data[indtime]['OutflowDemand']=0.
+                         rs.FlowData[indtime]['OutflowDemand']=0.
                          
             elif Simulation.DivergeModel=='decrdem':
                 for rs in reservoir.RouteSections:
-                    if reservoir.Data[indtime]['Acc']>0:
-                        rs.Data[indtime]['OutflowDemand'] = (rs.Data[indtime]['Acc']/reservoir.Data[indtime]['Acc'])*reservoir.Data[indtime]['Production']/rs.TripLength
+                    if reservoir.FlowData[indtime]['Acc']>0:
+                        rs.FlowData[indtime]['OutflowDemand'] = (rs.FlowData[indtime]['Acc']/reservoir.FlowData[indtime]['Acc'])*reservoir.FlowData[indtime]['Production']/rs.TripLength
                     else:
-                        rs.Data[indtime]['OutflowDemand']=0.
+                        rs.FlowData[indtime]['OutflowDemand']=0.
                          
             # Entry production supply update
             tmp = 0
@@ -135,25 +135,25 @@ def AccBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
                 if rs.EntryNode.Type == 'origin':
                     tmp = tmp + rs.TripLength * Demand.get_partial_demand(GlobalDemand, rs, t)
 
-            reservoir.Data[indtime]['ProductionSupply']=reservoir.get_entry_supply_from_accumulation(reservoir.Data[indtime]['Acc'],'VL')-tmp
+            reservoir.FlowData[indtime]['ProductionSupply']=reservoir.get_entry_supply_from_accumulation(reservoir.FlowData[indtime]['Acc'],'VL')-tmp
             
             # Average trip length update
             tmp = 0
             for rs in reservoir.RouteSections:
                 if rs.EntryNode.Type == 'externalentry' or rs.EntryNode.Type == 'border':
-                    tmp=tmp+rs.Data[indtime]['Acc']/rs.TripLength
+                    tmp=tmp+rs.FlowData[indtime]['Acc']/rs.TripLength
                 
             if tmp>0:
-                reservoir.Data[indtime]['AvgTripLength']=reservoir.Data[indtime]['Acc']/tmp
+                reservoir.FlowData[indtime]['AvgTripLength']=reservoir.FlowData[indtime]['Acc']/tmp
             else:
                 sumtriplength = 0
                 for rs in reservoir.RouteSections:
                     if rs.EntryNode.Type=='externalentry' or rs.EntryNode.Type=='border':  
                         sumtriplength += rs.TripLength
                 if len(reservoir.RouteSections)>0:
-                    reservoir.Data[indtime]['AvgTripLength']=sumtriplength/len(reservoir.RouteSections)
+                    reservoir.FlowData[indtime]['AvgTripLength']=sumtriplength/len(reservoir.RouteSections)
                 else:
-                    reservoir.Data[indtime]['AvgTripLength']=0
+                    reservoir.FlowData[indtime]['AvgTripLength']=0
                     
         # Second reservoir loop (demand, inflow demand, merging coefficients, border inflow supply and reservoir inflow supply updates)
         for reservoir in Reservoirs:
@@ -162,46 +162,46 @@ def AccBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
             reservoirdemand = 0
             for rs in reservoir.RouteSections:
                 if rs.EntryNode.Type == 'origin' or 'externalentry':
-                    rs.Data[indtime]['Demand'] = Demand.get_partial_demand(GlobalDemand, rs, t)
-                    reservoirdemand += rs.Data[indtime]['Demand']
+                    rs.FlowData[indtime]['Demand'] = Demand.get_partial_demand(GlobalDemand, rs, t)
+                    reservoirdemand += rs.FlowData[indtime]['Demand']
                     
-            reservoir.Data[indtime]['Demand']=reservoirdemand
+            reservoir.FlowData[indtime]['Demand']=reservoirdemand
             
             # Inflow demand updates
             for rs in reservoir.RouteSections:
                 if rs.EntryNode.Type == 'origin':
-                    rs.Data[indtime]['InflowDemand'] = rs.Data[indtime]['Demand']
+                    rs.FlowData[indtime]['InflowDemand'] = rs.FlowData[indtime]['Demand']
                         
                 if rs.EntryNode.Type =='externalentry':
-                    if rs.Data[indtime]['NumWaitingVeh'] > 0:
-                        rs.Data[indtime]['InflowDemand'] = rs.EntryNode.get_capacity(t)
+                    if rs.FlowData[indtime]['NumWaitingVeh'] > 0:
+                        rs.FlowData[indtime]['InflowDemand'] = rs.EntryNode.get_capacity(t)
                     else:
-                        rs.Data[indtime]['InflowDemand'] = rs.Data[indtime]['Demand']
+                        rs.FlowData[indtime]['InflowDemand'] = rs.FlowData[indtime]['Demand']
                         
                 if rs.EntryNode.Type =='border':
-                    rs.Data[indtime]['InflowDemand'] = rs.get_previous_routesection().Data[indtime]['OutflowDemand']
+                    rs.FlowData[indtime]['InflowDemand'] = rs.get_previous_routesection().FlowData[indtime]['OutflowDemand']
                         
                             
             # Merging coefficients TODO : endogenous
             if Simulation.MergeModel == 'equiproba':
                 for rs in reservoir.RouteSections:
                     if rs.EntryNode.Type == 'externalentry':
-                        rs.Data[indtime]['ReservoirMergeCoeff'] = 1 / reservoir.NumberOfExtRouteSection
+                        rs.FlowData[indtime]['ReservoirMergeCoeff'] = 1 / reservoir.NumberOfExtRouteSection
                     else:
-                        rs.Data[indtime]['ReservoirMergeCoeff'] = 1
+                        rs.FlowData[indtime]['ReservoirMergeCoeff'] = 1
                         
             elif Simulation.MergeModel == 'demprorata':
                 
                 inflow_demand_sum = 0
                 for rs in reservoir.RouteSections:
                     if rs.EntryNode.Type == 'externalentry' or rs.EntryNode.Type == 'border':
-                        inflow_demand_sum+=rs.Data[indtime]['InflowDemand']
+                        inflow_demand_sum+=rs.FlowData[indtime]['InflowDemand']
                         
                 for rs in reservoir.RouteSections:
                     if (rs.EntryNode.Type == 'externalentry' or rs.EntryNode.Type == 'border') and inflow_demand_sum>0:
-                        rs.Data[indtime]['ReservoirMergeCoeff'] = rs.Data[indtime]['InflowDemand'] / inflow_demand_sum
+                        rs.FlowData[indtime]['ReservoirMergeCoeff'] = rs.FlowData[indtime]['InflowDemand'] / inflow_demand_sum
                     else:
-                        rs.Data[indtime]['ReservoirMergeCoeff'] = 1
+                        rs.FlowData[indtime]['ReservoirMergeCoeff'] = 1
                         
                 for mn in reservoir.MacroNodes:
                     if mn.Type == 'externalentry' or mn.Type == 'border':
@@ -209,14 +209,14 @@ def AccBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
                         sum_merge_coeff = 0
                         for rs in reservoir.RouteSections:
                             if rs.EntryNode == mn:
-                                sum_merge_coeff+=rs.Data[indtime]['ReservoirMergeCoeff']
+                                sum_merge_coeff+=rs.FlowData[indtime]['ReservoirMergeCoeff']
                                 
                         for rs in reservoir.RouteSections:    
                             if rs.EntryNode == mn:
                                 if sum_merge_coeff > 0:
-                                    rs.Data[indtime]['MacroNodeMergeCoeff']=rs.Data[indtime]['ReservoirMergeCoeff']/sum_merge_coeff
+                                    rs.FlowData[indtime]['MacroNodeMergeCoeff']=rs.FlowData[indtime]['ReservoirMergeCoeff']/sum_merge_coeff
                                 else:
-                                    rs.Data[indtime]['MacroNodeMergeCoeff']=1
+                                    rs.FlowData[indtime]['MacroNodeMergeCoeff']=1
                                     
             # Border inflow supply
             borderinflowsupply=[]
@@ -230,8 +230,8 @@ def AccBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
                     localrs=[]
                     for rs in reservoir.RouteSections:   
                         if rs.EntryNode == macronode:  # Loop on route section from external entry
-                            demandflows.append(rs.Data[indtime]['InflowDemand'])
-                            localmergecoeffs.append(rs.Data[indtime]['MacroNodeMergeCoeff'])
+                            demandflows.append(rs.FlowData[indtime]['InflowDemand'])
+                            localmergecoeffs.append(rs.FlowData[indtime]['MacroNodeMergeCoeff'])
                             localrs.append(rs)
                             
                     smc = sum(localmergecoeffs)
@@ -246,7 +246,7 @@ def AccBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
     
                         i = 0
                         for rs in localrs:
-                            rs.Data[indtime]['LocalInflowSupply'] = borderinflowsupply[i]
+                            rs.FlowData[indtime]['LocalInflowSupply'] = borderinflowsupply[i]
                             i = i + 1
                             
             # Reservoir inflow supply
@@ -255,18 +255,18 @@ def AccBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
             extrs=[]
             for rs in reservoir.RouteSections:
                 if rs.EntryNode.Type == 'externalentry' or rs.EntryNode.Type=='border' :  # Loop on route section from external entry
-                    inflowsupply.append(rs.Data[indtime]['LocalInflowSupply'])
-                    mergecoeffs.append(rs.Data[indtime]['ReservoirMergeCoeff'])
+                    inflowsupply.append(rs.FlowData[indtime]['LocalInflowSupply'])
+                    mergecoeffs.append(rs.FlowData[indtime]['ReservoirMergeCoeff'])
                     extrs.append(rs)
                     
             if len(inflowsupply)>0:
                 print(reservoir.ID, mergecoeffs,inflowsupply)
                 if max(inflowsupply)>0:
-                    inflowsupply=Merge(inflowsupply,mergecoeffs,reservoir.Data[indtime]['ProductionSupply']/reservoir.Data[indtime]['AvgTripLength'])
+                    inflowsupply=Merge(inflowsupply,mergecoeffs,reservoir.FlowData[indtime]['ProductionSupply']/reservoir.FlowData[indtime]['AvgTripLength'])
                 
                 i=0
                 for rs in extrs:
-                    rs.Data[indtime]['InflowSupply']=inflowsupply[i]
+                    rs.FlowData[indtime]['InflowSupply']=inflowsupply[i]
                     i=i+1
     
             
@@ -276,13 +276,13 @@ def AccBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
             # outflow supply update
             for rs in reservoir.RouteSections:
                 if rs.ExitNode.Type =='externalexit' or rs.ExitNode.Type =='destination':
-                    rs.Data[indtime]['OutflowSupply']=rs.ExitNode.get_capacity(t)
+                    rs.FlowData[indtime]['OutflowSupply']=rs.ExitNode.get_capacity(t)
                 elif rs.ExitNode.Type =='border':
-                    rs.Data[indtime]['OutflowSupply']=rs.get_next_routesection().Data[indtime]['InflowSupply']
+                    rs.FlowData[indtime]['OutflowSupply']=rs.get_next_routesection().FlowData[indtime]['InflowSupply']
                
             # effective outflow update
             for rs in reservoir.RouteSections:
-                rs.Data[indtime]['Outflow']=min(rs.Data[indtime]['OutflowDemand'],rs.Data[indtime]['OutflowSupply'])
+                rs.FlowData[indtime]['Outflow']=min(rs.FlowData[indtime]['OutflowDemand'],rs.FlowData[indtime]['OutflowSupply'])
                 
         for reservoir in Reservoirs:
             # effective inflow update
@@ -290,15 +290,15 @@ def AccBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
                 
                 if rs.EntryNode.Type == 'externalentry':
                     
-                    rs.Data[indtime]['Inflow']=rs.Data[indtime]['InflowSupply']
+                    rs.FlowData[indtime]['Inflow']=rs.FlowData[indtime]['InflowSupply']
                     
-                    if  rs.Data[indtime]['Demand'] > rs.Data[indtime]['InflowSupply'] or rs.Data[indtime]['NumWaitingVeh']>0:
-                        rs.Data[indtime]['NumWaitingVeh']+= Simulation.TimeStep*(rs.Data[indtime]['Demand'] - rs.Data[indtime]['InflowSupply'])        
+                    if  rs.FlowData[indtime]['Demand'] > rs.FlowData[indtime]['InflowSupply'] or rs.FlowData[indtime]['NumWaitingVeh']>0:
+                        rs.FlowData[indtime]['NumWaitingVeh']+= Simulation.TimeStep*(rs.FlowData[indtime]['Demand'] - rs.FlowData[indtime]['InflowSupply'])        
                         
                 elif rs.EntryNode.Type == 'origin':
-                    rs.Data[indtime]['Inflow']=rs.Data[indtime]['Demand']
+                    rs.FlowData[indtime]['Inflow']=rs.FlowData[indtime]['Demand']
                 else:
-                    rs.Data[indtime]['Inflow']=rs.PreviousRouteSection.Data[indtime]['Outflow']
+                    rs.FlowData[indtime]['Inflow']=rs.PreviousRouteSection.FlowData[indtime]['Outflow']
                     
                     
         if t+Simulation.TimeStep < Simulation.Duration:
@@ -309,21 +309,21 @@ def AccBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
                 
                 # External queue update : TO DO
                 for rs in reservoir.RouteSections:
-                    rs.Data[indtime+1]['AccQueue'] = 0
+                    rs.FlowData[indtime+1]['AccQueue'] = 0
                     
                 # Accumulation update
                 for rs in reservoir.RouteSections:
                     
-                    rs.Data[indtime+1]['AccCircu'] = rs.Data[indtime]['AccCircu'] + Simulation.TimeStep * (rs.Data[indtime]['Inflow'] - rs.Data[indtime]['Outflow'])
+                    rs.FlowData[indtime+1]['AccCircu'] = rs.FlowData[indtime]['AccCircu'] + Simulation.TimeStep * (rs.FlowData[indtime]['Inflow'] - rs.FlowData[indtime]['Outflow'])
                     
-                    rs.Data[indtime+1]['Acc'] = rs.Data[indtime+1]['AccCircu']+rs.Data[indtime+1]['AccQueue']
+                    rs.FlowData[indtime+1]['Acc'] = rs.FlowData[indtime+1]['AccCircu']+rs.FlowData[indtime+1]['AccQueue']
                     
-                    reservoir.Data[indtime]['Inflow'] += rs.Data[indtime]['Inflow']
-                    reservoir.Data[indtime]['Outflow'] += rs.Data[indtime]['Outflow']
+                    reservoir.FlowData[indtime]['Inflow'] += rs.FlowData[indtime]['Inflow']
+                    reservoir.FlowData[indtime]['Outflow'] += rs.FlowData[indtime]['Outflow']
                     
-                    reservoir.Data[indtime+1]['Acc'] += rs.Data[indtime+1]['Acc']
+                    reservoir.FlowData[indtime+1]['Acc'] += rs.FlowData[indtime+1]['Acc']
                     
-                    rs.Data[indtime+1]['NumWaitingVeh'] = rs.Data[indtime]['NumWaitingVeh']
+                    rs.FlowData[indtime+1]['NumWaitingVeh'] = rs.FlowData[indtime]['NumWaitingVeh']
                     
 def TripBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
     
@@ -353,18 +353,18 @@ def TripBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
         
         for reservoir in Reservoirs:
             for rs in reservoir.RouteSections:
-                rs.Data[indcurtime]['Acc']=rs.Data[indprevtime]['Acc']
-                rs.Data[indcurtime]['Nin']=rs.Data[indprevtime]['Nin']
-                rs.Data[indcurtime]['Nout']=rs.Data[indprevtime]['Nout']
+                rs.FlowData[indcurtime]['Acc']=rs.FlowData[indprevtime]['Acc']
+                rs.FlowData[indcurtime]['Nin']=rs.FlowData[indprevtime]['Nin']
+                rs.FlowData[indcurtime]['Nout']=rs.FlowData[indprevtime]['Nout']
                 
-            reservoir.Data[indcurtime]['MeanSpeed']=reservoir.Data[indprevtime]['MeanSpeed']
+            reservoir.FlowData[indcurtime]['MeanSpeed']=reservoir.FlowData[indprevtime]['MeanSpeed']
             
         # Update traveled distances and times for each vehicle on the network
         for vehicle in vehicles:
             curres = Vehicle.get_current_reservoir(vehicle)
-            vehicle.TotalTraveledDistance += elapsedtime * curres.Data[indcurtime]['MeanSpeed']
+            vehicle.TotalTraveledDistance += elapsedtime * curres.FlowData[indcurtime]['MeanSpeed']
             vehicle.TotalTraveledTime += elapsedtime
-            vehicle.RemainingLengthOfCurrentReservoir -= elapsedtime * curres.Data[indcurtime]['MeanSpeed']
+            vehicle.RemainingLengthOfCurrentReservoir -= elapsedtime * curres.FlowData[indcurtime]['MeanSpeed']
             
         # Update entering and/or exiting reservoir information by considering next vehicle to deal with
         
@@ -376,17 +376,17 @@ def TripBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
             pu0 = u0.RouteSections[u0.PathIndex]
             u0.ExitTimes[u0.PathIndex]=curtime
             
-            pu0.Data[indcurtime]['Acc']-=1
-            pu0.Data[indcurtime]['Nout']+=1
+            pu0.FlowData[indcurtime]['Acc']-=1
+            pu0.FlowData[indcurtime]['Nout']+=1
             
-            ru0.Data[indcurtime]['Acc']-=1
-            ru0.Data[indcurtime]['MeanSpeed']=ru0.get_speed_from_accumulation(ru0.Data[indcurtime]['Acc'])
+            ru0.FlowData[indcurtime]['Acc']-=1
+            ru0.FlowData[indcurtime]['MeanSpeed']=ru0.get_speed_from_accumulation(ru0.FlowData[indcurtime]['Acc'])
             
             pu0.SortedVehicles.pop(0)           # remove u0 from the list of the route section
             
             # Update route section exit demand times
             if len(pu0.SortedVehicles)>0:
-                pu0.t_out_demand = curtime + (pu0.SortedVehicles[0].RemainingLengthOfCurrentReservoir / ru0.Data[indcurtime]['MeanSpeed'])
+                pu0.t_out_demand = curtime + (pu0.SortedVehicles[0].RemainingLengthOfCurrentReservoir / ru0.FlowData[indcurtime]['MeanSpeed'])
             else:
                 pu0.t_out_demand = float('inf')
         else:
@@ -400,11 +400,11 @@ def TripBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
             pu0 = u0.RouteSections[u0.PathIndex]
             u0.EntryTimes[u0.PathIndex]=curtime
             
-            pu0.Data[indcurtime]['Acc']+=1
-            pu0.Data[indcurtime]['Nin']+=1
+            pu0.FlowData[indcurtime]['Acc']+=1
+            pu0.FlowData[indcurtime]['Nin']+=1
             
-            ru0.Data[indcurtime]['Acc']+=1
-            ru0.Data[indcurtime]['MeanSpeed']=ru0.get_speed_from_accumulation(ru0.Data[indcurtime]['Acc'],u0.Mode)
+            ru0.FlowData[indcurtime]['Acc']+=1
+            ru0.FlowData[indcurtime]['MeanSpeed']=ru0.get_speed_from_accumulation(ru0.FlowData[indcurtime]['Acc'],u0.Mode)
             
             pu0.SortedVehicles.append(u0)   # Added to the end of list
             u0.RemainingLengthOfCurrentReservoir = pu0.TripLength
@@ -427,10 +427,10 @@ def TripBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
             sum_ext_acc = 0
             for rs in ru0.RouteSections:
                 if rs.EntryNode.Type=='externalentry' or rs.EntryNode.Type=='border':  
-                    sum_ext_acc+=rs.Data[indcurtime]['Acc']
+                    sum_ext_acc+=rs.FlowData[indcurtime]['Acc']
         
             for rs in ru0.RouteSections:
-                rs.Data[indcurtime]['MergeCoeff']=rs.Data[indcurtime]['Acc']/sum_ext_acc
+                rs.FlowData[indcurtime]['MergeCoeff']=rs.FlowData[indcurtime]['Acc']/sum_ext_acc
                 
             # 2. Modification of entry demand times due to border supply
             for macronode in ru0.MacroNodes:
@@ -447,7 +447,7 @@ def TripBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
                         
                         if rs.EntryNode == macronode:
                             localtindemands.append(rs.t_in_demand)
-                            localmergecoeffs.append(rs.Data[indcurtime]['MergeCoeff'])
+                            localmergecoeffs.append(rs.FlowData[indcurtime]['MergeCoeff'])
                             locallastentriestimes.append(rs.t_last_entry)
                             rss.append(rs)
                            
@@ -467,22 +467,22 @@ def TripBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
                 if rs.EntryNode.Type == 'externalentry':
                     tmp+= rs.TripLength*Demand.get_partial_demand(GlobalDemand, rs, t)
  
-            ru0.Data[indcurtime]['ProductionSupply']=ru0.get_entry_supply(ru0.Data[indcurtime]['Acc'])-tmp
+            ru0.FlowData[indcurtime]['ProductionSupply']=ru0.get_entry_supply(ru0.FlowData[indcurtime]['Acc'])-tmp
             
             # Average trip length
             tmp = 0
             for rs in ru0.RouteSections:
                 if rs.EntryNode.Type=='externalentry' or rs.EntryNode.Type=='border':  
-                    tmp=tmp+rs.Data[indcurtime]['Acc']/rs.TripLength
+                    tmp=tmp+rs.FlowData[indcurtime]['Acc']/rs.TripLength
                 
             if tmp>0:
-                ru0.Data[indcurtime]['AvgTripLength']=ru0.Data[indcurtime]['Acc']/tmp
+                ru0.FlowData[indcurtime]['AvgTripLength']=ru0.FlowData[indcurtime]['Acc']/tmp
             else:
                 sumtriplength = 0
                 for rs in ru0.RouteSections:
                     if rs.EntryNode.Type=='externalentry' or rs.EntryNode.Type=='border':  
                         sumtriplength += rs.TripLength
-                ru0.Data[indcurtime]['AvgTripLength']=sumtriplength/len(ru0.RouteSections)
+                ru0.FlowData[indcurtime]['AvgTripLength']=sumtriplength/len(ru0.RouteSections)
                 
                 
             localtindemands =[]
@@ -494,12 +494,12 @@ def TripBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
                         
                 if rs.EntryNode == macronode:
                     localtindemands.append(rs.t_in_demand)
-                    localmergecoeffs.append(rs.Data[indcurtime]['MergeCoeff'])
+                    localmergecoeffs.append(rs.FlowData[indcurtime]['MergeCoeff'])
                     localtriplengths.append(rs.TripLength)
                     locallastentriestimes.append(rs.t_last_entry)
                     rss.append(rs)
                            
-                    localentrysupplytimes=MergeTime(localtindemands,localtriplengths, localmergecoeffs, locallastentriestimes,u0.Data[indcurtime]['ProductionSupply'])
+                    localentrysupplytimes=MergeTime(localtindemands,localtriplengths, localmergecoeffs, locallastentriestimes,u0.FlowData[indcurtime]['ProductionSupply'])
                     
             for rs in rss:
                 rs.t_in_supply = localentrysupplytimes[rss.index(rs)]
@@ -510,7 +510,7 @@ def TripBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
                 
         else:
             # the vehicule u0 completed its trip
-            u0.Route.Data['Time']['TravelTime']=curtime-u0.EntryTimes[0]
+            u0.Route.FlowData['Time']['TravelTime']=curtime-u0.EntryTimes[0]
         
         # Update reservoir exit supply times
         if creation==False:

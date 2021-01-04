@@ -1,11 +1,10 @@
-from main_objects.Element import Element
+from main_objects.FlowElement import FlowElement
 
-class RouteSection(Element):
+class RouteSection(FlowElement):
     def __init__(self, route, reservoir, macronodeIn, macronodeOut, tripLength):
 
         ## Dynamic variables ##
-        DataKeys = [ "Time", 
-                    
+        DataKeys = [ 
                      # common to both solvers
                      "InflowDemand",             # partial inflow demand (veh/s)
                      
@@ -53,7 +52,7 @@ class RouteSection(Element):
                       "EntryTimes", 
                       "ExitTimes"]
         
-        Element.__init__(self, DataKeys)
+        FlowElement.__init__(self, DataKeys,[route.Mode])
         
         # Usefull variables for trip based solver
         self.NextDesiredEntryTime = -1
