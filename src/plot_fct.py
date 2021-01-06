@@ -594,7 +594,7 @@ def plot_res_route_dem(reservoirs, routes, nodes, demand, demand_type, plot_char
     plt.axis('off')
 
 
-def plot_res_net_speed(fig, ax, t, reservoirs, speed_range, simul_time, res_output):
+def plot_res_net_speed(fig, ax, t, reservoirs, speed_range, simul_time, res_output, mode='VL'):
     # Plot the state of reservoirs at time t(mean speed), with links and/or shape borders
     #
     # INPUTS
@@ -602,8 +602,15 @@ def plot_res_net_speed(fig, ax, t, reservoirs, speed_range, simul_time, res_outp
     # ---- t: scalar, time[s]
     # ---- reservoirs: reservoirs structure
     # ---- speed_range: vector[V_min V_max], speed range[m/s] to define the colormap
+    # ---- simul_time:
+    # ---- res_output:
+    # ---- mode: string designating for which mode we want this graphic, VL by default
 
     num_res = len(reservoirs)
+
+    # Verify mode
+    if (mode != 'VL' and mode != 'BUS'):
+        print("WARNING: Mode is not known")
 
     # Verify plot information
     res_bp_filled = True
@@ -656,7 +663,11 @@ def plot_res_net_speed(fig, ax, t, reservoirs, speed_range, simul_time, res_outp
     list_res_cont = []
     list_ms_txt = []
     for r in range(num_res):
-        mean_speed = res_output[r]['ReservoirData'][time_id]["MeanSpeed"]
+        if mode in res_output[r]['ReservoirData'][time_id]["MeanSpeed"]:
+            mean_speed = res_output[r]['ReservoirData'][time_id]["MeanSpeed"][mode]
+        else:
+            print(f'WARNING: Mode {mode} is not present in this example.')
+
         speed_ratio = (mean_speed - speed_range[0]) / (speed_range[1] - speed_range[0])
         ind_color = min([max([math.floor(speed_ratio * nb_color), 1]), nb_color])
         color_i = rd_yl_gn(ind_color)
@@ -742,7 +753,7 @@ def plot_res_net_speed(fig, ax, t, reservoirs, speed_range, simul_time, res_outp
             list_ms_txt[r].set_visible(False)
 
             # New color
-            ms = res_output[r]['ReservoirData'][new_time_id]["MeanSpeed"]
+            ms = res_output[r]['ReservoirData'][new_time_id]["MeanSpeed"][mode]
             sr = (ms - speed_range[0]) / (speed_range[1] - speed_range[0])
             i_color = min([max([math.floor(sr * nb_color), 1]), nb_color])
             c_i = rd_yl_gn(i_color)
@@ -1118,7 +1129,7 @@ def plot_network(ax, reservoirs, nodes, routes, options=None):
     plt.show()
 
 
-def plot_graph_per_res(reservoirs, res_output, y_label1, y_label2=None, options=None):
+def plot_graph_per_res(reservoirs, res_output, y_label1, y_label2=None, mode='VL', options=None):
     # Plot the graph for each reservoir of y_label1 (and y_label2 when defined) in function of x_label
     # INPUTS
     # ---- reservoirs           : reservoirs structure output
@@ -1127,6 +1138,10 @@ def plot_graph_per_res(reservoirs, res_output, y_label1, y_label2=None, options=
 
     num_res = len(reservoirs)
     x_label = 'Time'
+
+    # Verify mode
+    if (mode != 'VL' and mode != 'BUS'):
+        print("WARNING: Mode is not known")
 
     # Options
     if options is not None:
@@ -1168,9 +1183,9 @@ def plot_graph_per_res(reservoirs, res_output, y_label1, y_label2=None, options=
 
         for data in res_output[r]['ReservoirData']:
             time_res.append(data[x_label])
-            data1_res.append(data[y_label1])
+            data1_res.append(data[y_label1][mode])
             if y_label2 is not None:
-                data2_res.append(data[y_label2])
+                data2_res.append(data[y_label2][mode])
 
         data1_max = max(data1_res) + 1
         if data1_max == 0:
@@ -1200,8 +1215,8 @@ def plot_graph_per_res(reservoirs, res_output, y_label1, y_label2=None, options=
 
         # If plotting accumulation, display critical and maximum acceleration
         if y_label1 == 'Acc' or y_label2 == 'Acc':
-            max_acc = reservoirs[r].get_MFD_setting('MaxAcc', 'VL')
-            crit_acc = reservoirs[r].get_MFD_setting('CritAcc', 'VL')
+            max_acc = reservoirs[r].get_MFD_setting('MaxAcc', mode)
+            crit_acc = reservoirs[r].get_MFD_setting('CritAcc', mode)
 
             if y_label1 == 'Acc':
                 p1.append(ax.axhline(y=max_acc, color="k", ls="--", label='MaxAcc'))
@@ -1230,13 +1245,13 @@ def plot_graph_per_res(reservoirs, res_output, y_label1, y_label2=None, options=
         ind_color += 1
 
     if y_label2 is not None:
-        sup_title_label = f'{y_label1}, {y_label2} = f({x_label})'
+        sup_title_label = f'{y_label1}, {y_label2} = f({x_label}); mode = {mode}'
     else:
-        sup_title_label = f'{y_label1} = f({x_label})'
+        sup_title_label = f'{y_label1} = f({x_label}); mode = {mode}'
     plt.suptitle(sup_title_label)
 
 
-def plot_graph_per_res_per_route(reservoirs, res_output, y_label, routes, options=None):
+def plot_graph_per_res_per_route(reservoirs, res_output, y_label, routes, mode='VL', options=None):
     # Plot the graphes per route for each reservoir of y_label in function of x_label
     # INPUTS
     # ---- reservoirs           : reservoirs structure output
@@ -1245,6 +1260,10 @@ def plot_graph_per_res_per_route(reservoirs, res_output, y_label, routes, option
     num_res = len(reservoirs)
     num_routes = len(routes)
     x_label = 'Time'
+
+    # Verify mode
+    if (mode != 'VL' and mode != 'BUS'):
+        print("WARNING: Mode is not known")
 
     # Options
     if options is not None:
@@ -1294,7 +1313,7 @@ def plot_graph_per_res_per_route(reservoirs, res_output, y_label, routes, option
 
             data_route = []
             for data in route['Data']:
-                data_route.append(data[y_label])
+                data_route.append(data[y_label][mode])
 
             data_max.append(max(data_route) + 1)
 
@@ -1305,8 +1324,8 @@ def plot_graph_per_res_per_route(reservoirs, res_output, y_label, routes, option
         # If plotting accumulation, display critical and maximum acceleration
         if y_label == 'Acc':
             p2 = []
-            max_acc = reservoirs[r].get_MFD_setting('MaxAcc', 'VL')
-            crit_acc = reservoirs[r].get_MFD_setting('CritAcc', 'VL')
+            max_acc = reservoirs[r].get_MFD_setting('MaxAcc', mode)
+            crit_acc = reservoirs[r].get_MFD_setting('CritAcc', mode)
 
             p2.append(ax.axhline(y=max_acc, color="k", ls="--", label='MaxAcc'))
             p2.append(ax.axhline(y=crit_acc, color='k', ls=':', label='CritAcc'))
@@ -1327,5 +1346,5 @@ def plot_graph_per_res_per_route(reservoirs, res_output, y_label, routes, option
         if j >= num_col:
             i += 1
 
-    sup_title_label = f'{y_label} = f({x_label})'
+    sup_title_label = f'{y_label} = f({x_label}); mode = {mode}'
     plt.suptitle(sup_title_label)
