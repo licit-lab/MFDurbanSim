@@ -1,5 +1,6 @@
 import os
 import json
+import importlib
 
 from main_objects import Simulation, Reservoir, Route, MacroNode, Demand, Vehicle
 
@@ -16,8 +17,9 @@ PLOT_GRAPH_PER_RES_PER_ROUTE = False
 DYNAMIC_PLOT = 0
 
 (head, tail) = os.path.split(os.getcwd())
+
 root = os.path.normpath(os.path.join(head, "examples"))
-folder = 'Braess/DemSC1/'
+folder = 'SingleRes/DemSC1/'
 
 path = os.path.normpath(os.path.join(root, folder))
 

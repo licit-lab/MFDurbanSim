@@ -25,7 +25,7 @@ class RouteSection(FlowElement):
                       "AccQueue",                 # partial queuing accumulation (veh)
                       "NoutCircu",
                       "NumWaitingVeh",
-                      "Demand"
+                      "Demand",
                       
                       # Trip based model
                       "EntryDemandTime",   # input data ?

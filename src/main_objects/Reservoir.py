@@ -23,8 +23,8 @@ class Reservoir(FlowElement):
                      "Outflow",
                      "Nin",
                      "Nout",
-                     "MeanSpeed",
-                     "Demand"
+                     "Demand",
+                     "Production"
                             
                      # Trip based model
                      # "PossibleNextEntryTime"
@@ -127,7 +127,7 @@ class Reservoir(FlowElement):
 
 
 
-    def get_production_from_accumulation(self, n, mode):
+    def get_production_from_accumulation_by_mode(self, n, mode):
         
         mfd_set = [tag for tag in self.MFDsetting if tag['mode'] == mode][0]
         
@@ -141,26 +141,26 @@ class Reservoir(FlowElement):
 
         return production
 
-    # n and production are a list of dictionnary (keys: mode)
+    # n and production output are a dictionnary (keys: mode)
     def get_production_from_accumulation(self, n):
         
-        production=[]
-        # for m in n:
-        #     production.append({'mode': , 'value': 0.})
+        production=dict()
+        for mode in n:
+            production[mode]=self.get_production_from_accumulation_by_mode(n[mode],mode)
          
         return production 
 
-    def get_speed_from_accumulation(self, accumulation):
+    def get_speed_from_accumulation(self, n):
         
-        speed = dict(accumulation.keys())
+        speed = dict()
         
-        for mode in accumulation:
+        for mode in n:
             
             mfd_set = [tag for tag in self.MFDsetting if tag['mode'] == mode][0]
         
-            if accumulation[mode] > 0:
-                production = self.get_production_from_accumulation(accumulation[mode], mode)
-                speed[mode] = production / accumulation[mode]
+            if n[mode] > 0:
+                production = self.get_production_from_accumulation_by_mode(n[mode], mode)
+                speed[mode] = production / n[mode]
             else:
                 speed[mode] = mfd_set['FreeflowSpeed']
         
@@ -182,10 +182,12 @@ class Reservoir(FlowElement):
         param = [mfd_set['MaxAcc'], mfd_set['CritAcc'], mfd_set['MaxProd'],
                  a1 * mfd_set['CritAcc'], a2 * mfd_set['CritAcc'], b * mfd_set['MaxProd']]
         
-        entry_supply = (accumulation <= param[3]) * param[5] + \
-                       (param[3] < accumulation) * (accumulation <= param[4]) * \
-                       (param[5] + (accumulation-param[3]) / (param[4] - param[3]) *
-                        (self.get_production_from_accumulation(a2 * mfd_set['CritAcc'], mode)-param[5])) + \
-                       (param[4] < accumulation) * self.get_production_from_accumulation(accumulation, mode)
+        n = accumulation[mode]
+        
+        entry_supply = (n <= param[3]) * param[5] + \
+                       (param[3] < n) * (n <= param[4]) * \
+                       (param[5] + (n-param[3]) / (param[4] - param[3]) *
+                        (self.get_production_from_accumulation_by_mode(a2 * mfd_set['CritAcc'], mode)-param[5])) + \
+                       (param[4] < n) * self.get_production_from_accumulation_by_mode(n, mode)
 
         return entry_supply
