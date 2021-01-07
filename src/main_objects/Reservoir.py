@@ -94,7 +94,9 @@ class Reservoir(FlowElement):
         
         if mfd_type == '3d_parabolic':
             if 'MarginalEffect_Mode1onMode2' in load_res:
-                me_bus_car, me_car_bus, me_bus_bus = 0
+                me_bus_car = 0
+                me_car_bus = 0
+                me_bus_bus = 0
                 for me in load_res['MarginalEffect_Mode1onMode2']:
                     if me['mode1'] == 'BUS' and me['mode2'] == 'VL':
                         me_bus_car = me['value']
@@ -103,7 +105,8 @@ class Reservoir(FlowElement):
                     elif me['mode1'] == 'BUS' and me['mode2'] == 'BUS':
                         me_bus_bus = me['value']
 
-                i_vl, i_bus = 0
+                i_vl = 0
+                i_bus = 0
                 for i in range(len(self.MFDsetting)):
                     if self.MFDsetting[i]['mode'] == 'VL':
                         i_vl = i
