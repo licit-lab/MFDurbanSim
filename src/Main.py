@@ -1,5 +1,6 @@
 import os
 import json
+import sys
 import importlib
 
 from main_objects import Simulation, Reservoir, Route, MacroNode, Demand, Vehicle
@@ -9,12 +10,12 @@ import Solver
 import plot_fct
 
 DEBUG = 0
-DYNAMIC_PLOT = 0
 
 (head, tail) = os.path.split(os.getcwd())
 
 root = os.path.normpath(os.path.join(head, "examples"))
-folder = 'Braess/DemSC1/'
+
+folder = f'{sys.argv[1]}/{sys.argv[2]}/'
 
 path = os.path.normpath(os.path.join(root, folder))
 
