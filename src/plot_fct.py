@@ -736,7 +736,7 @@ def plot_graph_per_res_per_route(reservoirs, res_output, y_label, routes, mode='
 
             data_max.append(max(data_route) + 1)
 
-            ax.set_ylabel(y_label)
+            ax.set_ylabel(f'{y_label} ({unity[y_label]})')
             p, = ax.plot(time_res, data_route, color=color_r, ls='-', label=route['RouteID'])
             p1.append(p)
 
@@ -754,7 +754,7 @@ def plot_graph_per_res_per_route(reservoirs, res_output, y_label, routes, mode='
             plt.gca().add_artist(legend2)
 
         plt.axis([0, time_res[-1], 0, max(data_max)])
-        plt.xlabel(x_label)
+        plt.xlabel(f'{x_label} ({unity[x_label]})')
         plt.title(reservoirs[r].ID)
 
         legend1 = plt.legend(handles=p1, loc='upper right')
