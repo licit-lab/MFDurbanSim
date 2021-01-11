@@ -198,31 +198,35 @@ def save_output(output_file, simulation, reservoirs, routes, vehicle=None):
     for res in reservoirs:
         reservoir_data = []
         for data in res.FlowData:
-            reservoir_data.append({"Time": data["Time"], "Acc": data["Acc"], "MeanSpeed": data["MeanSpeed"], 'ProductionSupply' : data['ProductionSupply'],
-                                   'AvgTripLength':data['AvgTripLength'], 
-                                   'Inflow': data['Inflow'], 'Outflow': data['Outflow'], 'Demand':data['Demand']})
+            reservoir_data.append({"Time": data["Time"], "Acc": data["Acc"], "MeanSpeed": data["MeanSpeed"],
+                                   'ProductionSupply': data['ProductionSupply'], 'AvgTripLength': data['AvgTripLength'],
+                                   'Inflow': data['Inflow'], 'Outflow': data['Outflow'], 'Demand': data['Demand']})
         
         routes_data = []
+        mode_data = []
         j = 0
         for rs in res.RouteSections:
             routes_data.append({"RouteID": rs.Route.ID, "Data": []})
+            mode_data.append({"Mode": rs.Route.Mode, "Data": []})
 
             for data in rs.FlowData:
-                routes_data[j]["Data"].append({"Time": data["Time"], "Acc": data["Acc"], 'LocalInflowSupply':data['LocalInflowSupply'], 'InflowSupply':data['InflowSupply'],
-                                               "AccCircu": data["AccCircu"],
-                                               "AccQueue": data["AccQueue"], "InflowDemand": data["InflowDemand"], "Inflow": data["Inflow"],
+                routes_data[j]["Data"].append({"Time": data["Time"], "Acc": data["Acc"],
+                                               'LocalInflowSupply': data['LocalInflowSupply'],
+                                               'InflowSupply': data['InflowSupply'],
+                                               "AccCircu": data["AccCircu"], "AccQueue": data["AccQueue"],
+                                               "InflowDemand": data["InflowDemand"], "Inflow": data["Inflow"],
                                                "Outflow": data["Outflow"], "OutflowDemand": data["OutflowDemand"],
-                                               "Nin": data["Nin"], "Nout": data["Nout"],
-                                               "NoutCircu": data["NoutCircu"],
+                                               "Nin": data["Nin"], "Nout": data["Nout"], "NoutCircu": data["NoutCircu"],
                                                "NumWaitingVeh": data['NumWaitingVeh'],
-                                               'Demand':data['Demand'],
-                                               'MacroNodeMergeCoeff':data['MacroNodeMergeCoeff'],
-                                               'ReservoirMergeCoeff':data['ReservoirMergeCoeff'],
+                                               'Demand': data['Demand'],
+                                               'MacroNodeMergeCoeff': data['MacroNodeMergeCoeff'],
+                                               'ReservoirMergeCoeff': data['ReservoirMergeCoeff'],
                                                })
 
             j += 1
 
-        reservoirs_out.append({"ID": res.ID, "ReservoirData": reservoir_data, "DataPerRoute": routes_data})
+        reservoirs_out.append({"ID": res.ID, "ReservoirData": reservoir_data, "DataPerRoute": routes_data,
+                               "DataPerMode": mode_data})
 
     # --- ROUTES --- #
     routes_out = []
