@@ -200,7 +200,7 @@ def save_output(output_file, simulation, reservoirs, routes, vehicle=None):
         for data in res.FlowData:
             reservoir_data.append({"Time": data["Time"], "Acc": data["Acc"], "MeanSpeed": data["MeanSpeed"], 'ProductionSupply' : data['ProductionSupply'],
                                    'AvgTripLength':data['AvgTripLength'], 
-                                   'Inflow': data['Inflow'], 'Outflow': data['Outflow'], 'Demand':data['Demand']})
+                                   'Inflow': data['Inflow'], 'Outflow': data['Outflow'], 'Demand':data['Demand'], 'Production':data['Production']})
         
         routes_data = []
         j = 0
