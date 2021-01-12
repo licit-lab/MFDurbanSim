@@ -1,6 +1,8 @@
 import matplotlib.pyplot as plt
 import matplotlib.widgets as widgets
 from matplotlib.lines import Line2D
+import matplotlib.colors as colors
+import matplotlib.cm as cm
 
 import math
 import numpy as np
