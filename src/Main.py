@@ -6,8 +6,7 @@ import importlib
 from main_objects import Simulation, Reservoir, Route, MacroNode, Demand, Vehicle
 
 import IO_functions
-import Solver 
-import plot_fct
+import Solver
 
 DEBUG = 0
 

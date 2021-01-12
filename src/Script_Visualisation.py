@@ -1,10 +1,10 @@
 import json
+import sys
 import os
 
-from main_objects import Simulation, Reservoir, Route, MacroNode, Demand, Vehicle
+from main_objects import Simulation, Reservoir, Route, MacroNode
 
 import IO_functions
-import Solver
 import plot_fct
 
 DEBUG = 0
