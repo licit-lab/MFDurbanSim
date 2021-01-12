@@ -104,6 +104,7 @@ def AccBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
         for reservoir in Reservoirs:
 
             # Mean speed update
+
             reservoir.FlowData[indtime]['MeanSpeed']=reservoir.get_speed_from_accumulation(reservoir.FlowData[indtime]['Acc'])
           
             # Production update (TO DO for queue dyn model)
