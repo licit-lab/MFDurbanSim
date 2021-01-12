@@ -40,7 +40,6 @@ class FlowElement:
         timestep : float
             timestep (in seconds) to initialize
         """
-        print('init_time_step')
         
         d=dict(zip(self.modes,[0.0]*len(self.modes)))
         #d = {'VL':0.0}
