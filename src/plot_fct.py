@@ -307,7 +307,7 @@ def plot_network(ax, reservoirs, nodes, routes, options=None):
 
     # Plot the routes
     legend_routes = []
-    i = 1
+    i = 0
 
     if mn_coord_filled:
         route_plot = []
