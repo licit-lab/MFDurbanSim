@@ -15,7 +15,12 @@ PLOT_GRAPH_PER_RES_PER_ROUTE = True
 
 (head, tail) = os.path.split(os.getcwd())
 root = os.path.normpath(os.path.join(head, "examples"))
-folder = f'{sys.argv[1]}/{sys.argv[2]}/'
+
+if len(sys.argv) == 3:
+    folder = f'{sys.argv[1]}/{sys.argv[2]}/'
+else:
+    folder = f'Braess_2modes/DemSC1/'
+    print(f'WARNING: Missing arguments, the default example launched is {folder}.')
 
 path = os.path.normpath(os.path.join(root, folder))
 
@@ -84,6 +89,7 @@ routes_output = load_output["ROUTES"]
 
 # Reservoir config and states
 simu_time = list(range(0, simulation_settings.Duration, simulation_settings.TimeStep))
+simu_modes = simulation_settings.Modes
 speed_range = [3, 14]
 t0 = 0
 
@@ -95,34 +101,33 @@ if PLOT_NETWORK:
     fig, ax = plot_fct.plt.subplots()
     plot_fct.plot_network(ax, reservoirs, macronodes, routes, options=options)
 
-
 if PLOT_MS:
     # Plot reservoir state (mean speed) at each t, real network
     fig2, ax2 = plot_fct.plt.subplots()
-    plot_fct.plot_res_net_speed(fig2, ax2, t0, reservoirs, speed_range, simu_time, res_output)
+    plot_fct.plot_res_net_speed(fig2, ax2, t0, reservoirs, speed_range, simu_time, res_output, simu_modes, mode='VL')
 
 if PLOT_GRAPH_PER_RES:
     # Plot Acc, MeanSpeed, Inflow, Outflow in function of Time per reservoir
     fig3, ax3 = plot_fct.plt.subplots()
-    plot_fct.plot_graph_per_res(reservoirs, res_output, 'Acc', options=options)
+    plot_fct.plot_graph_per_res(reservoirs, res_output, simu_modes, 'Acc', mode='VL', options=options)
 
     fig4, ax4 = plot_fct.plt.subplots()
-    plot_fct.plot_graph_per_res(reservoirs, res_output, 'MeanSpeed', options=options)
+    plot_fct.plot_graph_per_res(reservoirs, res_output, simu_modes, 'MeanSpeed', mode='VL', options=options)
 
     fig5, ax5 = plot_fct.plt.subplots()
-    plot_fct.plot_graph_per_res(reservoirs, res_output, 'Inflow', y_label2='Outflow', options=options)
+    plot_fct.plot_graph_per_res(reservoirs, res_output, simu_modes, 'Inflow', y_label2='Outflow', mode='VL', options=options)
 
     fig6, ax6 = plot_fct.plt.subplots()
-    plot_fct.plot_graph_per_res(reservoirs, res_output, 'Demand', options=options)
+    plot_fct.plot_graph_per_res(reservoirs, res_output, simu_modes, 'Demand', mode='VL', options=options)
 
     plot_fct.plt.show()
 
 if PLOT_GRAPH_PER_RES_PER_ROUTE:
     # Plot Acc in function of Time per reservoir per route
     fig7, ax7 = plot_fct.plt.subplots()
-    plot_fct.plot_graph_per_res_per_route(reservoirs, res_output, 'Acc', routes, options=options)
+    plot_fct.plot_graph_per_res_per_route(reservoirs, res_output, 'Acc', routes, simu_modes, mode='VL', options=options)
 
     fig8, ax8 = plot_fct.plt.subplots()
-    plot_fct.plot_graph_per_res_per_route(reservoirs, res_output, 'Demand', routes, options=options)
+    plot_fct.plot_graph_per_res_per_route(reservoirs, res_output, 'Demand', routes, simu_modes, mode='VL', options=options)
 
     plot_fct.plt.show()

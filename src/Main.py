@@ -14,7 +14,11 @@ DEBUG = 0
 
 root = os.path.normpath(os.path.join(head, "examples"))
 
-folder = f'{sys.argv[1]}/{sys.argv[2]}/'
+if len(sys.argv) == 3:
+    folder = f'{sys.argv[1]}/{sys.argv[2]}/'
+else:
+    folder = f'Braess_2modes/DemSC1/'
+    print(f'WARNING: Missing arguments, the default example launched is {folder}.')
 
 path = os.path.normpath(os.path.join(root, folder))
 

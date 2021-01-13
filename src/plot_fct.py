@@ -17,7 +17,7 @@ unity = {'Time': 's',
          'Outflow': 'veh',
          'MeanSpeed': 'm/s'}
 
-def plot_res_net_speed(fig, ax, t, reservoirs, speed_range, simul_time, res_output, mode='VL'):
+def plot_res_net_speed(fig, ax, t, reservoirs, speed_range, simul_time, res_output, simu_modes, mode='VL'):
     # Plot the state of reservoirs at time t(mean speed), with links and/or shape borders
     #
     # INPUTS
@@ -27,12 +27,13 @@ def plot_res_net_speed(fig, ax, t, reservoirs, speed_range, simul_time, res_outp
     # ---- speed_range: vector[V_min V_max], speed range[m/s] to define the colormap
     # ---- simul_time:
     # ---- res_output:
+    # ---- simu_modes: list of modes used in the simulation
     # ---- mode: string designating for which mode we want this graphic, VL by default
 
     num_res = len(reservoirs)
 
     # Verify mode
-    if (mode != 'VL' and mode != 'BUS'):
+    if mode not in simu_modes:
         print("WARNING: Mode is not known")
 
     # Verify plot information
@@ -66,7 +67,7 @@ def plot_res_net_speed(fig, ax, t, reservoirs, speed_range, simul_time, res_outp
     c_bar.ax.set_ylabel('Speed [km/h]', rotation=-90, va="bottom")
 
     # Plot title
-    t_label = f"Mean speed at t = {t} s"
+    t_label = f"Mean speed at t = {t} s; mode = {mode}"
     title = plt.title(t_label)
 
     # Slider
@@ -552,18 +553,22 @@ def plot_network(ax, reservoirs, nodes, routes, options=None):
     plt.show()
 
 
-def plot_graph_per_res(reservoirs, res_output, y_label1, y_label2=None, mode='VL', options=None):
+def plot_graph_per_res(reservoirs, res_output, simu_modes, y_label1, y_label2=None, mode='VL', options=None):
     # Plot the graph for each reservoir of y_label1 (and y_label2 when defined) in function of x_label
     # INPUTS
-    # ---- reservoirs           : reservoirs structure output
-    # ---- y_label1             : label of y axe (Acc, Inflow, Outflow, Demand, Speed ...)
-    # ---- y_label2             : label of another set of data to plot on the same graph (Inflow and Outflow)
+    # ---- reservoirs           : reservoirs structure input.
+    # ---- res_output           : reservoirs results (output).
+    # ---- simu_modes           : list of modes used in the simulation.
+    # ---- y_label1             : label of y axe (Acc, Inflow, Outflow, Demand, Speed ...).
+    # ---- y_label2             : label of another set of data to plot on the same graph (Inflow and Outflow).
+    # ---- mode                 : optional, graphic displayed for a particular mode. 'VL' by default.
+    # ---- options              : optional, graphic options.
 
     num_res = len(reservoirs)
     x_label = 'Time'
 
     # Verify mode
-    if (mode != 'VL' and mode != 'BUS'):
+    if mode not in simu_modes:
         print("WARNING: Mode is not known")
 
     # Options
@@ -674,13 +679,14 @@ def plot_graph_per_res(reservoirs, res_output, y_label1, y_label2=None, mode='VL
     plt.suptitle(sup_title_label)
 
 
-def plot_graph_per_res_per_route(reservoirs, res_output, y_label, routes, mode='VL', options=None):
+def plot_graph_per_res_per_route(reservoirs, res_output, y_label, routes, simu_modes, mode='VL', options=None):
     # Plot the graphes per route for each reservoir of y_label in function of x_label
     # INPUTS
     # ---- reservoirs           : reservoirs structure input.
     # ---- res_output           : reservoirs results (output).
     # ---- y_label              : label of y axe (Acc, Inflow, Outflow, Demand, Speed ...).
     # ---- routes               : routes structure input.
+    # ---- simu_modes           : list of modes used in the simulation.
     # ---- mode                 : optional, graphic displayed for a particular mode. 'VL' by default.
     # ---- options              : optional, graphic options.
 
@@ -689,7 +695,7 @@ def plot_graph_per_res_per_route(reservoirs, res_output, y_label, routes, mode='
     x_label = 'Time'
 
     # Verify mode
-    if (mode != 'VL' and mode != 'BUS'):
+    if mode not in simu_modes:
         print("WARNING: Mode is not known")
 
     # Options
