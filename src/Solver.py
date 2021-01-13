@@ -205,11 +205,11 @@ def AccBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
             # Inflow demand updates
             for rs in reservoir.RouteSections:
                 
-                inflowdemand=dict().fromkeys(modes,0.)
                 mode=rs.Route.Mode
+                inflowdemand=dict().fromkeys([mode],0.)
                 
                 if rs.EntryNode.Type == 'origin':
-                    inflowdemand[mode] = rs.FlowData[indtime]['Demand']
+                    inflowdemand[mode] = rs.FlowData[indtime]['Demand'][mode]
                         
                 if rs.EntryNode.Type =='externalentry':
                     if rs.FlowData[indtime]['NumWaitingVeh'][mode] > 0:
@@ -218,7 +218,7 @@ def AccBased(Simulation, Reservoirs, Routes, MacroNodes, GlobalDemand):
                         inflowdemand[mode] = rs.FlowData[indtime]['Demand'][mode]
                         
                 if rs.EntryNode.Type =='border':
-                    inflowdemand[mode] = rs.get_previous_routesection().FlowData[indtime]['OutflowDemand'][mode]
+                    inflowdemand = rs.get_previous_routesection().FlowData[indtime]['OutflowDemand']
                     
                 rs.FlowData[indtime]['InflowDemand'] = inflowdemand
                             
