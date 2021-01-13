@@ -4,6 +4,8 @@ from matplotlib.lines import Line2D
 import matplotlib.colors as colors
 import matplotlib.cm as cm
 
+from main_objects import Route
+
 import math
 import numpy as np
 
@@ -675,8 +677,12 @@ def plot_graph_per_res(reservoirs, res_output, y_label1, y_label2=None, mode='VL
 def plot_graph_per_res_per_route(reservoirs, res_output, y_label, routes, mode='VL', options=None):
     # Plot the graphes per route for each reservoir of y_label in function of x_label
     # INPUTS
-    # ---- reservoirs           : reservoirs structure output
-    # ---- y_label              : label of y axe (Acc, Inflow, Outflow, Demand, Speed ...)
+    # ---- reservoirs           : reservoirs structure input.
+    # ---- res_output           : reservoirs results (output).
+    # ---- y_label              : label of y axe (Acc, Inflow, Outflow, Demand, Speed ...).
+    # ---- routes               : routes structure input.
+    # ---- mode                 : optional, graphic displayed for a particular mode. 'VL' by default.
+    # ---- options              : optional, graphic options.
 
     num_res = len(reservoirs)
     num_routes = len(routes)
@@ -729,18 +735,20 @@ def plot_graph_per_res_per_route(reservoirs, res_output, y_label, routes, mode='
 
         p1 = []
         for route in res_output[r]['DataPerRoute']:
-            # Define color
-            color_r = color_map_0[ind_routes[route['RouteID']]]
+            route_obj = Route.get_route(routes, route['RouteID'])
+            if route_obj.Mode == mode:
+                # Define color
+                color_r = color_map_0[ind_routes[route['RouteID']]]
 
-            data_route = []
-            for data in route['Data']:
-                data_route.append(data[y_label][mode])
+                data_route = []
+                for data in route['Data']:
+                    data_route.append(data[y_label][mode])
 
-            data_max.append(max(data_route) + 1)
+                data_max.append(max(data_route) + 1)
 
-            ax.set_ylabel(f'{y_label} ({unity[y_label]})')
-            p, = ax.plot(time_res, data_route, color=color_r, ls='-', label=route['RouteID'])
-            p1.append(p)
+                ax.set_ylabel(f'{y_label} ({unity[y_label]})')
+                p, = ax.plot(time_res, data_route, color=color_r, ls='-', label=route['RouteID'])
+                p1.append(p)
 
         # If plotting accumulation, display critical and maximum acceleration
         if y_label == 'Acc':
