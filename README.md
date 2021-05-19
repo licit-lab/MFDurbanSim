@@ -9,6 +9,7 @@ MFDurbanSim is a traffic simulator for modeling regional urban traffic dynamics 
 This simulator is a Python extension of the [SymuRes platform](https://github.com/Ifsttar/SymuRes) developed by Guilhem Mariotte during his PhD.
 
 
+
 **Funding**
 
 European Research Council (ERC) under the European Union’s Horizon 2020 research and innovation program (grant agreement No 646592)
