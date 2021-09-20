@@ -1,4 +1,4 @@
-from AccBased_functions import *
+from mfdus.AccBased_functions import *
 from mfdus.main_objects import Demand, Vehicle
 
 import math

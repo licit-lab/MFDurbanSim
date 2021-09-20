@@ -9,6 +9,10 @@ setup_kwds = dict(
     author_email="",
     package_dir={"": "src"},
     packages=pkgs,
+    entry_points={
+        'console_scripts': ['MFDLauncher=mfdus.Main:main',
+                            'MFDRender=mfdus.Script_Visualisation:main'],
+    },
     description="Short description",
     long_description="Long description",
     url="",
