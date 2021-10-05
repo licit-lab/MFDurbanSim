@@ -5,12 +5,12 @@ from pathlib import Path
 
 import argparse
 
-from mfdus.main_objects import Simulation, Reservoir, MacroNode, Demand
-from mfdus.main_objects import Route
+from mfdurbansim.main_objects import Simulation, Reservoir, MacroNode, Demand
+from mfdurbansim.main_objects import Route
 
-from mfdus.IO_functions import (verify_reservoir_input, verify_nodes_input, verify_routes_input, verify_flow_demand_input,
+from mfdurbansim.IO_functions import (verify_reservoir_input, verify_nodes_input, verify_routes_input, verify_flow_demand_input,
                                 verify_discrete_demand_input, init_variables, save_output)
-from mfdus.Solver import AccBased, TripBased
+from mfdurbansim.Solver import AccBased, TripBased
 
 def parse_args():
     parser = argparse.ArgumentParser()

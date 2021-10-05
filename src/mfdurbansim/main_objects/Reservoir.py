@@ -1,4 +1,4 @@
-from mfdus.main_objects.FlowElement import FlowElement
+from mfdurbansim.main_objects.FlowElement import FlowElement
 
 
 def get_reservoir(reservoirs, reservoir_id):

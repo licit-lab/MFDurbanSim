@@ -1,6 +1,6 @@
 import pandas
-from mfdus.main_objects import MacroNode, Reservoir
-from mfdus.main_objects.FlowElement import FlowElement
+from mfdurbansim.main_objects import MacroNode, Reservoir
+from mfdurbansim.main_objects.FlowElement import FlowElement
 
 
 def get_route(routes, route_id):

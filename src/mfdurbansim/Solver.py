@@ -1,5 +1,5 @@
-from mfdus.AccBased_functions import *
-from mfdus.main_objects import Demand, Vehicle
+from mfdurbansim.AccBased_functions import *
+from mfdurbansim.main_objects import Demand, Vehicle
 
 import math
 

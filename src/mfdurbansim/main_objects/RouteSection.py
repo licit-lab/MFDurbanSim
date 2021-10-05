@@ -1,4 +1,4 @@
-from mfdus.main_objects.FlowElement import FlowElement
+from mfdurbansim.main_objects.FlowElement import FlowElement
 
 class RouteSection(FlowElement):
     def __init__(self, route, reservoir, macronodeIn, macronodeOut, tripLength):

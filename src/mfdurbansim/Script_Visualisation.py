@@ -5,11 +5,11 @@ import argparse
 
 import matplotlib.pyplot as plt
 
-from mfdus.main_objects import Simulation, Reservoir, MacroNode
-from mfdus.main_objects import Route
+from mfdurbansim.main_objects import Simulation, Reservoir, MacroNode
+from mfdurbansim.main_objects import Route
 
-from mfdus.plot_fct import plot_network, plot_res_net_speed, plot_graph_per_res, plot_graph_per_res_per_route
-from mfdus.IO_functions import verify_nodes_input, init_variables, verify_routes_input, verify_reservoir_input
+from mfdurbansim.plot_fct import plot_network, plot_res_net_speed, plot_graph_per_res, plot_graph_per_res_per_route
+from mfdurbansim.IO_functions import verify_nodes_input, init_variables, verify_routes_input, verify_reservoir_input
 
 def parse_args():
     parser = argparse.ArgumentParser()

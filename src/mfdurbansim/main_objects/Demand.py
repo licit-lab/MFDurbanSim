@@ -2,8 +2,8 @@
 
 import pandas
 
-from mfdus.main_objects import MacroNode
-from mfdus.main_objects import Route
+from mfdurbansim.main_objects import MacroNode
+from mfdurbansim.main_objects import Route
 
 
 class FlowDemand:

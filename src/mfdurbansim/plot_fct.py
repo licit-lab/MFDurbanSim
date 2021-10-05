@@ -4,7 +4,7 @@ from matplotlib.lines import Line2D
 import matplotlib.colors as colors
 import matplotlib.cm as cm
 
-from mfdus.main_objects import Route
+from mfdurbansim.main_objects import Route
 
 import math
 import numpy as np

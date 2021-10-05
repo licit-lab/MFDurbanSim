@@ -1,7 +1,7 @@
 {% set version = "1.0.0" %}
 
 package:
-  name: mfdus
+  name: mfdurbansim
   version: {{ version }}
 
 source:
@@ -24,7 +24,7 @@ requirements:
 
 test:
   imports:
-    - mfdus
+    - mfdurbansim
 
 about:
   home: https://github.com/licit-lab/MFDurbanSim

@@ -9,14 +9,6 @@ examples/SingleRes/DemSC2/Output.json
 examples/SingleRes/DemSC3/Output.json
 examples/SingleRes/DemSC4/Output.json
 examples/SingleRes/DemSC5/Output.json
-src/mfdus/main_objects/__pycache__/Demand.cpython-37.pyc
-src/mfdus/main_objects/__pycache__/MacroNode.cpython-37.pyc
-src/mfdus/main_objects/__pycache__/Reservoir.cpython-37.pyc
-src/mfdus/main_objects/__pycache__/Route.cpython-37.pyc
-src/mfdus/main_objects/__pycache__/RouteSection.cpython-37.pyc
-src/mfdus/main_objects/__pycache__/Simulation.cpython-37.pyc
-src/mfdus/main_objects/__pycache__/Vehicle.cpython-37.pyc
-src/MyMain.py
 
 
 *egg-info/

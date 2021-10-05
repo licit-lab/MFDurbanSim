@@ -1,5 +1,5 @@
 import json
-from mfdus.main_objects import RouteSection
+from mfdurbansim.main_objects import RouteSection
 
 
 def verify_reservoir_input(reservoir, list_res_id):

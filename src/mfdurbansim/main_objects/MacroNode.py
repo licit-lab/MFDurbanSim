@@ -1,6 +1,6 @@
 import pandas
 
-from mfdus.main_objects import Reservoir
+from mfdurbansim.main_objects import Reservoir
 
 
 def get_macronode(macronodes, macronode_id):
